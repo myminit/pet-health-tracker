@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: pet-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=pet_db
+      - POSTGRES_USER=pet_user
+      - POSTGRES_PASSWORD=pet_pass
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    container_name: pet-health-app
+    command: uv run python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - /app/.venv
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_NAME=pet_db
+      - DB_USER=pet_user
+      - DB_PASSWORD=pet_pass
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      - db  # รอให้ db รันก่อนค่อยรันเว็บ
+
+volumes:
+  postgres_data:
