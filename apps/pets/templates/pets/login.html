@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ - PawPal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#D55A44',
+                        'primary-hover': '#c04f3b',
+                        'bg-color': '#fdf6f2',
+                        'text-dark': '#2d2d2d',
+                        'text-muted': '#666',
+                        'input-bg': '#fcf8f5',
+                        'input-border': '#f0e5de',
+                    },
+                    fontFamily: {
+                        sans: ['Kanit', 'sans-serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-bg-color text-text-dark min-h-screen flex flex-col m-0 p-0 font-sans"
+    style="background-image: radial-gradient(circle at top left, #fff, transparent 60%);">
+
+    <nav class="flex justify-between items-center py-4 px-5 sm:py-6 sm:px-12">
+        <a href="/" class="flex items-center gap-3 no-underline">
+            <div
+                class="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-[0_4px_8px_rgba(213,90,68,0.2)]">
+                🐾</div>
+            <span class="text-2xl font-bold font-playfair text-text-dark">PawPal</span>
+        </a>
+        <a href="#"
+            class="bg-primary hover:bg-primary-hover text-white border-none rounded-full py-2 px-6 font-medium cursor-pointer no-underline transition-all duration-200 hover:-translate-y-px">เข้าสู่ระบบ</a>
+    </nav>
+
+    <div
+        class="max-w-[1200px] w-full mx-auto px-6 py-10 flex-1 flex flex-col lg:flex-row items-center gap-16 lg:gap-16">
+
+        <!-- Left Content -->
+        <div class="flex-1 w-full lg:max-w-[580px] text-center lg:text-left">
+            <div
+                class="inline-flex items-center bg-white py-1.5 px-4 rounded-full text-sm text-text-muted shadow-[0_2px_10px_rgba(0,0,0,0.04)] mb-6 border border-black/5">
+                <div class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-2"></div>
+                ฟรีตลอดการใช้งาน • ปลอดภัย 100%
+            </div>
+
+            <h1 class="text-[2.5rem] sm:text-[3.5rem] font-bold leading-tight mt-0 mb-5 text-text-dark tracking-tight">
+                ดูแลเพื่อนขนปุย
+                <span
+                    class="text-primary italic block mt-2 text-[2.8rem] sm:text-[3.8rem] font-semibold">เหมือนหมอประจำตัว</span>
+            </h1>
+
+            <p class="text-lg text-text-muted leading-relaxed mb-10 max-w-[500px] mx-auto lg:mx-0">
+                บันทึกประวัติสุขภาพ โภชนาการ น้ำหนัก และนัดหมายสัตวแพทย์ ของสัตว์เลี้ยงทุกตัว ในที่เดียว
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start flex-wrap">
+                <div
+                    class="bg-white rounded-[20px] p-5 flex-1 min-w-[180px] text-left shadow-[0_8px_24px_rgba(0,0,0,0.03)] border border-black/5 transition-transform duration-200 hover:-translate-y-1">
+                    <div class="bg-gray-50 w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4">📊</div>
+                    <div class="font-semibold text-base mb-1 text-text-dark">กราฟน้ำหนัก</div>
+                    <div class="text-sm text-text-muted">เห็นแนวโน้มชัดเจน</div>
+                </div>
+                <div
+                    class="bg-white rounded-[20px] p-5 flex-1 min-w-[180px] text-left shadow-[0_8px_24px_rgba(0,0,0,0.03)] border border-black/5 transition-transform duration-200 hover:-translate-y-1">
+                    <div class="bg-gray-50 w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4">🍖</div>
+                    <div class="font-semibold text-base mb-1 text-text-dark">นับแคลอรี่</div>
+                    <div class="text-sm text-text-muted">รู้ทุกมื้อที่กิน</div>
+                </div>
+                <div
+                    class="bg-white rounded-[20px] p-5 flex-1 min-w-[180px] text-left shadow-[0_8px_24px_rgba(0,0,0,0.03)] border border-black/5 transition-transform duration-200 hover:-translate-y-1">
+                    <div class="bg-gray-50 w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4">💉</div>
+                    <div class="font-semibold text-base mb-1 text-text-dark">เตือนนัดหมอ</div>
+                    <div class="text-sm text-text-muted">ไม่พลาดวัคซีน</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Form -->
+        <div class="flex-1 flex justify-center lg:justify-end items-center w-full mt-10 lg:mt-0">
+            <div
+                class="bg-white rounded-[32px] pt-12 pb-10 px-6 sm:px-10 w-full max-w-[460px] shadow-[0_24px_48px_rgba(213,90,68,0.08)] relative border border-white/80">
+                <div
+                    class="w-[72px] h-[72px] bg-primary rounded-full flex items-center justify-center text-3xl absolute -top-[36px] left-1/2 -translate-x-1/2 shadow-[0_8px_16px_rgba(213,90,68,0.25)] border-[4px] border-white">
+                    🐶</div>
+
+                <h2 class="text-center text-2xl font-semibold mt-2.5 mb-2 text-text-dark">ยินดีต้อนรับกลับมา</h2>
+                <p class="text-center text-text-muted text-[0.95rem] mb-8">เข้าสู่ระบบเพื่อดูแลสัตว์เลี้ยงของคุณ</p>
+
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="mb-5">
+                        <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
+                            for="username">ชื่อผู้ใช้</label>
+                        <input type="text" id="username" name="username"
+                            class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 placeholder:text-gray-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                            placeholder="เช่น petlover99" required>
+                    </div>
+
+                    <div class="mb-5">
+                        <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
+                            for="password">รหัสผ่าน</label>
+                        <input type="password" id="password" name="password"
+                            class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 placeholder:text-gray-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                            placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full py-4 bg-primary text-white border-none rounded-xl font-semibold text-lg cursor-pointer transition-all duration-200 mt-3 font-sans hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-[0_8px_16px_rgba(213,90,68,0.2)] active:translate-y-0">เข้าสู่ระบบ</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+</body>
+
+</html>
