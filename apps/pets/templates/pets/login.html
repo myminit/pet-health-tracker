@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawPal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#D55A44',
+                        'primary-hover': '#c04f3b',
+                        'bg-color': '#fdf6f2',
+                        'text-dark': '#2d2d2d',
+                        'text-muted': '#666',
+                        'input-bg': '#fcf8f5',
+                        'input-border': '#f0e5de',
+                    },
+                    fontFamily: {
+                        sans: ['Kanit', 'sans-serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-bg-color text-text-dark min-h-screen flex flex-col m-0 p-0 font-sans"
+    style="background-image: radial-gradient(circle at top left, #fff, transparent 60%);">
+
+    {% if messages %}
+    <div id="toast-container" class="fixed top-4 left-1/2 z-50 w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 space-y-3" role="status" aria-live="polite">
+        {% for message in messages %}
+        <div data-toast
+            class="rounded-2xl border px-4 py-3 shadow-[0_14px_30px_rgba(0,0,0,0.08)] backdrop-blur-sm transition-opacity transition-transform duration-300 {% if message.tags == 'success' %}border-emerald-500 bg-emerald-500 text-white{% elif message.tags == 'error' %}border-red-500 bg-red-500 text-white{% else %}border-gray-200 bg-gray-800 text-white{% endif %}">
+            <p class="text-sm font-medium">{{ message }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <nav class="flex justify-between items-center py-4 px-5 sm:py-6 sm:px-12">
+        <a href="/" class="flex items-center gap-3 no-underline">
+            <div class="bg-primary/10 text-primary w-12 h-12 rounded-2xl flex items-center justify-center text-2xl">
+                🐾
+            </div>
+            <div class="flex flex-col leading-tight">
+                <span class="text-xl font-bold font-playfair text-text-dark">PawPal</span>
+                <span class="text-xs text-text-muted font-normal tracking-wide">Pet Health Tracker</span>
+            </div>
+        </a>
+    </nav>
+
+    <div class="max-w-[1200px] w-full mx-auto px-6 py-10 flex-1 flex flex-col lg:flex-row items-center gap-16">
+
+        <!-- Left Content -->
+        <div class="flex-1 w-full lg:max-w-[580px] text-center lg:text-left">
+            <div
+                class="inline-flex items-center bg-white py-1.5 px-4 rounded-full text-sm text-text-muted shadow-[0_2px_10px_rgba(0,0,0,0.04)] mb-6 border border-black/5">
+                <div class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-2"></div>
+                ฟรีตลอดการใช้งาน • ปลอดภัย 100%
+            </div>
+
+            <h1 class="text-[2.5rem] sm:text-[3.5rem] font-bold leading-tight mt-0 mb-5 text-text-dark tracking-tight">
+                ดูแลสุขภาพสัตว์เลี้ยงที่คุณรัก
+                <span class="text-primary italic text-[2.8rem] sm:text-[3.8rem] font-semibold">ให้เป็นเรื่องง่าย</span>
+            </h1>
+
+            <p class="text-lg text-text-muted leading-relaxed mb-10 max-w-[500px] mx-auto lg:mx-0">
+                บันทึกสุขภาพ ติดตามโภชนาการ และไม่พลาดทุกนัดสำคัญของสัตวแพทย์ ครบจบในที่เดียวเพื่อเจ้าตัวแสบของคุณ
+            </p>
+
+            <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
+                <div
+                    class="bg-white rounded-2xl px-4 py-3 flex items-center gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 transition-transform duration-200 hover:-translate-y-0.5">
+                    <div class="bg-gray-50 w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0">📔
+                    </div>
+                    <span class="font-semibold text-sm text-text-dark whitespace-nowrap">ไดอารี่สุขภาพสัตว์เลี้ยง</span>
+                </div>
+                <div
+                    class="bg-white rounded-2xl px-4 py-3 flex items-center gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 transition-transform duration-200 hover:-translate-y-0.5">
+                    <div class="bg-gray-50 w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0">💉
+                    </div>
+                    <span
+                        class="font-semibold text-sm text-text-dark whitespace-nowrap">แจ้งเตือนนัดหมายสัตวแพทย์</span>
+                </div>
+                <div
+                    class="bg-white rounded-2xl px-4 py-3 flex items-center gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 transition-transform duration-200 hover:-translate-y-0.5">
+                    <div class="bg-gray-50 w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0">🍖
+                    </div>
+                    <span class="font-semibold text-sm text-text-dark whitespace-nowrap">บันทึกโภชนาการรายวัน</span>
+                </div>
+                <div
+                    class="bg-white rounded-2xl px-4 py-3 flex items-center gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 transition-transform duration-200 hover:-translate-y-0.5">
+                    <div class="bg-gray-50 w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0">📊
+                    </div>
+                    <span class="font-semibold text-sm text-text-dark whitespace-nowrap">ติดตามน้ำหนักด้วยกราฟ</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Form -->
+        <div class="flex-1 flex justify-center lg:justify-end items-center w-full mt-10 lg:mt-0">
+            <div
+                class="bg-white rounded-[32px] pt-12 pb-10 px-6 sm:px-10 w-full max-w-[460px] shadow-[0_24px_48px_rgba(213,90,68,0.08)] relative border border-white/80">
+                <div
+                    class="w-[72px] h-[72px] bg-primary rounded-full flex items-center justify-center text-3xl absolute -top-[36px] left-1/2 -translate-x-1/2 shadow-[0_8px_16px_rgba(213,90,68,0.25)] border-[4px] border-white">
+                    🐾
+                </div>
+
+                <!-- Sign In Form -->
+                <div id="signin-form">
+                    <h2 class="text-center text-2xl font-semibold mt-2.5 mb-2 text-text-dark">Sign In to PawPal</h2>
+                    <p class="text-center text-text-muted text-[0.95rem] mb-8">Start tracking your pet's health today
+                    </p>
+
+                    <form method="POST" action="{% url 'pets:signin' %}">
+                        {% csrf_token %}
+                        <div class="mb-5">
+                            <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
+                                for="signin-username">Username</label>
+                            <input type="text" id="signin-username" name="username"
+                                class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                                required>
+                        </div>
+                        <div class="mb-5">
+                            <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
+                                for="signin-password">Password</label>
+                            <div class="relative">
+                                <input type="password" id="signin-password" name="password"
+                                    class="w-full py-3.5 pl-4 pr-12 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                                    required>
+                                <button type="button" data-toggle-password="signin-password"
+                                    class="absolute inset-y-0 right-0 flex items-center justify-center w-12 text-gray-400 hover:text-gray-600 transition-colors"
+                                    aria-label="Show or hide password" aria-pressed="false">
+                                    <span data-password-icon aria-hidden="true"> 
+                                        <svg data-icon-state="show" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                                            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit"
+                            class="w-full py-4 bg-primary text-white border-none rounded-xl font-semibold text-lg cursor-pointer transition-all duration-200 mt-3 font-sans hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-[0_8px_16px_rgba(213,90,68,0.2)] active:translate-y-0">
+                            Sign In
+                        </button>
+                    </form>
+
+                    <p class="text-center text-text-muted text-sm mt-6">
+                        Don't have an account?
+                        <button onclick="toggleForm('signup')"
+                            class="text-primary font-bold bg-transparent border-none cursor-pointer hover:underline ml-1 font-sans">Sign
+                            up for free</button>
+                    </p>
+                </div>
+
+                <!-- Sign Up Form -->
+                <div id="signup-form" class="hidden">
+                    <h2 class="text-center text-2xl font-semibold mt-2.5 mb-2 text-text-dark">Create an Account</h2>
+                    <p class="text-center text-text-muted text-[0.95rem] mb-8">Join PawPal and care for your pets</p>
+
+                    <form method="POST" action="{% url 'pets:signup' %}">
+                        {% csrf_token %}
+                        <div class="mb-5">
+                            <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
+                                for="signup-username">Username</label>
+                            <input type="text" id="signup-username" name="username"
+                                class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                                required>
+                        </div>
+                        <div class="mb-5">
+                            <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
+                                for="signup-email">Email</label>
+                            <input type="email" id="signup-email" name="email"
+                                class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                                required>
+                        </div>
+                        <div class="mb-5">
+                            <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
+                                for="signup-password">Password</label>
+                            <div class="relative">
+                                <input type="password" id="signup-password" name="password"
+                                    class="w-full py-3.5 pl-4 pr-12 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                                    required>
+                                <button type="button" data-toggle-password="signup-password"
+                                    class="absolute inset-y-0 right-0 flex items-center justify-center w-12 text-gray-400 hover:text-gray-600 transition-colors"
+                                    aria-label="Show or hide password" aria-pressed="false">
+                                    <span data-password-icon aria-hidden="true">
+                                        <svg data-icon-state="show" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                                            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit"
+                            class="w-full py-4 bg-primary text-white border-none rounded-xl font-semibold text-lg cursor-pointer transition-all duration-200 mt-3 font-sans hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-[0_8px_16px_rgba(213,90,68,0.2)] active:translate-y-0">
+                            Sign Up
+                        </button>
+                    </form>
+
+                    <p class="text-center text-text-muted text-sm mt-6">
+                        Already have an account?
+                        <button onclick="toggleForm('signin')"
+                            class="text-primary font-bold bg-transparent border-none cursor-pointer hover:underline ml-1 font-sans">Sign
+                            in here</button>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm(target) {
+            const signin = document.getElementById('signin-form');
+            const signup = document.getElementById('signup-form');
+            if (target === 'signup') {
+                signin.classList.add('hidden');
+                signup.classList.remove('hidden');
+            } else {
+                signup.classList.add('hidden');
+                signin.classList.remove('hidden');
+            }
+        }
+
+        function togglePasswordVisibility(button) {
+            const inputId = button.getAttribute('data-toggle-password');
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector('[data-password-icon]');
+            const isPassword = input.type === 'password';
+            const showIcon = `
+                <svg data-icon-state="show" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
+            `;
+            const hideIcon = `
+                <svg data-icon-state="hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                    <path d="M3 3l18 18" />
+                    <path d="M10.58 10.58a2 2 0 1 0 2.83 2.83" />
+                    <path d="M9.9 5.08A10.45 10.45 0 0 1 12 5c6.5 0 10 7 10 7a18.55 18.55 0 0 1-3.23 4.35" />
+                    <path d="M6.61 6.61C3.92 8.55 2 12 2 12s3.5 7 10 7c1.67 0 3.11-.29 4.32-.77" />
+                </svg>
+            `;
+
+            input.type = isPassword ? 'text' : 'password';
+            button.setAttribute('aria-pressed', String(isPassword));
+            icon.innerHTML = isPassword ? hideIcon : showIcon;
+        }
+
+        document.querySelectorAll('[data-toggle-password]').forEach((button) => {
+            button.addEventListener('click', () => togglePasswordVisibility(button));
+        });
+
+        document.querySelectorAll('[data-toast]').forEach((toast) => {
+            window.setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-8px)';
+                window.setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        });
+    </script>
+
+</body>
+
+</html>
