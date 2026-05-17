@@ -37,6 +37,17 @@
 <body class="bg-bg-color text-text-dark min-h-screen flex flex-col m-0 p-0 font-sans"
     style="background-image: radial-gradient(circle at top left, #fff, transparent 60%);">
 
+    {% if messages %}
+    <div id="toast-container" class="fixed top-4 left-1/2 z-50 w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 space-y-3" role="status" aria-live="polite">
+        {% for message in messages %}
+        <div data-toast
+            class="rounded-2xl border px-4 py-3 shadow-[0_14px_30px_rgba(0,0,0,0.08)] backdrop-blur-sm transition-opacity transition-transform duration-300 {% if message.tags == 'success' %}border-emerald-500 bg-emerald-500 text-white{% elif message.tags == 'error' %}border-red-500 bg-red-500 text-white{% else %}border-gray-200 bg-gray-800 text-white{% endif %}">
+            <p class="text-sm font-medium">{{ message }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <nav class="flex justify-between items-center py-4 px-5 sm:py-6 sm:px-12">
         <a href="/" class="flex items-center gap-3 no-underline">
             <div class="bg-primary/10 text-primary w-12 h-12 rounded-2xl flex items-center justify-center text-2xl">
@@ -112,7 +123,7 @@
                     <p class="text-center text-text-muted text-[0.95rem] mb-8">Start tracking your pet's health today
                     </p>
 
-                    <form method="POST" action="">
+                    <form method="POST" action="{% url 'pets:signin' %}">
                         {% csrf_token %}
                         <div class="mb-5">
                             <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
@@ -124,9 +135,21 @@
                         <div class="mb-5">
                             <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
                                 for="signin-password">Password</label>
-                            <input type="password" id="signin-password" name="password"
-                                class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
-                                required>
+                            <div class="relative">
+                                <input type="password" id="signin-password" name="password"
+                                    class="w-full py-3.5 pl-4 pr-12 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                                    required>
+                                <button type="button" data-toggle-password="signin-password"
+                                    class="absolute inset-y-0 right-0 flex items-center justify-center w-12 text-gray-400 hover:text-gray-600 transition-colors"
+                                    aria-label="Show or hide password" aria-pressed="false">
+                                    <span data-password-icon aria-hidden="true"> 
+                                        <svg data-icon-state="show" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                                            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
                         </div>
                         <button type="submit"
                             class="w-full py-4 bg-primary text-white border-none rounded-xl font-semibold text-lg cursor-pointer transition-all duration-200 mt-3 font-sans hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-[0_8px_16px_rgba(213,90,68,0.2)] active:translate-y-0">
@@ -147,7 +170,7 @@
                     <h2 class="text-center text-2xl font-semibold mt-2.5 mb-2 text-text-dark">Create an Account</h2>
                     <p class="text-center text-text-muted text-[0.95rem] mb-8">Join PawPal and care for your pets</p>
 
-                    <form method="POST" action="">
+                    <form method="POST" action="{% url 'pets:signup' %}">
                         {% csrf_token %}
                         <div class="mb-5">
                             <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
@@ -166,9 +189,21 @@
                         <div class="mb-5">
                             <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
                                 for="signup-password">Password</label>
-                            <input type="password" id="signup-password" name="password"
-                                class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
-                                required>
+                            <div class="relative">
+                                <input type="password" id="signup-password" name="password"
+                                    class="w-full py-3.5 pl-4 pr-12 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                                    required>
+                                <button type="button" data-toggle-password="signup-password"
+                                    class="absolute inset-y-0 right-0 flex items-center justify-center w-12 text-gray-400 hover:text-gray-600 transition-colors"
+                                    aria-label="Show or hide password" aria-pressed="false">
+                                    <span data-password-icon aria-hidden="true">
+                                        <svg data-icon-state="show" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                                            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
                         </div>
                         <button type="submit"
                             class="w-full py-4 bg-primary text-white border-none rounded-xl font-semibold text-lg cursor-pointer transition-all duration-200 mt-3 font-sans hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-[0_8px_16px_rgba(213,90,68,0.2)] active:translate-y-0">
@@ -200,6 +235,43 @@
                 signin.classList.remove('hidden');
             }
         }
+
+        function togglePasswordVisibility(button) {
+            const inputId = button.getAttribute('data-toggle-password');
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector('[data-password-icon]');
+            const isPassword = input.type === 'password';
+            const showIcon = `
+                <svg data-icon-state="show" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
+            `;
+            const hideIcon = `
+                <svg data-icon-state="hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                    <path d="M3 3l18 18" />
+                    <path d="M10.58 10.58a2 2 0 1 0 2.83 2.83" />
+                    <path d="M9.9 5.08A10.45 10.45 0 0 1 12 5c6.5 0 10 7 10 7a18.55 18.55 0 0 1-3.23 4.35" />
+                    <path d="M6.61 6.61C3.92 8.55 2 12 2 12s3.5 7 10 7c1.67 0 3.11-.29 4.32-.77" />
+                </svg>
+            `;
+
+            input.type = isPassword ? 'text' : 'password';
+            button.setAttribute('aria-pressed', String(isPassword));
+            icon.innerHTML = isPassword ? hideIcon : showIcon;
+        }
+
+        document.querySelectorAll('[data-toggle-password]').forEach((button) => {
+            button.addEventListener('click', () => togglePasswordVisibility(button));
+        });
+
+        document.querySelectorAll('[data-toast]').forEach((toast) => {
+            window.setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-8px)';
+                window.setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        });
     </script>
 
 </body>
