@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เข้าสู่ระบบ - PawPal</title>
+    <title>PawPal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -39,17 +39,17 @@
 
     <nav class="flex justify-between items-center py-4 px-5 sm:py-6 sm:px-12">
         <a href="/" class="flex items-center gap-3 no-underline">
-            <div
-                class="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-[0_4px_8px_rgba(213,90,68,0.2)]">
-                🐾</div>
-            <span class="text-2xl font-bold font-playfair text-text-dark">PawPal</span>
+            <div class="bg-primary/10 text-primary w-12 h-12 rounded-2xl flex items-center justify-center text-2xl">
+                🐾
+            </div>
+            <div class="flex flex-col leading-tight">
+                <span class="text-xl font-bold font-playfair text-text-dark">PawPal</span>
+                <span class="text-xs text-text-muted font-normal tracking-wide">Pet Health Tracker</span>
+            </div>
         </a>
-        <a href="#"
-            class="bg-primary hover:bg-primary-hover text-white border-none rounded-full py-2 px-6 font-medium cursor-pointer no-underline transition-all duration-200 hover:-translate-y-px">เข้าสู่ระบบ</a>
     </nav>
 
-    <div
-        class="max-w-[1200px] w-full mx-auto px-6 py-10 flex-1 flex flex-col lg:flex-row items-center gap-16 lg:gap-16">
+    <div class="max-w-[1200px] w-full mx-auto px-6 py-10 flex-1 flex flex-col lg:flex-row items-center gap-16">
 
         <!-- Left Content -->
         <div class="flex-1 w-full lg:max-w-[580px] text-center lg:text-left">
@@ -60,33 +60,39 @@
             </div>
 
             <h1 class="text-[2.5rem] sm:text-[3.5rem] font-bold leading-tight mt-0 mb-5 text-text-dark tracking-tight">
-                ดูแลเพื่อนขนปุย
-                <span
-                    class="text-primary italic block mt-2 text-[2.8rem] sm:text-[3.8rem] font-semibold">เหมือนหมอประจำตัว</span>
+                ดูแลสุขภาพสัตว์เลี้ยงที่คุณรัก
+                <span class="text-primary italic text-[2.8rem] sm:text-[3.8rem] font-semibold">ให้เป็นเรื่องง่าย</span>
             </h1>
 
             <p class="text-lg text-text-muted leading-relaxed mb-10 max-w-[500px] mx-auto lg:mx-0">
-                บันทึกประวัติสุขภาพ โภชนาการ น้ำหนัก และนัดหมายสัตวแพทย์ ของสัตว์เลี้ยงทุกตัว ในที่เดียว
+                บันทึกสุขภาพ ติดตามโภชนาการ และไม่พลาดทุกนัดสำคัญของสัตวแพทย์ ครบจบในที่เดียวเพื่อเจ้าตัวแสบของคุณ
             </p>
 
-            <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start flex-wrap">
+            <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
                 <div
-                    class="bg-white rounded-[20px] p-5 flex-1 min-w-[180px] text-left shadow-[0_8px_24px_rgba(0,0,0,0.03)] border border-black/5 transition-transform duration-200 hover:-translate-y-1">
-                    <div class="bg-gray-50 w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4">📊</div>
-                    <div class="font-semibold text-base mb-1 text-text-dark">กราฟน้ำหนัก</div>
-                    <div class="text-sm text-text-muted">เห็นแนวโน้มชัดเจน</div>
+                    class="bg-white rounded-2xl px-4 py-3 flex items-center gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 transition-transform duration-200 hover:-translate-y-0.5">
+                    <div class="bg-gray-50 w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0">📔
+                    </div>
+                    <span class="font-semibold text-sm text-text-dark whitespace-nowrap">ไดอารี่สุขภาพสัตว์เลี้ยง</span>
                 </div>
                 <div
-                    class="bg-white rounded-[20px] p-5 flex-1 min-w-[180px] text-left shadow-[0_8px_24px_rgba(0,0,0,0.03)] border border-black/5 transition-transform duration-200 hover:-translate-y-1">
-                    <div class="bg-gray-50 w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4">🍖</div>
-                    <div class="font-semibold text-base mb-1 text-text-dark">นับแคลอรี่</div>
-                    <div class="text-sm text-text-muted">รู้ทุกมื้อที่กิน</div>
+                    class="bg-white rounded-2xl px-4 py-3 flex items-center gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 transition-transform duration-200 hover:-translate-y-0.5">
+                    <div class="bg-gray-50 w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0">💉
+                    </div>
+                    <span
+                        class="font-semibold text-sm text-text-dark whitespace-nowrap">แจ้งเตือนนัดหมายสัตวแพทย์</span>
                 </div>
                 <div
-                    class="bg-white rounded-[20px] p-5 flex-1 min-w-[180px] text-left shadow-[0_8px_24px_rgba(0,0,0,0.03)] border border-black/5 transition-transform duration-200 hover:-translate-y-1">
-                    <div class="bg-gray-50 w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4">💉</div>
-                    <div class="font-semibold text-base mb-1 text-text-dark">เตือนนัดหมอ</div>
-                    <div class="text-sm text-text-muted">ไม่พลาดวัคซีน</div>
+                    class="bg-white rounded-2xl px-4 py-3 flex items-center gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 transition-transform duration-200 hover:-translate-y-0.5">
+                    <div class="bg-gray-50 w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0">🍖
+                    </div>
+                    <span class="font-semibold text-sm text-text-dark whitespace-nowrap">บันทึกโภชนาการรายวัน</span>
+                </div>
+                <div
+                    class="bg-white rounded-2xl px-4 py-3 flex items-center gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 transition-transform duration-200 hover:-translate-y-0.5">
+                    <div class="bg-gray-50 w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0">📊
+                    </div>
+                    <span class="font-semibold text-sm text-text-dark whitespace-nowrap">ติดตามน้ำหนักด้วยกราฟ</span>
                 </div>
             </div>
         </div>
@@ -97,37 +103,104 @@
                 class="bg-white rounded-[32px] pt-12 pb-10 px-6 sm:px-10 w-full max-w-[460px] shadow-[0_24px_48px_rgba(213,90,68,0.08)] relative border border-white/80">
                 <div
                     class="w-[72px] h-[72px] bg-primary rounded-full flex items-center justify-center text-3xl absolute -top-[36px] left-1/2 -translate-x-1/2 shadow-[0_8px_16px_rgba(213,90,68,0.25)] border-[4px] border-white">
-                    🐶</div>
+                    🐾
+                </div>
 
-                <h2 class="text-center text-2xl font-semibold mt-2.5 mb-2 text-text-dark">ยินดีต้อนรับกลับมา</h2>
-                <p class="text-center text-text-muted text-[0.95rem] mb-8">เข้าสู่ระบบเพื่อดูแลสัตว์เลี้ยงของคุณ</p>
+                <!-- Sign In Form -->
+                <div id="signin-form">
+                    <h2 class="text-center text-2xl font-semibold mt-2.5 mb-2 text-text-dark">Sign In to PawPal</h2>
+                    <p class="text-center text-text-muted text-[0.95rem] mb-8">Start tracking your pet's health today
+                    </p>
 
-                <form method="POST" action="">
-                    {% csrf_token %}
-                    <div class="mb-5">
-                        <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
-                            for="username">ชื่อผู้ใช้</label>
-                        <input type="text" id="username" name="username"
-                            class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 placeholder:text-gray-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
-                            placeholder="เช่น petlover99" required>
-                    </div>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="mb-5">
+                            <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
+                                for="signin-username">Username</label>
+                            <input type="text" id="signin-username" name="username"
+                                class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                                required>
+                        </div>
+                        <div class="mb-5">
+                            <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
+                                for="signin-password">Password</label>
+                            <input type="password" id="signin-password" name="password"
+                                class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                                required>
+                        </div>
+                        <button type="submit"
+                            class="w-full py-4 bg-primary text-white border-none rounded-xl font-semibold text-lg cursor-pointer transition-all duration-200 mt-3 font-sans hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-[0_8px_16px_rgba(213,90,68,0.2)] active:translate-y-0">
+                            Sign In
+                        </button>
+                    </form>
 
-                    <div class="mb-5">
-                        <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
-                            for="password">รหัสผ่าน</label>
-                        <input type="password" id="password" name="password"
-                            class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 placeholder:text-gray-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
-                            placeholder="••••••••" required>
-                    </div>
+                    <p class="text-center text-text-muted text-sm mt-6">
+                        Don't have an account?
+                        <button onclick="toggleForm('signup')"
+                            class="text-primary font-bold bg-transparent border-none cursor-pointer hover:underline ml-1 font-sans">Sign
+                            up for free</button>
+                    </p>
+                </div>
 
-                    <button type="submit"
-                        class="w-full py-4 bg-primary text-white border-none rounded-xl font-semibold text-lg cursor-pointer transition-all duration-200 mt-3 font-sans hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-[0_8px_16px_rgba(213,90,68,0.2)] active:translate-y-0">เข้าสู่ระบบ</button>
-                </form>
+                <!-- Sign Up Form -->
+                <div id="signup-form" class="hidden">
+                    <h2 class="text-center text-2xl font-semibold mt-2.5 mb-2 text-text-dark">Create an Account</h2>
+                    <p class="text-center text-text-muted text-[0.95rem] mb-8">Join PawPal and care for your pets</p>
+
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="mb-5">
+                            <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
+                                for="signup-username">Username</label>
+                            <input type="text" id="signup-username" name="username"
+                                class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                                required>
+                        </div>
+                        <div class="mb-5">
+                            <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
+                                for="signup-email">Email</label>
+                            <input type="email" id="signup-email" name="email"
+                                class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                                required>
+                        </div>
+                        <div class="mb-5">
+                            <label class="block font-medium text-[0.95rem] text-text-dark mb-2"
+                                for="signup-password">Password</label>
+                            <input type="password" id="signup-password" name="password"
+                                class="w-full py-3.5 px-4 border-[1.5px] border-input-border bg-input-bg rounded-xl font-sans text-base transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:ring-[4px] focus:ring-primary/10"
+                                required>
+                        </div>
+                        <button type="submit"
+                            class="w-full py-4 bg-primary text-white border-none rounded-xl font-semibold text-lg cursor-pointer transition-all duration-200 mt-3 font-sans hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-[0_8px_16px_rgba(213,90,68,0.2)] active:translate-y-0">
+                            Sign Up
+                        </button>
+                    </form>
+
+                    <p class="text-center text-text-muted text-sm mt-6">
+                        Already have an account?
+                        <button onclick="toggleForm('signin')"
+                            class="text-primary font-bold bg-transparent border-none cursor-pointer hover:underline ml-1 font-sans">Sign
+                            in here</button>
+                    </p>
+                </div>
 
             </div>
         </div>
     </div>
-    </div>
+
+    <script>
+        function toggleForm(target) {
+            const signin = document.getElementById('signin-form');
+            const signup = document.getElementById('signup-form');
+            if (target === 'signup') {
+                signin.classList.add('hidden');
+                signup.classList.remove('hidden');
+            } else {
+                signup.classList.add('hidden');
+                signin.classList.remove('hidden');
+            }
+        }
+    </script>
 
 </body>
 
