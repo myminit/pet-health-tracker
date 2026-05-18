@@ -1,3 +1,20 @@
 from django.contrib import admin
+from .models import Pet, DailyLog, NutritionLog, Appointment
 
-# Register your models here.
+@admin.register(Pet)
+class PetAdmin(admin.ModelAdmin):
+    list_display = ('name', 'pet_type', 'breed', 'owner')
+
+@admin.register(DailyLog)
+class DailyLogAdmin(admin.ModelAdmin):
+    list_display = ('pet', 'date', 'weight_recorded', 'note')
+    list_filter = ('pet', 'date')
+
+@admin.register(NutritionLog)
+class NutritionLogAdmin(admin.ModelAdmin):
+    list_display = ('pet', 'date', 'calories_consumed')
+
+@admin.register(Appointment)
+class AppointmentAdmin(admin.ModelAdmin):
+    list_display = ('title', 'pet', 'due_date', 'is_completed')
+    list_filter = ('is_completed', 'due_date')

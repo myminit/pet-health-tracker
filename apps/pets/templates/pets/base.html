@@ -50,111 +50,168 @@
             </div>
         </a>
 
-        <!-- Right: Pets + Icons -->
+        <!-- Right-->
         <div class="flex items-center gap-2 ml-auto">
 
-            <!-- Pet Tabs -->
-            <div class="flex items-center gap-1.5 mr-2">
-                <div class="flex items-center gap-1.5 bg-primary text-white py-1.5 px-3 rounded-full cursor-pointer">
-                    <span class="text-base">🐶</span>
-                    <span class="text-sm font-semibold">Buddy</span>
+
+            <!-- Profile Button + Dropdown -->
+            <div class="relative" id="profile-menu-wrapper">
+                <button id="profile-btn" onclick="toggleProfileMenu()"
+                    class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white hover:bg-primary-hover transition-all shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+                    </svg>
+                </button>
+
+                <!-- Dropdown -->
+                <div id="profile-dropdown"
+                    class="hidden absolute right-0 top-12 w-52 bg-white rounded-2xl shadow-lg border border-black/5 overflow-hidden z-50">
+                    <!-- Header -->
+                    <div class="px-4 py-3 border-b border-black/5">
+                        <p class="text-sm font-semibold text-text-dark">บัญชีของฉัน</p>
+                    </div>
+                    <!-- Menu Items -->
+                    <div class="py-1">
+                        <button onclick="openUserProfileModal()"
+                            class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-text-dark hover:bg-primary-light transition-colors bg-transparent border-0 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-text-muted" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a2 2 0 01-1.414.586H9v-2.414a2 2 0 01.586-1.414z" />
+                            </svg>
+                            <span>แก้ไขโปรไฟล์</span>
+                        </button>
+                        <a href="{% url 'pets:logout' %}"
+                            class="flex items-center gap-3 px-4 py-2.5 text-sm text-primary hover:bg-primary-light no-underline transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" />
+                            </svg>
+                            <span>ออกจากระบบ</span>
+                        </a>
+                    </div>
                 </div>
-                <div
-                    class="flex items-center gap-1.5 bg-bg-color text-text-muted py-1.5 px-3 rounded-full cursor-pointer hover:bg-primary/10 hover:text-primary transition-all border border-black/5">
-                    <span class="text-base">🐱</span>
-                    <span class="text-sm font-medium">Luna</span>
-                </div>
-                <div
-                    class="flex items-center gap-1.5 bg-bg-color text-text-muted py-1.5 px-3 rounded-full cursor-pointer hover:bg-primary/10 hover:text-primary transition-all border border-black/5">
-                    <span class="text-base">🐰</span>
-                    <span class="text-sm font-medium">Mochi</span>
-                </div>
-                <button
-                    class="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-text-muted hover:border-primary hover:text-primary transition-all text-lg">+</button>
             </div>
+
         </div>
     </nav>
 
     <!-- Body Layout -->
     <div class="flex pt-16 min-h-screen">
 
-        <!-- Sidebar -->
-        <aside
-            class="w-[220px] bg-white border-r border-black/5 fixed left-0 top-16 bottom-0 flex flex-col py-5 px-3 shadow-[2px_0_16px_rgba(213,90,68,0.04)]">
-
-            <div class="flex flex-col gap-0.5 flex-1">
-
-                <a href="{% url 'pets:dashboard' %}"
-                    class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all no-underline {% block nav_overview %}text-text-muted hover:bg-primary-light hover:text-primary{% endblock %}">
-                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"
-                        viewBox="0 0 24 24">
-                        <rect x="3" y="3" width="7" height="7" rx="1" />
-                        <rect x="14" y="3" width="7" height="7" rx="1" />
-                        <rect x="3" y="14" width="7" height="7" rx="1" />
-                        <rect x="14" y="14" width="7" height="7" rx="1" />
-                    </svg>
-                    ภาพรวม
-                </a>
-
-                <a href="#"
-                    class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all no-underline {% block nav_diary %}text-text-muted hover:bg-primary-light hover:text-primary{% endblock %}">
-                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"
-                        viewBox="0 0 24 24">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                        <polyline points="14 2 14 8 20 8" />
-                        <line x1="16" y1="13" x2="8" y2="13" />
-                        <line x1="16" y1="17" x2="8" y2="17" />
-                    </svg>
-                    ไดอารี่
-                </a>
-
-                <a href="#"
-                    class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all no-underline {% block nav_nutrition %}text-text-muted hover:bg-primary-light hover:text-primary{% endblock %}">
-                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"
-                        viewBox="0 0 24 24">
-                        <path d="M3 2v7a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V2" />
-                        <path d="M7 2v20" />
-                        <path d="M21 15V2v0a5 5 0 0 0-5 5v8a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2z" />
-                        <path d="M18 17v5" />
-                    </svg>
-                    โภชนาการ
-                </a>
-
-
-                <a href="#"
-                    class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all no-underline {% block nav_medicine %}text-text-muted hover:bg-primary-light hover:text-primary{% endblock %}">
-                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"
-                        viewBox="0 0 24 24">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                        <line x1="16" y1="2" x2="16" y2="6" />
-                        <line x1="8" y1="2" x2="8" y2="6" />
-                        <line x1="3" y1="10" x2="21" y2="10" />
-                    </svg>
-                    นัดหมาย
-                </a>
-            </div>
-
-            <!-- Logout -->
-            <div class="border-t border-black/5 pt-3 mt-2">
-                <a href="{% url 'pets:logout' %}"
-                    class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:bg-red-50 hover:text-red-400 transition-all no-underline">
-                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"
-                        viewBox="0 0 24 24">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                        <polyline points="16 17 21 12 16 7" />
-                        <line x1="21" y1="12" x2="9" y2="12" />
-                    </svg>
-                    ออกจากระบบ
-                </a>
-            </div>
-        </aside>
-
         <!-- Main Content -->
-        <main class="ml-[220px] flex-1 p-6 min-h-[calc(100vh-4rem)]">
+        <main class="flex-1 p-6 min-h-[calc(100vh-4rem)]">
             {% block content %}{% endblock %}
         </main>
 
     </div>
+
+    <!-- User Profile Modal -->
+    <div id="user-profile-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeUserProfileModal()"></div>
+
+        <!-- Modal Box -->
+        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+            <!-- Header -->
+            <div class="px-6 pt-6 pb-4 border-b border-black/5">
+                <button onclick="closeUserProfileModal()"
+                    class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-text-muted transition-colors border-0 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <h2 class="text-lg font-bold text-text-dark">แก้ไขโปรไฟล์</h2>
+                <p class="text-sm text-text-muted mt-0.5">อัปเดตข้อมูลบัญชีของคุณ</p>
+            </div>
+
+            <!-- Form -->
+            <form method="POST" action="{% url 'pets:profile' %}" class="px-6 py-5 flex flex-col gap-4">
+                {% csrf_token %}
+
+                <!-- ชื่อ -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-medium text-text-dark">ชื่อ</label>
+                    <input type="text" name="first_name" value="{{ request.user.first_name }}" placeholder="ชื่อของคุณ"
+                        class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                </div>
+
+                <!-- นามสกุล -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-medium text-text-dark">นามสกุล</label>
+                    <input type="text" name="last_name" value="{{ request.user.last_name }}" placeholder="นามสกุลของคุณ"
+                        class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                </div>
+
+                <!-- อีเมล -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-medium text-text-dark">อีเมล</label>
+                    <input type="email" name="email" value="{{ request.user.email }}" placeholder="อีเมลของคุณ"
+                        class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t border-black/5 pt-2">
+                    <p class="text-xs text-text-muted mb-3">เปลี่ยนรหัสผ่าน (ไม่บังคับ)</p>
+
+                    <!-- รหัสผ่านใหม่ -->
+                    <div class="flex flex-col gap-1.5 mb-3">
+                        <label class="text-sm font-medium text-text-dark">รหัสผ่านใหม่</label>
+                        <input type="password" name="new_password1" placeholder="••••••••"
+                            class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                    </div>
+
+                    <!-- ยืนยันรหัสผ่าน -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-medium text-text-dark">ยืนยันรหัสผ่าน</label>
+                        <input type="password" name="new_password2" placeholder="••••••••"
+                            class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex justify-end gap-3 pt-1">
+                    <button type="button" onclick="closeUserProfileModal()"
+                        class="px-5 py-2.5 rounded-xl border border-black/10 text-sm font-medium text-text-dark hover:bg-black/5 transition-colors cursor-pointer bg-white">
+                        ยกเลิก
+                    </button>
+                    <button type="submit"
+                        class="px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-hover transition-colors cursor-pointer border-0">
+                        บันทึก
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleProfileMenu() {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // ปิด dropdown เมื่อคลิกนอกพื้นที่
+        document.addEventListener('click', function (e) {
+            const wrapper = document.getElementById('profile-menu-wrapper');
+            if (wrapper && !wrapper.contains(e.target)) {
+                document.getElementById('profile-dropdown').classList.add('hidden');
+            }
+        });
+
+        function openUserProfileModal() {
+            document.getElementById('user-profile-modal').classList.remove('hidden');
+            document.getElementById('profile-dropdown').classList.add('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeUserProfileModal() {
+            document.getElementById('user-profile-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    </script>
 
 </body>
 

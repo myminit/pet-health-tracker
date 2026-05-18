@@ -3,329 +3,511 @@
 {% block nav_overview %}bg-primary text-white{% endblock %}
 
 {% block content %}
+<div class="max-w-[1440px] mx-auto">
 
-<!-- Header -->
-<div class="mb-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
 
-    <h1 class="text-5xl font-bold text-text-dark">วันนี้ <span class="text-primary">Buddy</span></h1>
-
-    <h1 class="text-5xl font-bold text-text-dark mb-4">สุขภาพดีแค่ไหน?</h1>
-    <p class="text-text-muted text-base">บันทึกอารมณ์ มื้ออาหาร และกิจกรรมของ Buddy เพื่อให้ทุกวันดีต่อสุขภาพยิ่งขึ้น
-    </p>
-</div>
-
-
-<!-- Main Layout: 3 equal columns -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 text-lg">
-
-    <!-- LEFT COLUMN: Diary History -->
-    <div class="flex flex-col gap-4 lg:h-full">
-
-        <!-- Diary History Card -->
-        <div
-            class="bg-white rounded-2xl p-5 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 flex flex-col lg:h-full overflow-hidden">
-            <!-- Header box -->
-            <div class="bg-[#FDF0EC] rounded-xl p-4 mb-4">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="font-semibold text-text-dark text-lg">สวัสดี Buddy</span>
-                    <span>🌸</span>
-                </div>
-                <p class="text-sm text-text-muted">วันนี้น้องเป็นยังไงบ้างนะ?</p>
-                <button
-                    class="mt-3 w-full bg-primary text-white text-sm font-medium rounded-xl py-2.5 hover:bg-primary-hover transition-all">
-                    + บันทึกใหม่
-                </button>
-            </div>
-
-            <!-- Section title -->
-            <div class="flex items-center justify-between mb-3">
-                <h2 class="font-semibold text-text-dark text-base">ไดอารีย้อนหลัง</h2>
-                <a href="#" class="text-xs text-primary hover:underline font-medium">ดูทั้งหมด</a>
-            </div>
-
-            <!-- Diary entries -->
-            <div class="relative flex flex-col gap-3 overflow-y-auto flex-1">
-
-                <!-- Vertical timeline line -->
-                <div class="absolute left-[3px] top-2 bottom-2 w-px bg-black/10"></div>
-
-                <div class="flex items-start gap-3">
-                    <div class="mt-1.5 w-2 h-2 rounded-full border-2 border-primary bg-white shrink-0 relative z-10">
-                    </div>
-                    <div class="flex-1 p-3 bg-white border border-black/5 rounded-xl shadow-sm">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-xs text-text-muted">18 พ.ค. 2026</span>
-                            <span class="text-xs bg-primary/10 text-primary font-medium px-2 py-0.5 rounded-full">12.4
-                                กก.</span>
-                        </div>
-                        <p class="text-sm text-text-dark">วิ่งเล่นในสวนตอนเช้า ร่าเริงดี กินอาหารหมดชาม</p>
-                    </div>
-                </div>
-
-                <div class="flex items-start gap-3">
-                    <div class="mt-1.5 w-2 h-2 rounded-full border-2 border-primary bg-white shrink-0 relative z-10">
-                    </div>
-                    <div class="flex-1 p-3 bg-white border border-black/5 rounded-xl shadow-sm">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-xs text-text-muted">17 พ.ค. 2026</span>
-                            <span class="text-xs bg-primary/10 text-primary font-medium px-2 py-0.5 rounded-full">12.5
-                                กก.</span>
-                        </div>
-                        <p class="text-sm text-text-dark">อาบน้ำ ตัดเล็บ ขนนุ่มฟู</p>
-                    </div>
-                </div>
-
-                <div class="flex items-start gap-3">
-                    <div class="mt-1.5 w-2 h-2 rounded-full border-2 border-primary bg-white shrink-0 relative z-10">
-                    </div>
-                    <div class="flex-1 p-3 bg-white border border-black/5 rounded-xl shadow-sm">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-xs text-text-muted">15 พ.ค. 2026</span>
-                            <span class="text-xs bg-primary/10 text-primary font-medium px-2 py-0.5 rounded-full">12.6
-                                กก.</span>
-                        </div>
-                        <p class="text-sm text-text-dark">ดูเหนื่อยเหนือยกว่าปกติ เพื่อหิวน้อยลง</p>
-                    </div>
-                </div>
-
-                <div class="flex items-start gap-3">
-                    <div class="mt-1.5 w-2 h-2 rounded-full border-2 border-primary bg-white shrink-0 relative z-10">
-                    </div>
-                    <div class="flex-1 p-3 bg-white border border-black/5 rounded-xl shadow-sm">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-xs text-text-muted">12 พ.ค. 2026</span>
-                            <span class="text-xs bg-primary/10 text-primary font-medium px-2 py-0.5 rounded-full">12.5
-                                กก.</span>
-                        </div>
-                        <p class="text-sm text-text-dark">ฉีดวัคซีนรอบประจำปี เรียบร้อย</p>
-                    </div>
-                </div>
-
-                <div class="flex items-start gap-3">
-                    <div class="mt-1.5 w-2 h-2 rounded-full border-2 border-primary bg-white shrink-0 relative z-10">
-                    </div>
-                    <div class="flex-1 p-3 bg-white border border-black/5 rounded-xl shadow-sm">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-xs text-text-muted">10 พ.ค. 2026</span>
-                            <span class="text-xs bg-primary/10 text-primary font-medium px-2 py-0.5 rounded-full">12.6
-                                กก.</span>
-                        </div>
-                        <p class="text-sm text-text-dark">พาไปวิ่งเล่นที่สนามหญ้า เจอเพื่อนสุนัขตัวอื่น ร่าเริงดี</p>
-                    </div>
-                </div>
-
-            </div>
+        <!-- Left: Title -->
+        <!-- prettier-ignore-start -->
+        <div>
+            <h1 class="text-5xl font-bold text-text-dark">วันนี้ <span
+                    class="text-primary">น้อง{{selected_pet.name|default:""}}</span></h1>
+            <h1 class="text-5xl font-bold text-text-dark mb-4">สุขภาพดีแค่ไหน?</h1>
+            <p class="text-text-muted text-base">บันทึกอารมณ์ มื้ออาหาร และกิจกรรมของ
+                น้อง{{selected_pet.name|default:""}} เพื่อให้ทุกวันดีต่อสุขภาพยิ่งขึ้น</p>
         </div>
+        <!-- prettier-ignore-end -->
+
+        {% if selected_pet %}
+        <!-- Right: Pet Profile Card -->
+        <div
+            class="bg-white border border-black/5 rounded-3xl px-8 py-5 flex items-center gap-8 shadow-md shrink-0 min-w-[480px]">
+            <!-- Avatars -->
+            <div class="flex items-center gap-4">
+                {% for pet in my_pets %}
+                <a href="?pet_id={{ pet.id }}" class="flex flex-col items-center gap-3 group">
+                    <div class="rounded-full overflow-hidden transition-all duration-300
+                        {% if pet.id == selected_pet.id %}
+                            w-16 h-16 ring-4 ring-primary ring-offset-2 scale-105
+                        {% else %}
+                            w-11 h-11 opacity-60 group-hover:opacity-100 group-hover:scale-105
+                        {% endif %}">
+                        {% if pet.photo %}
+                        <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="w-full h-full object-cover">
+                        {% else %}
+                        <div class="w-full h-full bg-primary/10 flex items-center justify-center text-base">🐾</div>
+                        {% endif %}
+                    </div>
+                    <span
+                        class="text-xs transition-colors {% if pet.id == selected_pet.id %}text-primary font-bold{% else %}text-text-muted group-hover:text-text-dark{% endif %}">
+                        {{ pet.name }}
+                    </span>
+                </a>
+                {% endfor %}
+            </div>
+            <!-- Divider -->
+            <div class="w-px h-16 bg-black/8"></div>
+            <!-- Selected pet info -->
+            <div class="flex flex-col gap-1.5 flex-1">
+                <p class="text-xl font-extrabold text-text-dark leading-none">{{ selected_pet.name }}</p>
+                <div class="flex flex-col gap-0.5 text-xs text-text-muted">
+                    <div class="flex items-center gap-1">
+                        <span>🐾</span>
+                        <span>{{ selected_pet.breed|default:"ไม่ระบุสายพันธุ์" }}</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <span>🎂</span>
+                        <span>{{ selected_pet.birth_date|date:"j N Y" }}</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 text-xs mt-1">
+                    <span class="bg-black/5 text-text-muted px-2.5 py-0.5 rounded-lg font-semibold">
+                        {% if selected_pet.gender == 'M' %}♂ ผู้{% else %}♀ เมีย{% endif %}
+                    </span>
+                    <span class="font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded-lg">
+                        {{ latest_weight }} กก.
+                    </span>
+                </div>
+            </div>
+            <!-- Edit button -->
+            <button type="button" onclick="openEditPetModal()"
+                class="text-sm font-semibold text-text-muted border border-black/10 rounded-2xl px-4 py-2.5 hover:bg-black/5 hover:text-text-dark transition-all bg-transparent cursor-pointer whitespace-nowrap shadow-sm">
+                แก้ไขโปรไฟล์
+            </button>
+        </div>
+
+        {% else %}
+        <!-- Empty state: ยังไม่มีสัตว์เลี้ยง -->
+        <button type="button" onclick="openAddPetModal()"
+            class="group bg-white border-2 border-dashed border-primary/30 hover:border-primary/60 rounded-2xl px-6 py-5 flex flex-col items-center gap-3 shadow-sm shrink-0 w-[200px] text-center transition-all duration-200 hover:shadow-md cursor-pointer bg-transparent border-0">
+            <div class="relative">
+                <div
+                    class="absolute inset-0 rounded-full bg-primary/10 scale-100 group-hover:scale-125 transition-transform duration-300">
+                </div>
+                <div
+                    class="relative w-12 h-12 rounded-full bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center text-2xl transition-colors duration-200">
+                    🐾
+                </div>
+            </div>
+            <div>
+                <p class="text-sm font-bold text-text-dark">เพิ่มสัตว์เลี้ยงตัวแรก</p>
+                <p class="text-xs text-text-muted mt-1 leading-relaxed">ยังไม่มีน้องในระบบ</p>
+            </div>
+            <div
+                class="flex items-center gap-1.5 bg-primary group-hover:bg-primary-hover text-white text-xs font-semibold px-4 py-1.5 rounded-full transition-colors duration-200">
+                <span>+</span>
+                <span>เพิ่มสัตว์เลี้ยง</span>
+            </div>
+        </button>
+        {% endif %}
 
     </div>
 
-    <!-- MIDDLE COLUMN: Nutrition + Weight -->
-    <div class="flex flex-col gap-4 lg:h-full">
+    <!-- Main Layout: 3 equal columns -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 text-lg">
 
-        <!-- Nutrition Card -->
-        <div class="bg-white rounded-2xl p-5 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5">
-            <div class="flex items-start justify-between mb-1">
-                <div>
-                    <h2 class="font-semibold text-text-dark text-lg">โภชนาการวันนี้</h2>
-                    <p class="text-sm text-text-muted mt-0.5">คำนวณจากน้ำหนักและกิจกรรมของน้อง</p>
-                </div>
-                <span class="text-xs bg-primary/10 text-primary px-2.5 py-1 rounded-full font-medium">ขาด</span>
-            </div>
-
-            <!-- RER / DER -->
-            <div class="grid grid-cols-2 gap-3 mt-4 mb-4">
-                <div class="bg-bg-color rounded-xl p-3">
-                    <div class="text-xs text-text-muted mb-1">RER</div>
-                    <div class="text-2xl font-bold text-primary">420</div>
-                    <div class="text-xs text-text-muted">kcal/วัน</div>
-                </div>
-                <div class="bg-bg-color rounded-xl p-3">
-                    <div class="text-xs text-text-muted mb-1">DER</div>
-                    <div class="text-2xl font-bold text-primary">672</div>
-                    <div class="text-xs text-text-muted">kcal/วัน</div>
-                </div>
-            </div>
-
-            <!-- Progress -->
-            <div class="flex items-center justify-between text-xs mb-2">
-                <span class="font-medium text-text-dark">กินไปแล้ว</span>
-                <span class="font-semibold text-primary">510 / 672 kcal</span>
-            </div>
-            <div class="relative h-2.5 bg-black/5 rounded-full overflow-hidden">
-                <div class="absolute left-0 top-0 h-full bg-primary rounded-full transition-all" style="width: 75%">
-                </div>
-            </div>
-            <div class="flex justify-between text-[10px] text-text-muted mt-1.5">
-                <span>0</span><span>50%</span><span>100%</span>
-            </div>
-        </div>
-
-        <!-- Weight Trend Card -->
-        <div
-            class="bg-white rounded-2xl p-6 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 flex-1 flex flex-col justify-between">
-            <div class="flex items-start justify-between mb-3">
-                <div>
-                    <h2 class="font-semibold text-text-dark text-lg">แนวโน้มน้ำหนัก</h2>
-                    <p class="text-sm text-text-muted mt-0.5">พลอตอัตโนมัติจากบันทึกประจำวัน</p>
-                </div>
-                <span class="text-xs text-text-muted">7 วันล่าสุด</span>
-            </div>
-
-            <!-- SVG Chart -->
-            <div class="mt-4 mb-3 h-28">
-                <svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-                    <defs>
-                        <linearGradient id="weightGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stop-color="#D55A44" stop-opacity="0.18" />
-                            <stop offset="100%" stop-color="#D55A44" stop-opacity="0" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Area fill -->
-                    <path d="M10,25 C40,30 65,45 90,55 C115,45 130,50 155,42 C175,50 210,58 250,72 L250,100 L10,100 Z"
-                        fill="url(#weightGrad)" />
-                    <!-- Line -->
-                    <path d="M10,25 C40,30 65,45 90,55 C115,45 130,50 155,42 C175,50 210,58 250,72" fill="none"
-                        stroke="#D55A44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    <!-- Dots -->
-                    <circle cx="10" cy="25" r="3.5" fill="white" stroke="#D55A44" stroke-width="2" />
-                    <circle cx="50" cy="35" r="3.5" fill="white" stroke="#D55A44" stroke-width="2" />
-                    <circle cx="90" cy="55" r="3.5" fill="white" stroke="#D55A44" stroke-width="2" />
-                    <circle cx="130" cy="50" r="3.5" fill="white" stroke="#D55A44" stroke-width="2" />
-                    <circle cx="155" cy="42" r="3.5" fill="white" stroke="#D55A44" stroke-width="2" />
-                    <circle cx="205" cy="55" r="3.5" fill="white" stroke="#D55A44" stroke-width="2" />
-                    <circle cx="250" cy="72" r="3.5" fill="#D55A44" stroke="#D55A44" stroke-width="2" />
-                </svg>
-            </div>
-
-            <!-- X labels -->
-            <div class="flex justify-between text-xs text-text-muted px-1 mb-4">
-                <span>1/5</span><span>5/5</span><span>9/5</span><span>12/5</span><span>15/5</span><span>17/5</span><span>18/5</span>
-            </div>
-
-            <div class="flex items-center justify-between pt-4 border-t border-black/5">
-                <span class="text-base text-text-muted">น้ำหนักล่าสุด</span>
-                <span class="text-2xl font-bold text-primary">12.4 <span class="text-base">กก.</span></span>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- RIGHT COLUMN: Recent Diary + Appointments + Tip -->
-    <div class="flex flex-col gap-4 lg:h-full">
-
-        <!-- Calendar Card -->
-        <div class="bg-white rounded-2xl p-3 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5">
-            <div class="flex items-center justify-between mb-3">
-                <h2 class="font-semibold text-text-dark text-sm">{{ calendar_title }}</h2>
-                <div class="flex items-center gap-1">
-                    <a href="{{ prev_url }}"
-                        class="w-6 h-6 flex items-center justify-center rounded-full hover:bg-black/5 transition text-text-muted text-sm">&#8249;</a>
-                    <a href="{{ next_url }}"
-                        class="w-6 h-6 flex items-center justify-center rounded-full hover:bg-black/5 transition text-text-muted text-sm">&#8250;</a>
-                </div>
-            </div>
-
-            <!-- Calendar grid -->
-            <div class="grid grid-cols-7 gap-y-0">
-                <!-- Day headers -->
-                {% for day in day_headers %}
-                <div class="text-center text-[10px] text-text-muted font-medium py-1">{{ day }}</div>
-                {% endfor %}
-
-                <!-- offset -->
-                {% for i in calendar_offset %}
-                <div></div>
-                {% endfor %}
-
-                <!-- วันที่ -->
-                {% for day in calendar_days %}
-                <div class="flex flex-col items-center py-0">
-                    <div class="w-7 h-7 flex items-center justify-center rounded-full text-xs
-                        {% if day.is_today %}bg-primary text-white font-semibold{% else %}text-text-dark hover:bg-black/5{% endif %}
-                        cursor-pointer transition">
-                        {{ day.date }}
+        <!-- LEFT COLUMN: Diary History -->
+        <div class="flex flex-col gap-4 lg:h-full">
+            <!-- prettier-ignore-start -->
+            <div
+                class="bg-white rounded-2xl p-5 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 flex flex-col lg:h-full overflow-hidden">
+                <div class="bg-[#FDF0EC] rounded-xl p-4 mb-4">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="font-semibold text-text-dark text-lg">สวัสดี
+                            น้อง{{selected_pet.name|default:""}}</span>
+                        <span>🌸</span>
                     </div>
-                    {% if day.has_dot %}
-                    <div class="w-1 h-1 rounded-full bg-primary mt-0.5"></div>
+                    <p class="text-sm text-text-muted">วันนี้น้องเป็นยังไงบ้างนะ?</p>
+                    <button
+                        class="mt-3 w-full bg-primary text-white text-sm font-medium rounded-xl py-2.5 hover:bg-primary-hover transition-all">
+                        + บันทึกใหม่
+                    </button>
+                </div>
+                <!-- prettier-ignore-end -->
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="font-semibold text-text-dark text-base">ไดอารีย้อนหลัง</h2>
+                    <a href="#" class="text-xs text-primary hover:underline font-medium">ดูทั้งหมด</a>
+                </div>
+                <div class="relative flex flex-col gap-3 overflow-y-auto flex-1">
+                    <div class="absolute left-[3px] top-2 bottom-2 w-px bg-black/10"></div>
+                    {% for log in daily_logs|slice:":5" %}
+                    <div class="flex items-start gap-3">
+                        <div
+                            class="mt-1.5 w-2 h-2 rounded-full border-2 border-primary bg-white shrink-0 relative z-10">
+                        </div>
+                        <div class="flex-1 p-3 bg-white border border-black/5 rounded-xl shadow-sm">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-text-muted">{{ log.date|date:"j N Y" }}</span>
+                                <span class="text-xs bg-primary/10 text-primary font-medium px-2 py-0.5 rounded-full">{{
+                                    log.weight_recorded }} กก.</span>
+                            </div>
+                            <p class="text-sm text-text-dark">{{ log.note }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-sm text-text-muted text-center py-8">ยังไม่มีบันทึกไดอารี่ประจำวัน</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- MIDDLE COLUMN: Nutrition + Weight -->
+        <div class="flex flex-col gap-4 lg:h-full">
+            <div class="bg-white rounded-2xl p-5 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5">
+                <div class="flex items-start justify-between mb-1">
+                    <div>
+                        <h2 class="font-semibold text-text-dark text-lg">โภชนาการวันนี้</h2>
+                        <p class="text-sm text-text-muted mt-0.5">คำนวณจากน้ำหนักและกิจกรรมของน้อง</p>
+                    </div>
+                    {% if calories_consumed >= der %}
+                    <span class="text-xs bg-green-50 text-green-600 px-2.5 py-1 rounded-full font-medium">พอดี</span>
                     {% else %}
-                    <div class="w-1 h-1 mt-0.5"></div>
+                    <span class="text-xs bg-primary/10 text-primary px-2.5 py-1 rounded-full font-medium">ขาด</span>
                     {% endif %}
                 </div>
-                {% endfor %}
-            </div>
-
-            <!-- Daily Tasks -->
-            <div class="flex items-center gap-2 mt-2 pt-2 border-t border-black/5">
-                <h2 class="font-semibold text-text-dark text-sm">นัดหมาย</h2>
-                <button
-                    class="ml-auto text-sm bg-primary/10 text-primary px-2 py-1 rounded transition-colors hover:bg-primary/20">+
-                    เพิ่มนัดหมาย</button>
-            </div>
-            <div class="flex flex-col gap-2 mt-2">
-
-                <label class="flex items-center gap-2.5 cursor-pointer group">
-                    <div
-                        class="w-5 h-5 rounded-full border-2 border-black/15 flex items-center justify-center shrink-0 transition-all">
+                <div class="grid grid-cols-2 gap-3 mt-4 mb-4">
+                    <div class="bg-bg-color rounded-xl p-3">
+                        <div class="text-xs text-text-muted mb-1">RER</div>
+                        <div class="text-2xl font-bold text-primary">{{ rer }}</div>
+                        <div class="text-xs text-text-muted">kcal/วัน</div>
                     </div>
-                    <span class="text-sm text-text-dark">ฉีดวัคซีนรวม</span>
-                </label>
-
-                <label class="flex items-center gap-2.5 cursor-pointer group">
-                    <div
-                        class="w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center shrink-0 transition-all">
-                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
+                    <div class="bg-bg-color rounded-xl p-3">
+                        <div class="text-xs text-text-muted mb-1">DER</div>
+                        <div class="text-2xl font-bold text-primary">{{ der }}</div>
+                        <div class="text-xs text-text-muted">kcal/วัน</div>
                     </div>
-                    <span class="text-sm text-primary line-through">ถ่ายพยาธิ</span>
-                </label>
-
-                <label class="flex items-center gap-2.5 cursor-pointer group">
-                    <div
-                        class="w-5 h-5 rounded-full border-2 border-black/15 flex items-center justify-center shrink-0 transition-all">
-                    </div>
-                    <span class="text-sm text-text-dark">ตัดเล็บประจำเดือน</span>
-                </label>
-
-                <label class="flex items-center gap-2.5 cursor-pointer group">
-                    <div
-                        class="w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center shrink-0 transition-all">
-                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    <span class="text-sm text-primary line-through">อาบน้ำ + เป่าขน</span>
-                </label>
-
-            </div>
-        </div>
-
-        <!-- Tip Card -->
-        <div
-            class="bg-primary rounded-2xl p-6 shadow-[0_4px_16px_rgba(213,90,68,0.15)] text-white flex-1 flex flex-col justify-between relative overflow-hidden">
-            <!-- Decorative background elements -->
-            <div class="absolute -right-6 -bottom-6 w-36 h-36 bg-white/5 rounded-full pointer-events-none"></div>
-            <div class="absolute -right-2 -bottom-2 w-24 h-24 bg-white/10 rounded-full pointer-events-none"></div>
-
-            <div>
-                <div class="flex items-center gap-2.5 mb-4">
-                    <span class="text-2xl">💡</span>
-                    <span class="font-bold text-xl text-white">เคล็ดลับวันนี้</span>
                 </div>
-                <p class="text-lg text-white/95 leading-relaxed font-medium">
-                    ลองพา Buddy เดินเล่นเพิ่ม 15 นาที เพื่อช่วยลดน้ำหนักให้ถึงเป้า
-                </p>
+                <div class="flex items-center justify-between text-xs mb-2">
+                    <span class="font-medium text-text-dark">กินไปแล้ว</span>
+                    <span class="font-semibold text-primary">{{ calories_consumed }} / {{ der }} kcal</span>
+                </div>
+                <!-- prettier-ignore-start -->
+                <div class="relative h-2.5 bg-black/5 rounded-full overflow-hidden">
+                    <div class="absolute left-0 top-0 h-full bg-primary rounded-full transition-all" {% if
+                        nutrition_percentage %}style="width: {{ nutrition_percentage }}%" {% else %}style="width: 0%" {%
+                        endif %}></div>
+                </div>
+                <!-- prettier-ignore-end -->
+                <div class="flex justify-between text-[10px] text-text-muted mt-1.5">
+                    <span>0</span><span>50%</span><span>100%</span>
+                </div>
             </div>
-
-            <div class="text-sm text-white/80 font-semibold relative z-10 mt-4">
-                #สุขภาพดีทุกวัน 🐾
+            <div
+                class="bg-white rounded-2xl p-6 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 flex-1 flex flex-col justify-between">
+                <div class="flex items-start justify-between mb-3">
+                    <div>
+                        <h2 class="font-semibold text-text-dark text-lg">แนวโน้มน้ำหนัก</h2>
+                        <p class="text-sm text-text-muted mt-0.5">พลอตอัตโนมัติจากบันทึกประจำวัน</p>
+                    </div>
+                    <span class="text-xs text-text-muted">7 วันล่าสุด</span>
+                </div>
+                <div class="mt-4 mb-3 h-28">
+                    {% if weight_svg_path %}
+                    <svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                        <defs>
+                            <linearGradient id="weightGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#D55A44" stop-opacity="0.18" />
+                                <stop offset="100%" stop-color="#D55A44" stop-opacity="0" />
+                            </linearGradient>
+                        </defs>
+                        <path d="{{ weight_svg_area }}" fill="url(#weightGrad)" />
+                        <path d="{{ weight_svg_path }}" fill="none" stroke="#D55A44" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        {% for dot in weight_svg_dots %}
+                        <circle cx="{{ dot.x }}" cy="{{ dot.y }}" r="3.5"
+                            fill="{% if dot.is_last %}#D55A44{% else %}white{% endif %}" stroke="#D55A44"
+                            stroke-width="2" />
+                        {% endfor %}
+                    </svg>
+                    {% else %}
+                    <div class="flex items-center justify-center h-full text-xs text-text-muted">
+                        ยังไม่มีบันทึกน้ำหนักประจำวัน</div>
+                    {% endif %}
+                </div>
+                <div class="flex justify-between text-xs text-text-muted px-1 mb-4">
+                    {% for label in weight_svg_labels %}
+                    <span>{{ label }}</span>
+                    {% empty %}
+                    <span class="text-center w-full">ไม่มีข้อมูล</span>
+                    {% endfor %}
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-black/5">
+                    <span class="text-base text-text-muted">น้ำหนักล่าสุด</span>
+                    <span class="text-2xl font-bold text-primary">{{ latest_weight }} <span
+                            class="text-base">กก.</span></span>
+                </div>
             </div>
         </div>
+
+        <!-- RIGHT COLUMN: Calendar + Tip -->
+        <div class="flex flex-col gap-4 lg:h-full">
+            <div class="bg-white rounded-2xl p-3 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="font-semibold text-text-dark text-sm">{{ calendar_title }}</h2>
+                    <div class="flex items-center gap-1">
+                        <a href="{{ prev_url }}"
+                            class="w-6 h-6 flex items-center justify-center rounded-full hover:bg-black/5 transition text-text-muted text-sm">&#8249;</a>
+                        <a href="{{ next_url }}"
+                            class="w-6 h-6 flex items-center justify-center rounded-full hover:bg-black/5 transition text-text-muted text-sm">&#8250;</a>
+                    </div>
+                </div>
+                <div class="grid grid-cols-7 gap-y-0">
+                    {% for day in day_headers %}
+                    <div class="text-center text-[10px] text-text-muted font-medium py-1">{{ day }}</div>
+                    {% endfor %}
+                    {% for i in calendar_offset %}
+                    <div></div>
+                    {% endfor %}
+                    {% for day in calendar_days %}
+                    <div class="flex flex-col items-center py-0">
+                        <div class="w-7 h-7 flex items-center justify-center rounded-full text-xs
+                        {% if day.is_today %}bg-primary text-white font-semibold{% else %}text-text-dark hover:bg-black/5{% endif %}
+                        cursor-pointer transition">
+                            {{ day.date }}
+                        </div>
+                        {% if day.has_dot %}
+                        <div class="w-1 h-1 rounded-full bg-primary mt-0.5"></div>
+                        {% else %}
+                        <div class="w-1 h-1 mt-0.5"></div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="flex items-center gap-2 mt-2 pt-2 border-t border-black/5">
+                    <h2 class="font-semibold text-text-dark text-sm">นัดหมาย</h2>
+                    <button
+                        class="ml-auto text-sm bg-primary/10 text-primary px-2 py-1 rounded transition-colors hover:bg-primary/20">+
+                        เพิ่มนัดหมาย</button>
+                </div>
+                <div class="flex flex-col gap-2 mt-2">
+                    {% for app in appointments %}
+                    <label class="flex items-center gap-2.5 cursor-pointer group">
+                        {% if app.is_completed %}
+                        <div
+                            class="w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center shrink-0 transition-all">
+                            <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-sm text-primary line-through">{{ app.title }}</span>
+                        {% else %}
+                        <div
+                            class="w-5 h-5 rounded-full border-2 border-black/15 flex items-center justify-center shrink-0 transition-all">
+                        </div>
+                        <span class="text-sm text-text-dark">{{ app.title }}</span>
+                        {% endif %}
+                    </label>
+                    {% empty %}
+                    <div class="text-xs text-text-muted text-center py-4">ไม่มีนัดหมายประจำวันนี้</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div
+                class="bg-primary rounded-2xl p-6 shadow-[0_4px_16px_rgba(213,90,68,0.15)] text-white flex-1 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-36 h-36 bg-white/5 rounded-full pointer-events-none"></div>
+                <div class="absolute -right-2 -bottom-2 w-24 h-24 bg-white/10 rounded-full pointer-events-none"></div>
+                <div>
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <span class="text-2xl">💡</span>
+                        <span class="font-bold text-xl text-white">เคล็ดลับวันนี้</span>
+                    </div>
+                    <p class="text-lg text-white/95 leading-relaxed font-medium">
+                        ลองพา น้อง{{ selected_pet.name|default:"" }} เดินเล่นเพิ่ม 15 นาที
+                        เพื่อช่วยลดน้ำหนักให้ถึงเป้า
+                    </p>
+                </div>
+                <div class="text-sm text-white/80 font-semibold relative z-10 mt-4">#สุขภาพดีทุกวัน 🐾</div>
+            </div>
+        </div>
+
+        {% if selected_pet %}
+        <!-- Edit Pet Profile Modal -->
+        <div id="edit-pet-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center">
+            <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeEditPetModal()"></div>
+            <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+                <div class="px-6 pt-6 pb-4 border-b border-black/5">
+                    <button type="button" onclick="closeEditPetModal()"
+                        class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-text-muted transition-colors border-0 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                    <h2 class="text-lg font-bold text-text-dark">แก้ไขโปรไฟล์สัตว์เลี้ยง</h2>
+                    <p class="text-sm text-text-muted mt-0.5">อัปเดตข้อมูลของ น้อง{{ selected_pet.name|default:"" }}</p>
+                </div>
+                <form method="POST" action="{% url 'pets:edit_pet' selected_pet.id %}"
+                    class="px-6 py-5 flex flex-col gap-4">
+                    {% csrf_token %}
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-medium text-text-dark">ชื่อสัตว์เลี้ยง</label>
+                        <input type="text" name="name" value="{{ selected_pet.name }}" placeholder="ชื่อสัตว์เลี้ยง"
+                            required
+                            class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                    </div>
+                    <!-- prettier-ignore-start -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-medium text-text-dark">ประเภทสัตว์เลี้ยง</label>
+                        <select name="pet_type" required
+                            class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                            <option value="DOG" {% if selected_pet.pet_type=='DOG' %}selected{% endif %}>สุนัข</option>
+                            <option value="CAT" {% if selected_pet.pet_type=='CAT' %}selected{% endif %}>แมว</option>
+                            <option value="RABBIT" {% if selected_pet.pet_type=='RABBIT' %}selected{% endif %}>กระต่าย
+                            </option>
+                            <option value="OTHER" {% if selected_pet.pet_type=='OTHER' %}selected{% endif %}>อื่นๆ
+                            </option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-medium text-text-dark">เพศ</label>
+                        <select name="gender" required
+                            class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                            <option value="M" {% if selected_pet.gender=='M' %}selected{% endif %}>♂ ผู้</option>
+                            <option value="F" {% if selected_pet.gender=='F' %}selected{% endif %}>♀ เมีย</option>
+                        </select>
+                    </div>
+                    <!-- prettier-ignore-end -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-medium text-text-dark">สายพันธุ์</label>
+                        <input type="text" name="breed" value="{{ selected_pet.breed|default:'' }}"
+                            placeholder="เช่น บลูเทอร์เรีย, ไซบีเรียน"
+                            class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-medium text-text-dark">วันเกิด</label>
+                        <input type="date" name="birth_date" value="{{ selected_pet.birth_date|date:'Y-m-d' }}" required
+                            class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                    </div>
+                    <div class="flex justify-end gap-3 pt-1">
+                        <button type="button" onclick="closeEditPetModal()"
+                            class="px-5 py-2.5 rounded-xl border border-black/10 text-sm font-medium text-text-dark hover:bg-black/5 transition-colors cursor-pointer bg-white">
+                            ยกเลิก
+                        </button>
+                        <button type="submit"
+                            class="px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-hover transition-colors cursor-pointer border-0">
+                            บันทึก
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+        <script>
+            function openEditPetModal() {
+                document.getElementById('edit-pet-modal').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeEditPetModal() {
+                document.getElementById('edit-pet-modal').classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        </script>
+
+        <!-- Add Pet Modal -->
+        <div id="add-pet-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center">
+            <!-- Backdrop -->
+            <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeAddPetModal()"></div>
+
+            <!-- Modal Box -->
+            <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+                <!-- Header -->
+                <div class="px-6 pt-6 pb-4 border-b border-black/5">
+                    <button type="button" onclick="closeAddPetModal()"
+                        class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-text-muted transition-colors border-0 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                    <h2 class="text-lg font-bold text-text-dark">เพิ่มสัตว์เลี้ยงใหม่</h2>
+                    <p class="text-sm text-text-muted mt-0.5">กรอกข้อมูลเพื่อลงทะเบียนสัตว์เลี้ยงในระบบ PawPal</p>
+                </div>
+
+                <!-- Form -->
+                <form method="POST" action="{% url 'pets:add_pet' %}" class="px-6 py-5 flex flex-col gap-4">
+                    {% csrf_token %}
+
+                    <!-- ชื่อสัตว์เลี้ยง -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-medium text-text-dark">ชื่อสัตว์เลี้ยง</label>
+                        <input type="text" name="name" placeholder="ระบุชื่อ เช่น บัดดี้, เจ้าขาว" required
+                            class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                    </div>
+
+                    <!-- ประเภทสัตว์เลี้ยง -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-medium text-text-dark">ประเภทสัตว์เลี้ยง</label>
+                        <select name="pet_type" required
+                            class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                            <option value="DOG" selected>สุนัข</option>
+                            <option value="CAT">แมว</option>
+                            <option value="RABBIT">กระต่าย</option>
+                            <option value="OTHER">อื่นๆ</option>
+                        </select>
+                    </div>
+
+                    <!-- เพศ -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-medium text-text-dark">เพศ</label>
+                        <select name="gender" required
+                            class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                            <option value="M" selected>♂ ผู้</option>
+                            <option value="F">♀ เมีย</option>
+                        </select>
+                    </div>
+
+                    <!-- สายพันธุ์ -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-medium text-text-dark">สายพันธุ์</label>
+                        <input type="text" name="breed" placeholder="ระบุสายพันธุ์ เช่น บลูเทอร์เรีย, ไทยผสม"
+                            class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                    </div>
+
+                    <!-- วันเกิด -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-medium text-text-dark">วันเกิด</label>
+                        <input type="date" name="birth_date" required
+                            class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex justify-end gap-3 pt-1">
+                        <button type="button" onclick="closeAddPetModal()"
+                            class="px-5 py-2.5 rounded-xl border border-black/10 text-sm font-medium text-text-dark hover:bg-black/5 transition-colors cursor-pointer bg-white">
+                            ยกเลิก
+                        </button>
+                        <button type="submit"
+                            class="px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-hover transition-colors cursor-pointer border-0">
+                            บันทึก
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            function openEditPetModal() {
+                document.getElementById('edit-pet-modal').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeEditPetModal() {
+                document.getElementById('edit-pet-modal').classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+
+            function openAddPetModal() {
+                document.getElementById('add-pet-modal').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeAddPetModal() {
+                document.getElementById('add-pet-modal').classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        </script>
 
     </div>
-
 </div>
-
 {% endblock %}
