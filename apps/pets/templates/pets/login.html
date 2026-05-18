@@ -37,16 +37,7 @@
 <body class="bg-bg-color text-text-dark min-h-screen flex flex-col m-0 p-0 font-sans"
     style="background-image: radial-gradient(circle at top left, #fff, transparent 60%);">
 
-    {% if messages %}
-    <div id="toast-container" class="fixed top-4 left-1/2 z-50 w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 space-y-3" role="status" aria-live="polite">
-        {% for message in messages %}
-        <div data-toast
-            class="rounded-2xl border px-4 py-3 shadow-[0_14px_30px_rgba(0,0,0,0.08)] backdrop-blur-sm transition-opacity transition-transform duration-300 {% if message.tags == 'success' %}border-emerald-500 bg-emerald-500 text-white{% elif message.tags == 'error' %}border-red-500 bg-red-500 text-white{% else %}border-gray-200 bg-gray-800 text-white{% endif %}">
-            <p class="text-sm font-medium">{{ message }}</p>
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
+
 
     <nav class="flex justify-between items-center py-4 px-5 sm:py-6 sm:px-12">
         <a href="/" class="flex items-center gap-3 no-underline">
