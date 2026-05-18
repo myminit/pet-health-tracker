@@ -1,0 +1,331 @@
+{% extends 'pets/base.html' %}
+{% block title %}ภาพรวม - PawPal{% endblock %}
+{% block nav_overview %}bg-primary text-white{% endblock %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="mb-6">
+
+    <h1 class="text-5xl font-bold text-text-dark">วันนี้ <span class="text-primary">Buddy</span></h1>
+
+    <h1 class="text-5xl font-bold text-text-dark mb-4">สุขภาพดีแค่ไหน?</h1>
+    <p class="text-text-muted text-base">บันทึกอารมณ์ มื้ออาหาร และกิจกรรมของ Buddy เพื่อให้ทุกวันดีต่อสุขภาพยิ่งขึ้น
+    </p>
+</div>
+
+
+<!-- Main Layout: 3 equal columns -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 text-lg">
+
+    <!-- LEFT COLUMN: Diary History -->
+    <div class="flex flex-col gap-4 lg:h-full">
+
+        <!-- Diary History Card -->
+        <div
+            class="bg-white rounded-2xl p-5 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 flex flex-col lg:h-full overflow-hidden">
+            <!-- Header box -->
+            <div class="bg-[#FDF0EC] rounded-xl p-4 mb-4">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="font-semibold text-text-dark text-lg">สวัสดี Buddy</span>
+                    <span>🌸</span>
+                </div>
+                <p class="text-sm text-text-muted">วันนี้น้องเป็นยังไงบ้างนะ?</p>
+                <button
+                    class="mt-3 w-full bg-primary text-white text-sm font-medium rounded-xl py-2.5 hover:bg-primary-hover transition-all">
+                    + บันทึกใหม่
+                </button>
+            </div>
+
+            <!-- Section title -->
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="font-semibold text-text-dark text-base">ไดอารีย้อนหลัง</h2>
+                <a href="#" class="text-xs text-primary hover:underline font-medium">ดูทั้งหมด</a>
+            </div>
+
+            <!-- Diary entries -->
+            <div class="relative flex flex-col gap-3 overflow-y-auto flex-1">
+
+                <!-- Vertical timeline line -->
+                <div class="absolute left-[3px] top-2 bottom-2 w-px bg-black/10"></div>
+
+                <div class="flex items-start gap-3">
+                    <div class="mt-1.5 w-2 h-2 rounded-full border-2 border-primary bg-white shrink-0 relative z-10">
+                    </div>
+                    <div class="flex-1 p-3 bg-white border border-black/5 rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs text-text-muted">18 พ.ค. 2026</span>
+                            <span class="text-xs bg-primary/10 text-primary font-medium px-2 py-0.5 rounded-full">12.4
+                                กก.</span>
+                        </div>
+                        <p class="text-sm text-text-dark">วิ่งเล่นในสวนตอนเช้า ร่าเริงดี กินอาหารหมดชาม</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                    <div class="mt-1.5 w-2 h-2 rounded-full border-2 border-primary bg-white shrink-0 relative z-10">
+                    </div>
+                    <div class="flex-1 p-3 bg-white border border-black/5 rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs text-text-muted">17 พ.ค. 2026</span>
+                            <span class="text-xs bg-primary/10 text-primary font-medium px-2 py-0.5 rounded-full">12.5
+                                กก.</span>
+                        </div>
+                        <p class="text-sm text-text-dark">อาบน้ำ ตัดเล็บ ขนนุ่มฟู</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                    <div class="mt-1.5 w-2 h-2 rounded-full border-2 border-primary bg-white shrink-0 relative z-10">
+                    </div>
+                    <div class="flex-1 p-3 bg-white border border-black/5 rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs text-text-muted">15 พ.ค. 2026</span>
+                            <span class="text-xs bg-primary/10 text-primary font-medium px-2 py-0.5 rounded-full">12.6
+                                กก.</span>
+                        </div>
+                        <p class="text-sm text-text-dark">ดูเหนื่อยเหนือยกว่าปกติ เพื่อหิวน้อยลง</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                    <div class="mt-1.5 w-2 h-2 rounded-full border-2 border-primary bg-white shrink-0 relative z-10">
+                    </div>
+                    <div class="flex-1 p-3 bg-white border border-black/5 rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs text-text-muted">12 พ.ค. 2026</span>
+                            <span class="text-xs bg-primary/10 text-primary font-medium px-2 py-0.5 rounded-full">12.5
+                                กก.</span>
+                        </div>
+                        <p class="text-sm text-text-dark">ฉีดวัคซีนรอบประจำปี เรียบร้อย</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                    <div class="mt-1.5 w-2 h-2 rounded-full border-2 border-primary bg-white shrink-0 relative z-10">
+                    </div>
+                    <div class="flex-1 p-3 bg-white border border-black/5 rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs text-text-muted">10 พ.ค. 2026</span>
+                            <span class="text-xs bg-primary/10 text-primary font-medium px-2 py-0.5 rounded-full">12.6
+                                กก.</span>
+                        </div>
+                        <p class="text-sm text-text-dark">พาไปวิ่งเล่นที่สนามหญ้า เจอเพื่อนสุนัขตัวอื่น ร่าเริงดี</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MIDDLE COLUMN: Nutrition + Weight -->
+    <div class="flex flex-col gap-4 lg:h-full">
+
+        <!-- Nutrition Card -->
+        <div class="bg-white rounded-2xl p-5 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5">
+            <div class="flex items-start justify-between mb-1">
+                <div>
+                    <h2 class="font-semibold text-text-dark text-lg">โภชนาการวันนี้</h2>
+                    <p class="text-sm text-text-muted mt-0.5">คำนวณจากน้ำหนักและกิจกรรมของน้อง</p>
+                </div>
+                <span class="text-xs bg-primary/10 text-primary px-2.5 py-1 rounded-full font-medium">ขาด</span>
+            </div>
+
+            <!-- RER / DER -->
+            <div class="grid grid-cols-2 gap-3 mt-4 mb-4">
+                <div class="bg-bg-color rounded-xl p-3">
+                    <div class="text-xs text-text-muted mb-1">RER</div>
+                    <div class="text-2xl font-bold text-primary">420</div>
+                    <div class="text-xs text-text-muted">kcal/วัน</div>
+                </div>
+                <div class="bg-bg-color rounded-xl p-3">
+                    <div class="text-xs text-text-muted mb-1">DER</div>
+                    <div class="text-2xl font-bold text-primary">672</div>
+                    <div class="text-xs text-text-muted">kcal/วัน</div>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div class="flex items-center justify-between text-xs mb-2">
+                <span class="font-medium text-text-dark">กินไปแล้ว</span>
+                <span class="font-semibold text-primary">510 / 672 kcal</span>
+            </div>
+            <div class="relative h-2.5 bg-black/5 rounded-full overflow-hidden">
+                <div class="absolute left-0 top-0 h-full bg-primary rounded-full transition-all" style="width: 75%">
+                </div>
+            </div>
+            <div class="flex justify-between text-[10px] text-text-muted mt-1.5">
+                <span>0</span><span>50%</span><span>100%</span>
+            </div>
+        </div>
+
+        <!-- Weight Trend Card -->
+        <div
+            class="bg-white rounded-2xl p-6 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 flex-1 flex flex-col justify-between">
+            <div class="flex items-start justify-between mb-3">
+                <div>
+                    <h2 class="font-semibold text-text-dark text-lg">แนวโน้มน้ำหนัก</h2>
+                    <p class="text-sm text-text-muted mt-0.5">พลอตอัตโนมัติจากบันทึกประจำวัน</p>
+                </div>
+                <span class="text-xs text-text-muted">7 วันล่าสุด</span>
+            </div>
+
+            <!-- SVG Chart -->
+            <div class="mt-4 mb-3 h-28">
+                <svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                    <defs>
+                        <linearGradient id="weightGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#D55A44" stop-opacity="0.18" />
+                            <stop offset="100%" stop-color="#D55A44" stop-opacity="0" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Area fill -->
+                    <path d="M10,25 C40,30 65,45 90,55 C115,45 130,50 155,42 C175,50 210,58 250,72 L250,100 L10,100 Z"
+                        fill="url(#weightGrad)" />
+                    <!-- Line -->
+                    <path d="M10,25 C40,30 65,45 90,55 C115,45 130,50 155,42 C175,50 210,58 250,72" fill="none"
+                        stroke="#D55A44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <!-- Dots -->
+                    <circle cx="10" cy="25" r="3.5" fill="white" stroke="#D55A44" stroke-width="2" />
+                    <circle cx="50" cy="35" r="3.5" fill="white" stroke="#D55A44" stroke-width="2" />
+                    <circle cx="90" cy="55" r="3.5" fill="white" stroke="#D55A44" stroke-width="2" />
+                    <circle cx="130" cy="50" r="3.5" fill="white" stroke="#D55A44" stroke-width="2" />
+                    <circle cx="155" cy="42" r="3.5" fill="white" stroke="#D55A44" stroke-width="2" />
+                    <circle cx="205" cy="55" r="3.5" fill="white" stroke="#D55A44" stroke-width="2" />
+                    <circle cx="250" cy="72" r="3.5" fill="#D55A44" stroke="#D55A44" stroke-width="2" />
+                </svg>
+            </div>
+
+            <!-- X labels -->
+            <div class="flex justify-between text-xs text-text-muted px-1 mb-4">
+                <span>1/5</span><span>5/5</span><span>9/5</span><span>12/5</span><span>15/5</span><span>17/5</span><span>18/5</span>
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-black/5">
+                <span class="text-base text-text-muted">น้ำหนักล่าสุด</span>
+                <span class="text-2xl font-bold text-primary">12.4 <span class="text-base">กก.</span></span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN: Recent Diary + Appointments + Tip -->
+    <div class="flex flex-col gap-4 lg:h-full">
+
+        <!-- Calendar Card -->
+        <div class="bg-white rounded-2xl p-3 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="font-semibold text-text-dark text-sm">{{ calendar_title }}</h2>
+                <div class="flex items-center gap-1">
+                    <a href="{{ prev_url }}"
+                        class="w-6 h-6 flex items-center justify-center rounded-full hover:bg-black/5 transition text-text-muted text-sm">&#8249;</a>
+                    <a href="{{ next_url }}"
+                        class="w-6 h-6 flex items-center justify-center rounded-full hover:bg-black/5 transition text-text-muted text-sm">&#8250;</a>
+                </div>
+            </div>
+
+            <!-- Calendar grid -->
+            <div class="grid grid-cols-7 gap-y-0">
+                <!-- Day headers -->
+                {% for day in day_headers %}
+                <div class="text-center text-[10px] text-text-muted font-medium py-1">{{ day }}</div>
+                {% endfor %}
+
+                <!-- offset -->
+                {% for i in calendar_offset %}
+                <div></div>
+                {% endfor %}
+
+                <!-- วันที่ -->
+                {% for day in calendar_days %}
+                <div class="flex flex-col items-center py-0">
+                    <div class="w-7 h-7 flex items-center justify-center rounded-full text-xs
+                        {% if day.is_today %}bg-primary text-white font-semibold{% else %}text-text-dark hover:bg-black/5{% endif %}
+                        cursor-pointer transition">
+                        {{ day.date }}
+                    </div>
+                    {% if day.has_dot %}
+                    <div class="w-1 h-1 rounded-full bg-primary mt-0.5"></div>
+                    {% else %}
+                    <div class="w-1 h-1 mt-0.5"></div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Daily Tasks -->
+            <div class="flex items-center gap-2 mt-2 pt-2 border-t border-black/5">
+                <h2 class="font-semibold text-text-dark text-sm">นัดหมาย</h2>
+                <button
+                    class="ml-auto text-sm bg-primary/10 text-primary px-2 py-1 rounded transition-colors hover:bg-primary/20">+
+                    เพิ่มนัดหมาย</button>
+            </div>
+            <div class="flex flex-col gap-2 mt-2">
+
+                <label class="flex items-center gap-2.5 cursor-pointer group">
+                    <div
+                        class="w-5 h-5 rounded-full border-2 border-black/15 flex items-center justify-center shrink-0 transition-all">
+                    </div>
+                    <span class="text-sm text-text-dark">ฉีดวัคซีนรวม</span>
+                </label>
+
+                <label class="flex items-center gap-2.5 cursor-pointer group">
+                    <div
+                        class="w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center shrink-0 transition-all">
+                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <span class="text-sm text-primary line-through">ถ่ายพยาธิ</span>
+                </label>
+
+                <label class="flex items-center gap-2.5 cursor-pointer group">
+                    <div
+                        class="w-5 h-5 rounded-full border-2 border-black/15 flex items-center justify-center shrink-0 transition-all">
+                    </div>
+                    <span class="text-sm text-text-dark">ตัดเล็บประจำเดือน</span>
+                </label>
+
+                <label class="flex items-center gap-2.5 cursor-pointer group">
+                    <div
+                        class="w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center shrink-0 transition-all">
+                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <span class="text-sm text-primary line-through">อาบน้ำ + เป่าขน</span>
+                </label>
+
+            </div>
+        </div>
+
+        <!-- Tip Card -->
+        <div
+            class="bg-primary rounded-2xl p-6 shadow-[0_4px_16px_rgba(213,90,68,0.15)] text-white flex-1 flex flex-col justify-between relative overflow-hidden">
+            <!-- Decorative background elements -->
+            <div class="absolute -right-6 -bottom-6 w-36 h-36 bg-white/5 rounded-full pointer-events-none"></div>
+            <div class="absolute -right-2 -bottom-2 w-24 h-24 bg-white/10 rounded-full pointer-events-none"></div>
+
+            <div>
+                <div class="flex items-center gap-2.5 mb-4">
+                    <span class="text-2xl">💡</span>
+                    <span class="font-bold text-xl text-white">เคล็ดลับวันนี้</span>
+                </div>
+                <p class="text-lg text-white/95 leading-relaxed font-medium">
+                    ลองพา Buddy เดินเล่นเพิ่ม 15 นาที เพื่อช่วยลดน้ำหนักให้ถึงเป้า
+                </p>
+            </div>
+
+            <div class="text-sm text-white/80 font-semibold relative z-10 mt-4">
+                #สุขภาพดีทุกวัน 🐾
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

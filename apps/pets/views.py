@@ -2,6 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
+from .utils import get_calendar_context
+
+@login_required
+def dashboard_view(request):
+    context = get_calendar_context(request, appointment_dates={18, 22, 25})
+    return render(request, 'pets/dashboard.html', context)
 
 
 def signin_view(request):

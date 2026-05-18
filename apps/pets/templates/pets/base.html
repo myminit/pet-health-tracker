@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PawPal{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#D55A44',
+                        'primary-hover': '#c04f3b',
+                        'primary-light': '#fdf0ed',
+                        'bg-color': '#FDF6F2',
+                        'text-dark': '#2d2d2d',
+                        'text-muted': '#999',
+                    },
+                    fontFamily: {
+                        sans: ['Kanit', 'sans-serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body class="bg-bg-color font-sans text-text-dark min-h-screen">
+
+    <!-- Top Navbar -->
+    <nav
+        class="bg-white border-b border-black/5 h-16 flex items-center px-6 gap-4 fixed top-0 left-0 right-0 z-50 shadow-[0_2px_16px_rgba(213,90,68,0.06)]">
+
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-2.5 no-underline shrink-0 w-[220px]">
+            <div class="bg-primary/10 text-primary w-10 h-10 rounded-xl flex items-center justify-center text-xl">🐾
+            </div>
+            <div class="flex flex-col leading-tight">
+                <span class="text-lg font-bold font-playfair text-text-dark">PawPal</span>
+                <span class="text-[10px] text-text-muted tracking-wide font-normal">Pet Health Tracker</span>
+            </div>
+        </a>
+
+        <!-- Search -->
+        <div class="flex-1 max-w-[480px] mx-auto relative">
+            <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted" width="15" height="15" fill="none"
+                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input type="text"
+                class="w-full bg-bg-color border border-black/8 rounded-2xl py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:border-primary/30 focus:ring-2 focus:ring-primary/10 transition-all placeholder:text-text-muted font-sans">
+        </div>
+
+        <!-- Right: Pets + Icons -->
+        <div class="flex items-center gap-2 ml-auto">
+
+            <!-- Pet Tabs -->
+            <div class="flex items-center gap-1.5 mr-2">
+                <div class="flex items-center gap-1.5 bg-primary text-white py-1.5 px-3 rounded-full cursor-pointer">
+                    <span class="text-base">🐶</span>
+                    <span class="text-sm font-semibold">Buddy</span>
+                </div>
+                <div
+                    class="flex items-center gap-1.5 bg-bg-color text-text-muted py-1.5 px-3 rounded-full cursor-pointer hover:bg-primary/10 hover:text-primary transition-all border border-black/5">
+                    <span class="text-base">🐱</span>
+                    <span class="text-sm font-medium">Luna</span>
+                </div>
+                <div
+                    class="flex items-center gap-1.5 bg-bg-color text-text-muted py-1.5 px-3 rounded-full cursor-pointer hover:bg-primary/10 hover:text-primary transition-all border border-black/5">
+                    <span class="text-base">🐰</span>
+                    <span class="text-sm font-medium">Mochi</span>
+                </div>
+                <button
+                    class="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-text-muted hover:border-primary hover:text-primary transition-all text-lg">+</button>
+            </div>
+
+
+            <!-- Settings -->
+            <button
+                class="w-9 h-9 rounded-xl hover:bg-primary-light flex items-center justify-center text-text-muted hover:text-primary transition-all">
+                <svg width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="3" />
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Body Layout -->
+    <div class="flex pt-16 min-h-screen">
+
+        <!-- Sidebar -->
+        <aside
+            class="w-[220px] bg-white border-r border-black/5 fixed left-0 top-16 bottom-0 flex flex-col py-5 px-3 shadow-[2px_0_16px_rgba(213,90,68,0.04)]">
+
+            <div class="flex flex-col gap-0.5 flex-1">
+
+                <a href="{% url 'pets:dashboard' %}"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all no-underline {% block nav_overview %}text-text-muted hover:bg-primary-light hover:text-primary{% endblock %}">
+                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"
+                        viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="7" height="7" rx="1" />
+                        <rect x="14" y="3" width="7" height="7" rx="1" />
+                        <rect x="3" y="14" width="7" height="7" rx="1" />
+                        <rect x="14" y="14" width="7" height="7" rx="1" />
+                    </svg>
+                    ภาพรวม
+                </a>
+
+                <a href="#"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all no-underline {% block nav_diary %}text-text-muted hover:bg-primary-light hover:text-primary{% endblock %}">
+                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"
+                        viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                    ไดอารี่
+                </a>
+
+                <a href="#"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all no-underline {% block nav_nutrition %}text-text-muted hover:bg-primary-light hover:text-primary{% endblock %}">
+                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"
+                        viewBox="0 0 24 24">
+                        <path d="M3 2v7a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V2" />
+                        <path d="M7 2v20" />
+                        <path d="M21 15V2v0a5 5 0 0 0-5 5v8a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2z" />
+                        <path d="M18 17v5" />
+                    </svg>
+                    โภชนาการ
+                </a>
+
+
+                <a href="#"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all no-underline {% block nav_medicine %}text-text-muted hover:bg-primary-light hover:text-primary{% endblock %}">
+                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"
+                        viewBox="0 0 24 24">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                    นัดหมาย
+                </a>
+            </div>
+
+            <!-- Logout -->
+            <div class="border-t border-black/5 pt-3 mt-2">
+                <a href="{% url 'pets:logout' %}"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:bg-red-50 hover:text-red-400 transition-all no-underline">
+                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"
+                        viewBox="0 0 24 24">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                    ออกจากระบบ
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="ml-[220px] flex-1 p-6 min-h-[calc(100vh-4rem)]">
+            {% block content %}{% endblock %}
+        </main>
+
+    </div>
+
+</body>
+
+</html>
