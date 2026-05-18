@@ -22,7 +22,7 @@
         {% if selected_pet %}
         <!-- Right: Pet Profile Card -->
         <div
-            class="bg-white border border-black/5 rounded-3xl px-8 py-5 flex items-center gap-8 shadow-md shrink-0 min-w-[480px]">
+            class="bg-white border border-black/5 rounded-3xl px-8 py-5 flex items-center gap-8 shadow-md shrink-0 min-w-[480px] h-32">
             <!-- Avatars -->
             <div class="flex items-center gap-4">
                 {% for pet in my_pets %}
@@ -80,22 +80,27 @@
         {% else %}
         <!-- Empty state: ยังไม่มีสัตว์เลี้ยง -->
         <button type="button" onclick="openAddPetModal()"
-            class="group bg-white border-2 border-dashed border-primary/30 hover:border-primary/60 rounded-2xl px-6 py-5 flex flex-col items-center gap-3 shadow-sm shrink-0 w-[200px] text-center transition-all duration-200 hover:shadow-md cursor-pointer bg-transparent border-0">
-            <div class="relative">
-                <div
-                    class="absolute inset-0 rounded-full bg-primary/10 scale-100 group-hover:scale-125 transition-transform duration-300">
+            class="group bg-white border-2 border-dashed border-primary/30 hover:border-primary/60 rounded-3xl px-8 py-5 flex items-center justify-between gap-8 shadow-sm shrink-0 min-w-[480px] h-32 text-left transition-all duration-200 hover:shadow-md cursor-pointer">
+            <div class="flex items-center gap-6">
+                <!-- Icon -->
+                <div class="relative">
+                    <div
+                        class="absolute inset-0 rounded-full bg-primary/10 scale-100 group-hover:scale-125 transition-transform duration-300">
+                    </div>
+                    <div
+                        class="relative w-14 h-14 rounded-full bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center text-3xl transition-colors duration-200">
+                        🐾
+                    </div>
                 </div>
-                <div
-                    class="relative w-12 h-12 rounded-full bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center text-2xl transition-colors duration-200">
-                    🐾
+                <!-- Text -->
+                <div>
+                    <p class="text-lg font-bold text-text-dark">เพิ่มสัตว์เลี้ยงตัวแรก</p>
+                    <p class="text-xs text-text-muted mt-1 leading-relaxed">ยังไม่มีน้องในระบบ เริ่มต้นลงทะเบียนเลย!</p>
                 </div>
             </div>
-            <div>
-                <p class="text-sm font-bold text-text-dark">เพิ่มสัตว์เลี้ยงตัวแรก</p>
-                <p class="text-xs text-text-muted mt-1 leading-relaxed">ยังไม่มีน้องในระบบ</p>
-            </div>
+            <!-- Button -->
             <div
-                class="flex items-center gap-1.5 bg-primary group-hover:bg-primary-hover text-white text-xs font-semibold px-4 py-1.5 rounded-full transition-colors duration-200">
+                class="flex items-center gap-1.5 bg-primary group-hover:bg-primary-hover text-white text-sm font-semibold px-5 py-2.5 rounded-2xl transition-colors duration-200 shadow-sm shrink-0">
                 <span>+</span>
                 <span>เพิ่มสัตว์เลี้ยง</span>
             </div>
@@ -182,13 +187,11 @@
                     <span class="font-medium text-text-dark">กินไปแล้ว</span>
                     <span class="font-semibold text-primary">{{ calories_consumed }} / {{ der }} kcal</span>
                 </div>
-                <!-- prettier-ignore-start -->
                 <div class="relative h-2.5 bg-black/5 rounded-full overflow-hidden">
-                    <div class="absolute left-0 top-0 h-full bg-primary rounded-full transition-all" {% if
-                        nutrition_percentage %}style="width: {{ nutrition_percentage }}%" {% else %}style="width: 0%" {%
-                        endif %}></div>
+                    <div id="nutrition-bar" class="absolute left-0 top-0 h-full bg-primary rounded-full transition-all">
+                    </div>
                 </div>
-                <!-- prettier-ignore-end -->
+
                 <div class="flex justify-between text-[10px] text-text-muted mt-1.5">
                     <span>0</span><span>50%</span><span>100%</span>
                 </div>
@@ -347,28 +350,24 @@
                             required
                             class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
                     </div>
-                    <!-- prettier-ignore-start -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-sm font-medium text-text-dark">ประเภทสัตว์เลี้ยง</label>
-                        <select name="pet_type" required
+                        <select name="pet_type" id="edit_pet_type" required
                             class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
-                            <option value="DOG" {% if selected_pet.pet_type=='DOG' %}selected{% endif %}>สุนัข</option>
-                            <option value="CAT" {% if selected_pet.pet_type=='CAT' %}selected{% endif %}>แมว</option>
-                            <option value="RABBIT" {% if selected_pet.pet_type=='RABBIT' %}selected{% endif %}>กระต่าย
-                            </option>
-                            <option value="OTHER" {% if selected_pet.pet_type=='OTHER' %}selected{% endif %}>อื่นๆ
-                            </option>
+                            <option value="DOG">สุนัข</option>
+                            <option value="CAT">แมว</option>
+                            <option value="RABBIT">กระต่าย</option>
+                            <option value="OTHER">อื่นๆ</option>
                         </select>
                     </div>
                     <div class="flex flex-col gap-1.5">
                         <label class="text-sm font-medium text-text-dark">เพศ</label>
-                        <select name="gender" required
+                        <select name="gender" id="edit_gender" required
                             class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
-                            <option value="M" {% if selected_pet.gender=='M' %}selected{% endif %}>♂ ผู้</option>
-                            <option value="F" {% if selected_pet.gender=='F' %}selected{% endif %}>♀ เมีย</option>
+                            <option value="M">♂ ผู้</option>
+                            <option value="F">♀ เมีย</option>
                         </select>
                     </div>
-                    <!-- prettier-ignore-end -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-sm font-medium text-text-dark">สายพันธุ์</label>
                         <input type="text" name="breed" value="{{ selected_pet.breed|default:'' }}"
@@ -404,6 +403,24 @@
                 document.getElementById('edit-pet-modal').classList.add('hidden');
                 document.body.style.overflow = '';
             }
+
+            // Set values dynamically on page load to be immune to HTML auto-formatters and CSS validators
+            document.addEventListener('DOMContentLoaded', function () {
+                const editPetTypeSelect = document.getElementById('edit_pet_type');
+                const editGenderSelect = document.getElementById('edit_gender');
+                if (editPetTypeSelect) {
+                    editPetTypeSelect.value = "{{ selected_pet.pet_type|default:'DOG' }}";
+                }
+                if (editGenderSelect) {
+                    editGenderSelect.value = "{{ selected_pet.gender|default:'M' }}";
+                }
+
+                // Set nutrition progress bar width dynamically to avoid inline style validator errors
+                const nutritionBar = document.getElementById('nutrition-bar');
+                if (nutritionBar) {
+                    nutritionBar.style.width = "{{ nutrition_percentage|default:0 }}%";
+                }
+            });
         </script>
 
         <!-- Add Pet Modal -->

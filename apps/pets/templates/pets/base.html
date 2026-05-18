@@ -132,24 +132,17 @@
             <form method="POST" action="{% url 'pets:profile' %}" class="px-6 py-5 flex flex-col gap-4">
                 {% csrf_token %}
 
-                <!-- ชื่อ -->
+                <!-- ชื่อผู้ใช้ -->
                 <div class="flex flex-col gap-1.5">
-                    <label class="text-sm font-medium text-text-dark">ชื่อ</label>
-                    <input type="text" name="first_name" value="{{ request.user.first_name }}" placeholder="ชื่อของคุณ"
-                        class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
-                </div>
-
-                <!-- นามสกุล -->
-                <div class="flex flex-col gap-1.5">
-                    <label class="text-sm font-medium text-text-dark">นามสกุล</label>
-                    <input type="text" name="last_name" value="{{ request.user.last_name }}" placeholder="นามสกุลของคุณ"
+                    <label class="text-sm font-medium text-text-dark">ชื่อผู้ใช้ (Username)</label>
+                    <input type="text" name="username" value="{{ request.user.username }}" placeholder="ชื่อผู้ใช้ของคุณ" required
                         class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
                 </div>
 
                 <!-- อีเมล -->
                 <div class="flex flex-col gap-1.5">
                     <label class="text-sm font-medium text-text-dark">อีเมล</label>
-                    <input type="email" name="email" value="{{ request.user.email }}" placeholder="อีเมลของคุณ"
+                    <input type="email" name="email" value="{{ request.user.email }}" placeholder="อีเมลของคุณ" required
                         class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
                 </div>
 

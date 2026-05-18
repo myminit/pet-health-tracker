@@ -176,22 +176,33 @@ def logout_view(request):
 @login_required
 def profile_view(request):
     if request.method == 'POST':
-        request.user.first_name = request.POST.get('first_name', '').strip()
-        request.user.last_name = request.POST.get('last_name', '').strip()
-        request.user.email = request.POST.get('email', '').strip()
+        username = request.POST.get('username', '').strip()
+        email = request.POST.get('email', '').strip()
+
+        if not username:
+            messages.error(request, 'ชื่อผู้ใช้ไม่สามารถว่างได้')
+            return redirect('pets:dashboard')
+
+        # ตรวจสอบชื่อผู้ใช้ซ้ำ
+        if User.objects.filter(username=username).exclude(id=request.user.id).exists():
+            messages.error(request, 'ชื่อผู้ใช้นี้ถูกใช้งานไปแล้ว')
+            return redirect('pets:dashboard')
+
+        request.user.username = username
+        request.user.email = email
 
         new_password1 = request.POST.get('new_password1', '')
         new_password2 = request.POST.get('new_password2', '')
 
         if new_password1 or new_password2:
             if new_password1 != new_password2:
-                messages.error(request, 'Passwords do not match')
+                messages.error(request, 'รหัสผ่านไม่ตรงกัน')
                 return redirect('pets:dashboard')
             request.user.set_password(new_password1)
             update_session_auth_hash(request, request.user)
 
         request.user.save()
-        messages.success(request, 'Profile updated successfully')
+        messages.success(request, 'อัปเดตโปรไฟล์เรียบร้อยแล้ว')
 
     return redirect('pets:dashboard')
 
