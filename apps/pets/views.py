@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from datetime import date, datetime
+from .daily_tip import get_daily_tip
 
 # ดึง Models ที่เราสร้างไว้มาใช้งาน
 from .models import Pet, DailyLog, NutritionLog, Appointment
@@ -129,6 +130,7 @@ def dashboard_view(request):
         'weight_svg_area': weight_svg_area,
         'weight_svg_dots': weight_svg_dots,
         'weight_svg_labels': weight_svg_labels,
+        'daily_tip': get_daily_tip(selected_pet),
     })
     
     return render(request, 'pets/dashboard.html', context)

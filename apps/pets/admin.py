@@ -3,7 +3,8 @@ from .models import Pet, DailyLog, NutritionLog, Appointment
 
 @admin.register(Pet)
 class PetAdmin(admin.ModelAdmin):
-    list_display = ('name', 'pet_type', 'breed', 'owner')
+    list_display = ('name', 'pet_type', 'gender', 'breed', 'owner')
+    list_filter = ('pet_type', 'gender', 'owner')
 
 @admin.register(DailyLog)
 class DailyLogAdmin(admin.ModelAdmin):
@@ -18,8 +19,3 @@ class NutritionLogAdmin(admin.ModelAdmin):
 class AppointmentAdmin(admin.ModelAdmin):
     list_display = ('title', 'pet', 'due_date', 'is_completed')
     list_filter = ('is_completed', 'due_date')
-
-@admin.register(Pet)
-class PetAdmin(admin.ModelAdmin):
-    list_display = ('name', 'pet_type', 'gender', 'breed', 'owner')
-    list_filter = ('pet_type', 'gender', 'owner')
