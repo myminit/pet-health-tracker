@@ -35,11 +35,14 @@
                 <label class="block text-sm font-semibold text-text-dark mb-3">ประเภท</label>
                 <div class="grid grid-cols-5 gap-2" id="edit-pet-type-group">
                     {% for value, emoji, label in pet_type_choices %}
+                    <!-- prettier-ignore -->
                     <label
                         class="pet-type-card relative flex flex-col items-center gap-2 p-3 rounded-2xl border-2 cursor-pointer transition-all {% if selected_pet.pet_type|upper == value|upper %}border-primary bg-primary/10 ring-2 ring-primary/20 shadow-sm{% else %}border-black/8 bg-white hover:border-primary/40{% endif %}">
                         <!-- prettier-ignore -->
                         <input type="radio" name="pet_type" value="{{ value }}" class="sr-only" {% if selected_pet.pet_type|upper == value|upper %}checked{% endif %}>
-                        <span class="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white text-[10px] {% if selected_pet.pet_type|upper == value|upper %}block{% else %}hidden{% endif %}">✓</span>
+                        {% if selected_pet.pet_type|upper == value|upper %}
+                        <span class="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white text-[10px]">✓</span>
+                        {% endif %}
                         <span class="text-3xl">{{ emoji }}</span>
                         <span class="text-xs font-medium text-text-dark">{{ label }}</span>
                     </label>

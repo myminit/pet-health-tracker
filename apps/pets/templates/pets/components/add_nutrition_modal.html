@@ -53,6 +53,7 @@ Required context: selected_pet, csrf_token
                 <input type="hidden" id="nutrition-meal-type" name="meal_type" value="morning">
                 <div class="flex items-center gap-2 flex-wrap">
                     {% for meal in meal_choices %}
+                    <!-- prettier-ignore -->
                     <button type="button"
                         class="meal-pill px-5 py-2 rounded-full text-sm font-medium border transition-all cursor-pointer
                             {% if forloop.first %}bg-primary/10 text-primary border-primary{% else %}bg-white text-text-dark border-black/15 hover:border-black/30{% endif %}"
