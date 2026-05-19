@@ -1,17 +1,15 @@
 name: Django CI/CD to Render
 
-# สั่งให้ทำงานทุกครั้งที่มีการกด Push หรือเปิด Pull Request เข้าสู่ Branch main
 on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ] # 🟢 เพิ่มบรรทัดนี้ เพื่อให้มันสแกนตรวจตั้งแต่ตอนอยู่ในหน้า PR เลย (จะได้รู้ว่าผ่านไหมก่อนเมิช)
+    branches: [ "main" ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     
-    # จำลอง PostgreSQL ขึ้นมาบน GitHub เพื่อใช้รันเทสระบบดัก Error
     services:
       postgres:
         image: postgres:latest
@@ -36,18 +34,18 @@ jobs:
       with:
         python-version: '3.11'
 
-    # 🔥 จุดตายที่ต้องแก้: ติดตั้งไลบรารีของ Postgres ลงเครื่อง Ubuntu ให้เสร็จก่อน เพื่อให้ลง psycopg2 ผ่าน
+    # สเต็ปตัดปัญหาเรื่องไลบรารีระบบและคอมไพล์ psycopg2 พัง
     - name: Install PostgreSQL Client Libraries
       run: |
         sudo apt-get update
-        sudo apt-get install -y libpq-dev postgresql-client
+        sudo apt-get install -y libpq-dev postgresql-client gcc python3-dev
 
     - name: Install Dependencies
       env:
         DB_NAME: 'pet_health_db_9k05'
         DB_USER: 'admin01'
         DB_PASSWORD: 'BqPuom2y6FWdK2TbUJ8HioA6nEXh85G8'
-        DB_HOST: 'localhost'
+        DB_HOST: '127.0.0.1' # ใช้ IP ตรงตัวเพื่อลดปัญหาการแปลง Hostname ในบอท
         DB_PORT: '5432'
       run: |
         python -m pip install --upgrade pip
@@ -58,15 +56,16 @@ jobs:
         DB_NAME: 'pet_health_db_9k05'
         DB_USER: 'admin01'
         DB_PASSWORD: 'BqPuom2y6FWdK2TbUJ8HioA6nEXh85G8'
-        DB_HOST: 'localhost'
+        DB_HOST: '127.0.0.1'
         DB_PORT: '5432'
+        SECRET_KEY: 'mock-key-for-compiler-pass' # ส่งคีย์หลอกกันเหนียว
       run: |
+        # รันคำสั่งตรวจสอบแบบละเว้นการตรวจความพร้อมภายนอกบางส่วน
         python manage.py check
 
   deploy:
     needs: build-and-test
     runs-on: ubuntu-latest
-    # สั่งให้ทำงานเฉพาะตอนที่โค้ดถูก Merge/Push เข้าสาขา main จริงๆ เท่านั้น (ตอนเปิด PR จะยังไม่ยิงไปดีพลอยบน Render)
     if: github.event_name == 'push'
     steps:
     - name: Deploy to Render
