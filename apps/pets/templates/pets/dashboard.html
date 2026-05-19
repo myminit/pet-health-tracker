@@ -130,9 +130,8 @@
                     </button>
                 </div>
                 <!-- prettier-ignore-end -->
-                <div class="flex items-center justify-between mb-3">
+                <div class="mb-3">
                     <h2 class="font-semibold text-text-dark text-base">ไดอารีย้อนหลัง</h2>
-                    <a href="#" class="text-xs text-primary hover:underline font-medium">ดูทั้งหมด</a>
                 </div>
                 <div class="relative flex flex-col gap-3 overflow-y-auto flex-1">
                     <div class="absolute left-[3px] top-2 bottom-2 w-px bg-black/10"></div>
@@ -162,14 +161,20 @@
             <div class="bg-white rounded-2xl p-5 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5">
                 <div class="flex items-start justify-between mb-1">
                     <div>
-                        <h2 class="font-semibold text-text-dark text-lg">โภชนาการวันนี้</h2>
+                        <div class="flex items-center gap-2">
+                            <h2 class="font-semibold text-text-dark text-lg">โภชนาการวันนี้</h2>
+                            {% if calories_consumed >= der %}
+                            <span
+                                class="text-xs bg-green-50 text-green-600 px-2.5 py-1 rounded-full font-medium">พอดี</span>
+                            {% else %}
+                            <span
+                                class="text-xs bg-primary/10 text-primary px-2.5 py-1 rounded-full font-medium">ขาด</span>
+                            {% endif %}
+                        </div>
                         <p class="text-sm text-text-muted mt-0.5">คำนวณจากน้ำหนักและกิจกรรมของน้อง</p>
                     </div>
-                    {% if calories_consumed >= der %}
-                    <span class="text-xs bg-green-50 text-green-600 px-2.5 py-1 rounded-full font-medium">พอดี</span>
-                    {% else %}
-                    <span class="text-xs bg-primary/10 text-primary px-2.5 py-1 rounded-full font-medium">ขาด</span>
-                    {% endif %}
+                    <button
+                        class="w-7 h-7 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all text-lg font-light leading-none">+</button>
                 </div>
                 <div class="grid grid-cols-2 gap-3 mt-4 mb-4">
                     <div class="bg-bg-color rounded-xl p-3">
@@ -191,7 +196,6 @@
                     <div id="nutrition-bar" class="absolute left-0 top-0 h-full bg-primary rounded-full transition-all">
                     </div>
                 </div>
-
                 <div class="flex justify-between text-[10px] text-text-muted mt-1.5">
                     <span>0</span><span>50%</span><span>100%</span>
                 </div>
@@ -201,9 +205,13 @@
                 <div class="flex items-start justify-between mb-3">
                     <div>
                         <h2 class="font-semibold text-text-dark text-lg">แนวโน้มน้ำหนัก</h2>
-                        <p class="text-sm text-text-muted mt-0.5">พลอตอัตโนมัติจากบันทึกประจำวัน</p>
+                        <div class="flex items-center gap-2 mt-0.5">
+                            <p class="text-sm text-text-muted">พลอตอัตโนมัติจากบันทึกประจำวัน</p>
+                            <span class="text-xs text-text-muted">·(7 วันล่าสุด)</span>
+                        </div>
                     </div>
-                    <span class="text-xs text-text-muted">7 วันล่าสุด</span>
+                    <button
+                        class="w-7 h-7 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all text-lg font-light leading-none">+</button>
                 </div>
                 <div class="mt-4 mb-3 h-28">
                     {% if weight_svg_path %}
@@ -285,7 +293,7 @@
                         <span id="selected-date-label" class="text-xs text-text-muted font-normal"></span>
                     </h2>
                     <button
-                        class="text-sm bg-primary/10 text-primary px-2 py-1 rounded transition-colors hover:bg-primary/20">+เพิ่มนัดหมาย</button>
+                        class="w-7 h-7 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all text-lg font-light leading-none">+</button>
                 </div>
                 <div class="flex flex-col gap-2 mt-2" id="appointments-container">
                     {% for app in appointments %}
