@@ -39,7 +39,7 @@
                     <label
                         class="pet-type-card flex flex-col items-center gap-2 p-3 rounded-2xl border-2 cursor-pointer transition-all
                         {% if forloop.first %}border-primary bg-primary/5{% else %}border-black/8 bg-white hover:border-primary/40{% endif %}">
-                        <input type="radio" name="pet_type" value="{{ value }}" class="sr-only" {% if forloop.first%}checked{% endif %}>
+                        <input type="radio" name="pet_type" value="{{ value }}" class="sr-only" {% if forloop.first %}checked{% endif %}>
                         <span class="text-3xl">{{ emoji }}</span>
                         <span class="text-xs font-medium text-text-dark">{{ label }}</span>
                     </label>
