@@ -362,7 +362,7 @@
                         <span class="text-2xl">💡</span>
                         <span class="font-bold text-xl text-white">เคล็ดลับวันนี้</span>
                     </div>
-                    <p class="text-lg text-white/95 leading-relaxed font-medium">
+                    <p id="daily-tip-text" class="text-lg text-white/95 leading-relaxed font-medium">
                         {{ daily_tip }}
                     </p>
                 </div>
@@ -532,6 +532,24 @@
                         openEditDiaryModal(this.dataset.logId, this.dataset.logDate, this.dataset.logNote, this.dataset.logWeight);
                     });
                 });
+
+                // Rotate daily tips every 30 seconds using pool provided by backend
+                try {
+                    const dailyTipPool = JSON.parse('{{ daily_tip_pool_json|escapejs }}');
+                    const tipEl = document.getElementById('daily-tip-text');
+                    if (Array.isArray(dailyTipPool) && dailyTipPool.length > 0 && tipEl) {
+                        // Find initial index or start at 0
+                        let currentIndex = dailyTipPool.indexOf(tipEl.textContent.trim());
+                        if (currentIndex === -1) currentIndex = 0;
+
+                        setInterval(() => {
+                            currentIndex = (currentIndex + 1) % dailyTipPool.length;
+                            tipEl.textContent = dailyTipPool[currentIndex];
+                        }, 10000);
+                    }
+                } catch (e) {
+                    // ignore if pool not available
+                }
 
                 function setAppointmentVisual(form, isCompleted) {
                     const toggleBtn = form.querySelector('.appointment-toggle-btn');

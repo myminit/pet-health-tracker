@@ -8,6 +8,8 @@ from django.http import JsonResponse
 from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
 from .daily_tip import get_daily_tip
+from .daily_tip import TIPS, TIPS_GENERAL
+import json
 
 # ดึง Models ที่เราสร้างไว้มาใช้งาน
 from .models import Pet, DailyLog, NutritionLog, Appointment
@@ -149,6 +151,12 @@ def dashboard_view(request):
             for value, label in NutritionLog.MEAL_TYPE_CHOICES
         ],
         'selected_calendar_date': request.GET.get('selected_date', ''),
+        # pass pool of tips (with {name} replaced) so frontend can rotate every 30s
+        'daily_tip_pool_json': json.dumps(
+            [t.replace('{name}', f" {selected_pet.name}" if selected_pet and selected_pet.name else '')
+             for t in (TIPS.get(selected_pet.pet_type.lower() if selected_pet else '', []) + TIPS_GENERAL)],
+            ensure_ascii=False
+        ),
     })
     
     return render(request, 'pets/dashboard.html', context)
