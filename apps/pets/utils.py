@@ -18,6 +18,7 @@ def get_calendar_context(request, appointment_dates=None):
     calendar_days = [
         {
             'date': d,
+            'full_date': f"{year}-{month:02d}-{d:02d}",
             'has_dot': d in appointment_dates,
             'is_today': (today.year == year and today.month == month and today.day == d),
         }

@@ -264,9 +264,11 @@
                     {% endfor %}
                     {% for day in calendar_days %}
                     <div class="flex flex-col items-center py-0">
-                        <div class="w-7 h-7 flex items-center justify-center rounded-full text-xs
+                        <div class="calendar-day w-7 h-7 flex items-center justify-center rounded-full text-xs
                         {% if day.is_today %}bg-primary text-white font-semibold{% else %}text-text-dark hover:bg-black/5{% endif %}
-                        cursor-pointer transition">
+                        cursor-pointer transition" data-date="{{ day.full_date }}"
+                            data-formatted-date="{{ day.date }} {{ calendar_title }}"
+                            data-is-today="{% if day.is_today %}true{% else %}false{% endif %}">
                             {{ day.date }}
                         </div>
                         {% if day.has_dot %}
@@ -277,15 +279,18 @@
                     </div>
                     {% endfor %}
                 </div>
-                <div class="flex items-center gap-2 mt-2 pt-2 border-t border-black/5">
-                    <h2 class="font-semibold text-text-dark text-sm">นัดหมาย</h2>
+                <div class="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-black/5">
+                    <h2 class="font-semibold text-text-dark text-sm flex flex-col sm:flex-row sm:items-center gap-1">
+                        <span>นัดหมาย</span>
+                        <span id="selected-date-label" class="text-xs text-text-muted font-normal"></span>
+                    </h2>
                     <button
-                        class="ml-auto text-sm bg-primary/10 text-primary px-2 py-1 rounded transition-colors hover:bg-primary/20">+
-                        เพิ่มนัดหมาย</button>
+                        class="text-sm bg-primary/10 text-primary px-2 py-1 rounded transition-colors hover:bg-primary/20">+เพิ่มนัดหมาย</button>
                 </div>
-                <div class="flex flex-col gap-2 mt-2">
+                <div class="flex flex-col gap-2 mt-2" id="appointments-container">
                     {% for app in appointments %}
-                    <label class="flex items-center gap-2.5 cursor-pointer group">
+                    <label class="appointment-item flex items-center gap-2.5 cursor-pointer group"
+                        data-date="{{ app.due_date|date:'Y-m-d' }}">
                         {% if app.is_completed %}
                         <div
                             class="w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center shrink-0 transition-all">
@@ -303,8 +308,10 @@
                         {% endif %}
                     </label>
                     {% empty %}
-                    <div class="text-xs text-text-muted text-center py-4">ไม่มีนัดหมายประจำวันนี้</div>
+                    <div class="text-xs text-text-muted text-center py-4">ไม่มีนัดหมายสำหรับสัตว์เลี้ยงตัวนี้</div>
                     {% endfor %}
+                    <div id="no-appointments-placeholder" class="hidden text-xs text-text-muted text-center py-4">
+                        ไม่มีนัดหมายสำหรับวันนี้</div>
                 </div>
             </div>
             <div
@@ -418,6 +425,103 @@
                 const nutritionBar = document.getElementById('nutrition-bar');
                 if (nutritionBar) {
                     nutritionBar.style.width = "{{ nutrition_percentage|default:0 }}%";
+                }
+
+                // Interactive Calendar Logic
+                const calendarDays = document.querySelectorAll('.calendar-day');
+                const appointmentItems = document.querySelectorAll('.appointment-item');
+                const noAppPlaceholder = document.getElementById('no-appointments-placeholder');
+                const selectedDateLabel = document.getElementById('selected-date-label');
+                const showAllBtn = document.getElementById('show-all-appointments-btn');
+
+                function filterAppointments(selectedDate, formattedDateStr) {
+                    let visibleCount = 0;
+
+                    appointmentItems.forEach(item => {
+                        if (item.getAttribute('data-date') === selectedDate) {
+                            item.classList.remove('hidden');
+                            visibleCount++;
+                        } else {
+                            item.classList.add('hidden');
+                        }
+                    });
+
+                    if (noAppPlaceholder) {
+                        if (visibleCount === 0 && appointmentItems.length > 0) {
+                            noAppPlaceholder.classList.remove('hidden');
+                            noAppPlaceholder.textContent = `ไม่มีนัดหมายสำหรับวันที่ ${formattedDateStr}`;
+                        } else {
+                            noAppPlaceholder.classList.add('hidden');
+                        }
+                    }
+
+                    if (selectedDateLabel) {
+                        selectedDateLabel.textContent = `(วันที่ ${formattedDateStr})`;
+                    }
+
+                    if (showAllBtn) {
+                        showAllBtn.classList.remove('hidden');
+                    }
+                }
+
+                function showAllAppointments() {
+                    appointmentItems.forEach(item => {
+                        item.classList.remove('hidden');
+                    });
+
+                    if (noAppPlaceholder) {
+                        noAppPlaceholder.classList.add('hidden');
+                    }
+
+                    if (selectedDateLabel) {
+                        selectedDateLabel.textContent = '(ทั้งหมด)';
+                    }
+
+                    if (showAllBtn) {
+                        showAllBtn.classList.add('hidden');
+                    }
+
+                    calendarDays.forEach(day => {
+                        day.classList.remove('ring-2', 'ring-primary', 'ring-offset-2', 'bg-primary/10', 'text-primary', 'font-bold');
+                        if (day.getAttribute('data-is-today') !== 'true') {
+                            day.classList.add('text-text-dark');
+                        }
+                    });
+                }
+
+                calendarDays.forEach(day => {
+                    day.addEventListener('click', function () {
+                        calendarDays.forEach(d => {
+                            d.classList.remove('ring-2', 'ring-primary', 'ring-offset-2', 'bg-primary/10', 'text-primary', 'font-bold');
+                            if (d.getAttribute('data-is-today') !== 'true') {
+                                d.classList.add('text-text-dark');
+                            }
+                        });
+
+                        if (this.getAttribute('data-is-today') === 'true') {
+                            this.classList.add('ring-2', 'ring-primary', 'ring-offset-2');
+                        } else {
+                            this.classList.add('ring-2', 'ring-primary', 'bg-primary/10', 'text-primary', 'font-bold');
+                            this.classList.remove('text-text-dark');
+                        }
+
+                        const selectedDate = this.getAttribute('data-date');
+                        const formattedDateStr = this.getAttribute('data-formatted-date');
+
+                        filterAppointments(selectedDate, formattedDateStr);
+                    });
+                });
+
+                if (showAllBtn) {
+                    showAllBtn.addEventListener('click', showAllAppointments);
+                }
+
+                // On load: select today automatically if it exists in current calendar view
+                const todayCell = Array.from(calendarDays).find(day => day.getAttribute('data-is-today') === 'true');
+                if (todayCell) {
+                    todayCell.click();
+                } else {
+                    showAllAppointments();
                 }
             });
         </script>
