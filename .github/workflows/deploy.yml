@@ -1,13 +1,17 @@
 name: Django CI/CD to Render
 
+# สั่งให้ทำงานทุกครั้งที่มีการกด Push หรือเปิด Pull Request เข้าสู่ Branch main
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ] # 🟢 เพิ่มบรรทัดนี้ เพื่อให้มันสแกนตรวจตั้งแต่ตอนอยู่ในหน้า PR เลย (จะได้รู้ว่าผ่านไหมก่อนเมิช)
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     
+    # จำลอง PostgreSQL ขึ้นมาบน GitHub เพื่อใช้รันเทสระบบดัก Error
     services:
       postgres:
         image: postgres:latest
@@ -32,7 +36,7 @@ jobs:
       with:
         python-version: '3.11'
 
-    # 🟢 1. สเต็ปที่ต้องเพิ่ม: ติดตั้งไลบรารีฐานข้อมูลให้เครื่อง Ubuntu ของ GitHub ก่อน
+    # 🔥 จุดตายที่ต้องแก้: ติดตั้งไลบรารีของ Postgres ลงเครื่อง Ubuntu ให้เสร็จก่อน เพื่อให้ลง psycopg2 ผ่าน
     - name: Install PostgreSQL Client Libraries
       run: |
         sudo apt-get update
@@ -62,6 +66,8 @@ jobs:
   deploy:
     needs: build-and-test
     runs-on: ubuntu-latest
+    # สั่งให้ทำงานเฉพาะตอนที่โค้ดถูก Merge/Push เข้าสาขา main จริงๆ เท่านั้น (ตอนเปิด PR จะยังไม่ยิงไปดีพลอยบน Render)
+    if: github.event_name == 'push'
     steps:
     - name: Deploy to Render
       run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
