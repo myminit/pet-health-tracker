@@ -1,14 +1,41 @@
 name: Django CI/CD to Render
 
-# สั่งให้ทำงานเมื่อมีการ Merge หรือ Push เข้าสู่ Branch main เท่านั้น
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  # มีแค่ขั้นตอนส่งงานขึ้น Render อย่างเดียว ไม่มีด่านตรวจให้ติดสีแดงอีกต่อไป
-  deploy:
+  # 🟢 กล่องที่ 1: ด่าน CI (Continuous Integration) 
+  build-and-test:
     runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    # ตรวจสอบโครงสร้างไฟล์ว่าพิมพ์โค้ดถูกหลักไวยากรณ์ Python หรือไม่ (ไม่ยุ่งกับ Database)
+    - name: Install Linting Tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8
+
+    # สั่งสแกนโค้ดทั้งโปรเจกต์ ถ้าไม่มีใครพิมพ์ Syntax พัง ด่านนี้จะผ่านเป็นสีเขียวทันที
+    - name: Run Code Linting (Syntax Check)
+      run: |
+        # ตรวจสอบข้อผิดพลาดของระบบไวยากรณ์พื้นฐาน
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+  # 🔵 กล่องที่ 2: ด่าน CD (Continuous Deployment) - ส่งขึ้น Render
+  deploy:
+    needs: build-and-test # ล็อคไว้ว่าต้องผ่านด่าน CI ด้านบนก่อน ถึงจะยอมทำงานต่อ
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     steps:
     - name: Deploy to Render
       run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
