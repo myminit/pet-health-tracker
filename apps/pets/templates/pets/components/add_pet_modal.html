@@ -35,6 +35,7 @@
                 <label class="block text-sm font-semibold text-text-dark mb-3">ประเภท</label>
                 <div class="grid grid-cols-5 gap-2" id="add-pet-type-group">
                     {% for value, emoji, label in pet_type_choices %}
+                    <!-- prettier-ignore -->
                     <label
                         class="pet-type-card flex flex-col items-center gap-2 p-3 rounded-2xl border-2 cursor-pointer transition-all
                         {% if forloop.first %}border-primary bg-primary/5{% else %}border-black/8 bg-white hover:border-primary/40{% endif %}">
