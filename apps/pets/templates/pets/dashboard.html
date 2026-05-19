@@ -1,0 +1,619 @@
+{% extends 'pets/base.html' %}
+{% block title %}ภาพรวม - PawPal{% endblock %}
+{% block nav_overview %}bg-primary text-white{% endblock %}
+
+{% block content %}
+<div class="max-w-[1440px] mx-auto">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+
+        <!-- Left: Title -->
+        <!-- prettier-ignore-start -->
+        <div>
+            <h1 class="text-5xl font-bold text-text-dark">วันนี้ <span
+                    class="text-primary">น้อง{{selected_pet.name|default:""}}</span></h1>
+            <h1 class="text-5xl font-bold text-text-dark mb-4">สุขภาพดีแค่ไหน?</h1>
+            <p class="text-text-muted text-base">บันทึกอารมณ์ มื้ออาหาร และกิจกรรมของ
+                น้อง{{selected_pet.name|default:""}} เพื่อให้ทุกวันดีต่อสุขภาพยิ่งขึ้น</p>
+        </div>
+        <!-- prettier-ignore-end -->
+
+        {% if selected_pet %}
+        <!-- Right: Pet Profile Card -->
+        <div
+            class="bg-white border border-black/5 rounded-3xl px-8 py-5 flex items-center gap-8 shadow-md shrink-0 min-w-[480px] h-32">
+            <!-- Avatars -->
+            <div class="flex items-center gap-4">
+                {% for pet in my_pets %}
+                <a href="?pet_id={{ pet.id }}" class="flex flex-col items-center gap-3 group">
+                    <div class="rounded-full overflow-hidden transition-all duration-300
+                        {% if pet.id == selected_pet.id %}
+                            w-16 h-16 ring-4 ring-primary ring-offset-2 scale-105
+                        {% else %}
+                            w-11 h-11 opacity-60 group-hover:opacity-100 group-hover:scale-105
+                        {% endif %}">
+                        {% if pet.photo %}
+                        <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="w-full h-full object-cover">
+                        {% else %}
+                        <div class="w-full h-full bg-primary/10 flex items-center justify-center text-base">
+                            {% with pet_type=pet.pet_type|upper %}
+                                {% if pet_type == 'DOG' %}🐶{% elif pet_type == 'CAT' %}🐱{% elif pet_type == 'RABBIT' %}🐰{% elif pet_type == 'BIRD' %}🐦{% else %}🐾{% endif %}
+                            {% endwith %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <span
+                        class="text-xs transition-colors {% if pet.id == selected_pet.id %}text-primary font-bold{% else %}text-text-muted group-hover:text-text-dark{% endif %}">
+                        {{ pet.name }}
+                    </span>
+                </a>
+                {% endfor %}
+            </div>
+            <!-- Divider -->
+            <div class="w-px h-16 bg-black/8"></div>
+            <!-- Selected pet info -->
+            <div class="flex flex-col gap-1.5 flex-1">
+                <p class="text-xl font-extrabold text-text-dark leading-none">{{ selected_pet.name }}</p>
+                <div class="flex flex-col gap-0.5 text-xs text-text-muted">
+                    <div class="flex items-center gap-1">
+                        <span>🐾</span>
+                        <span>{{ selected_pet.breed|default:"ไม่ระบุสายพันธุ์" }}</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <span>🎂</span>
+                        <span>{{ selected_pet.birth_date|date:"j N Y" }}</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 text-xs mt-1">
+                    <span class="bg-black/5 text-text-muted px-2.5 py-0.5 rounded-lg font-semibold">
+                        {% if selected_pet.gender == 'M' %}♂ ผู้{% else %}♀ เมีย{% endif %}
+                    </span>
+                    <span class="font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded-lg">
+                        {{ latest_weight }} กก.
+                    </span>
+                </div>
+            </div>
+            <!-- Edit button -->
+            <button type="button" onclick="openEditPetModal()"
+                class="text-sm font-semibold text-text-muted border border-black/10 rounded-2xl px-4 py-2.5 hover:bg-black/5 hover:text-text-dark transition-all bg-transparent cursor-pointer whitespace-nowrap shadow-sm">
+                แก้ไขโปรไฟล์
+            </button>
+        </div>
+
+        {% else %}
+        <!-- Empty state: ยังไม่มีสัตว์เลี้ยง -->
+        <button type="button" onclick="openAddPetModal()"
+            class="group bg-white border-2 border-dashed border-primary/30 hover:border-primary/60 rounded-3xl px-8 py-5 flex items-center justify-between gap-8 shadow-sm shrink-0 min-w-[480px] h-32 text-left transition-all duration-200 hover:shadow-md cursor-pointer">
+            <div class="flex items-center gap-6">
+                <!-- Icon -->
+                <div class="relative">
+                    <div
+                        class="absolute inset-0 rounded-full bg-primary/10 scale-100 group-hover:scale-125 transition-transform duration-300">
+                    </div>
+                    <div
+                        class="relative w-14 h-14 rounded-full bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center text-3xl transition-colors duration-200">
+                        🐾
+                    </div>
+                </div>
+                <!-- Text -->
+                <div>
+                    <p class="text-lg font-bold text-text-dark">เพิ่มสัตว์เลี้ยงตัวแรก</p>
+                    <p class="text-xs text-text-muted mt-1 leading-relaxed">ยังไม่มีน้องในระบบ เริ่มต้นลงทะเบียนเลย!</p>
+                </div>
+            </div>
+            <!-- Button -->
+            <div
+                class="flex items-center gap-1.5 bg-primary group-hover:bg-primary-hover text-white text-sm font-semibold px-5 py-2.5 rounded-2xl transition-colors duration-200 shadow-sm shrink-0">
+                <span>+</span>
+                <span>เพิ่มสัตว์เลี้ยง</span>
+            </div>
+        </button>
+        {% endif %}
+
+    </div>
+
+    <!-- Main Layout: 3 equal columns -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 text-lg">
+
+        <!-- LEFT COLUMN: Diary History -->
+        <div class="flex flex-col gap-4 lg:h-full">
+            <!-- prettier-ignore-start -->
+            <div
+                class="bg-white rounded-2xl p-5 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 flex flex-col lg:h-full overflow-hidden">
+                <div class="bg-[#FDF0EC] rounded-xl p-4 mb-4">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="font-semibold text-text-dark text-lg">สวัสดี
+                            น้อง{{selected_pet.name|default:""}}</span>
+                        <span>🌸</span>
+                    </div>
+                    <p class="text-sm text-text-muted">วันนี้น้องเป็นยังไงบ้างนะ?</p>
+                    <button type="button" onclick="openAddDiaryModal()"
+                        class="mt-3 w-full bg-primary text-white text-sm font-medium rounded-xl py-2.5 hover:bg-primary-hover transition-all cursor-pointer border-0">
+                        + บันทึกใหม่
+                    </button>
+                </div>
+                <!-- prettier-ignore-end -->
+                <div class="mb-3">
+                    <h2 class="font-semibold text-text-dark text-base">บันทึกประจำวัน</h2>
+                </div>
+                <div class="relative flex flex-col gap-3 overflow-y-auto flex-1">
+                    <div class="absolute left-[3px] top-2 bottom-2 w-px bg-black/10"></div>
+                    {% for log in daily_logs|slice:":5" %}
+                    <div class="flex items-start gap-3">
+                        <div
+                            class="mt-1.5 w-2 h-2 rounded-full border-2 border-primary bg-white shrink-0 relative z-10">
+                        </div>
+                        <div class="flex-1 p-3 bg-white border border-black/5 rounded-xl shadow-sm">
+                            <div class="flex items-center justify-between mb-1 relative">
+                                <span class="text-xs text-text-muted">{{ log.date|date:"j N Y" }}</span>
+
+                                <!-- Three dots dropdown -->
+                                <div class="relative">
+                                    <button type="button"
+                                        class="diary-menu-btn text-text-muted hover:text-text-dark p-1 rounded-full hover:bg-black/5 transition-colors border-0 cursor-pointer flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                                        </svg>
+                                    </button>
+
+                                    <!-- Dropdown menu -->
+                                    <div
+                                        class="diary-dropdown hidden absolute right-0 mt-1 w-24 bg-white border border-black/10 rounded-xl shadow-lg z-20 overflow-hidden py-1">
+                                        <button type="button"
+                                            class="edit-diary-btn w-full text-left px-3 py-1.5 text-xs text-text-dark hover:bg-black/5 border-0 bg-transparent cursor-pointer font-medium flex items-center gap-1.5"
+                                            data-log-id="{{ log.id }}" data-log-date="{{ log.date|date:'Y-m-d' }}"
+                                            data-log-note="{{ log.note|escape }}"
+                                            data-log-weight="{{ log.weight_recorded }}">
+                                            ✏️ แก้ไข
+                                        </button>
+                                        <form method="POST"
+                                            action="{% url 'pets:delete_daily_log' selected_pet.id log.id %}"
+                                            onsubmit="return confirm('ต้องการลบบันทึกนี้ใช่หรือไม่?')" class="m-0">
+                                            {% csrf_token %}
+                                            <button type="submit"
+                                                class="w-full text-left px-3 py-1.5 text-xs text-red-500 hover:bg-red-50 border-0 bg-transparent cursor-pointer font-medium flex items-center gap-1.5">
+                                                🗑️ ลบ
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-text-dark">{{ log.note }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-sm text-text-muted text-center py-8">ยังไม่มีบันทึกไดอารี่ประจำวัน</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- MIDDLE COLUMN: Nutrition + Weight -->
+        <div class="flex flex-col gap-4 lg:h-full">
+            <div class="bg-white rounded-2xl p-5 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5">
+                <div class="flex items-start justify-between mb-1">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="font-semibold text-text-dark text-lg">โภชนาการวันนี้</h2>
+                            {% if calories_consumed >= der %}
+                            <span
+                                class="text-xs bg-green-50 text-green-600 px-2.5 py-1 rounded-full font-medium">พอดี</span>
+                            {% else %}
+                            <span
+                                class="text-xs bg-primary/10 text-primary px-2.5 py-1 rounded-full font-medium">ขาด</span>
+                            {% endif %}
+                        </div>
+                        <p class="text-sm text-text-muted mt-0.5">คำนวณจากน้ำหนักและกิจกรรมของน้อง</p>
+                    </div>
+                    <button type="button" onclick="openAddNutritionModal()"
+                        class="w-7 h-7 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all text-lg font-light leading-none">+</button>
+                </div>
+                <div class="grid grid-cols-2 gap-3 mt-4 mb-4">
+                    <div class="bg-bg-color rounded-xl p-3">
+                        <div class="text-xs text-text-muted mb-1">RER</div>
+                        <div class="text-2xl font-bold text-primary">{{ rer }}</div>
+                        <div class="text-xs text-text-muted">kcal/วัน</div>
+                    </div>
+                    <div class="bg-bg-color rounded-xl p-3">
+                        <div class="text-xs text-text-muted mb-1">DER</div>
+                        <div class="text-2xl font-bold text-primary">{{ der }}</div>
+                        <div class="text-xs text-text-muted">kcal/วัน</div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between text-xs mb-2">
+                    <span class="font-medium text-text-dark">กินไปแล้ว</span>
+                    <span class="font-semibold text-primary">{{ calories_consumed }} / {{ der }} kcal</span>
+                </div>
+                <div class="relative h-2.5 bg-black/5 rounded-full overflow-hidden">
+                    <div id="nutrition-bar" class="absolute left-0 top-0 h-full bg-primary rounded-full transition-all">
+                    </div>
+                </div>
+                <div class="flex justify-between text-[10px] text-text-muted mt-1.5">
+                    <span>0</span><span>50%</span><span>100%</span>
+                </div>
+            </div>
+            <div
+                class="bg-white rounded-2xl p-6 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5 flex-1 flex flex-col justify-between">
+                <div class="flex items-start justify-between mb-3">
+                    <div>
+                        <h2 class="font-semibold text-text-dark text-lg">แนวโน้มน้ำหนัก</h2>
+                        <div class="flex items-center gap-2 mt-0.5">
+                            <p class="text-sm text-text-muted">พลอตอัตโนมัติจากบันทึกประจำวัน</p>
+
+                        </div>
+                    </div>
+                    <div class="text-xs text-text-muted font-semibold">7 วันล่าสุด</div>
+                </div>
+                <div class="mt-4 mb-3 h-28">
+                    {% if weight_svg_path %}
+                    <svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                        <defs>
+                            <linearGradient id="weightGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#D55A44" stop-opacity="0.18" />
+                                <stop offset="100%" stop-color="#D55A44" stop-opacity="0" />
+                            </linearGradient>
+                        </defs>
+                        <path d="{{ weight_svg_area }}" fill="url(#weightGrad)" />
+                        <path d="{{ weight_svg_path }}" fill="none" stroke="#D55A44" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        {% for dot in weight_svg_dots %}
+                        <circle cx="{{ dot.x }}" cy="{{ dot.y }}" r="3.5"
+                            fill="{% if dot.is_last %}#D55A44{% else %}white{% endif %}" stroke="#D55A44"
+                            stroke-width="2" />
+                        {% endfor %}
+                    </svg>
+                    {% else %}
+                    <div class="flex items-center justify-center h-full text-xs text-text-muted">
+                        ยังไม่มีบันทึกน้ำหนักประจำวัน</div>
+                    {% endif %}
+                </div>
+                <div class="flex justify-between text-xs text-text-muted px-1 mb-4">
+                    {% for label in weight_svg_labels %}
+                    <span>{{ label }}</span>
+                    {% empty %}
+                    <span class="text-center w-full">ไม่มีข้อมูล</span>
+                    {% endfor %}
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-black/5">
+                    <span class="text-base text-text-muted">น้ำหนักล่าสุด</span>
+                    <span class="text-2xl font-bold text-primary">{% if latest_weight is not None %}{{ latest_weight
+                        }}{% endif %} <span class="text-base">กก.</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Calendar + Tip -->
+        <div class="flex flex-col gap-4 lg:h-full">
+            <div class="bg-white rounded-2xl p-3 shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-black/5">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="font-semibold text-text-dark text-sm">{{ calendar_title }}</h2>
+                    <div class="flex items-center gap-1">
+                        <a href="{{ prev_url }}"
+                            class="w-6 h-6 flex items-center justify-center rounded-full hover:bg-black/5 transition text-text-muted text-sm">&#8249;</a>
+                        <a href="{{ next_url }}"
+                            class="w-6 h-6 flex items-center justify-center rounded-full hover:bg-black/5 transition text-text-muted text-sm">&#8250;</a>
+                    </div>
+                </div>
+                <div class="grid grid-cols-7 gap-y-0">
+                    {% for day in day_headers %}
+                    <div class="text-center text-[10px] text-text-muted font-medium py-1">{{ day }}</div>
+                    {% endfor %}
+                    {% for i in calendar_offset %}
+                    <div></div>
+                    {% endfor %}
+                    {% for day in calendar_days %}
+                    <div class="flex flex-col items-center py-0">
+                        <div class="calendar-day w-7 h-7 flex items-center justify-center rounded-full text-xs
+                        {% if day.is_today %}bg-primary text-white font-semibold{% else %}text-text-dark hover:bg-black/5{% endif %}
+                        cursor-pointer transition" data-date="{{ day.full_date }}"
+                            data-formatted-date="{{ day.date }} {{ calendar_title }}"
+                            data-is-today="{% if day.is_today %}true{% else %}false{% endif %}">
+                            {{ day.date }}
+                        </div>
+                        {% if day.has_dot %}
+                        <div class="w-1 h-1 rounded-full bg-primary mt-0.5"></div>
+                        {% else %}
+                        <div class="w-1 h-1 mt-0.5"></div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-black/5">
+                    <h2 class="font-semibold text-text-dark text-sm flex flex-col sm:flex-row sm:items-center gap-1">
+                        <span>นัดหมาย</span>
+                        <span id="selected-date-label" class="text-xs text-text-muted font-normal"></span>
+                    </h2>
+                    <button type="button" id="open-add-appointment-btn"
+                        class="w-7 h-7 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all text-lg font-light leading-none border-0 cursor-pointer">+</button>
+                </div>
+                <div class="flex flex-col gap-2 mt-2" id="appointments-container">
+                    {% for app in appointments %}
+                    <form method="POST" action="{% url 'pets:toggle_appointment' selected_pet.id app.id %}"
+                        class="appointment-item appointment-toggle-form" data-date="{{ app.due_date|date:'Y-m-d' }}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+                        <button type="submit"
+                            class="appointment-toggle-btn w-full flex items-center gap-2.5 cursor-pointer group bg-transparent border-0 p-0 text-left"
+                            data-completed="{% if app.is_completed %}true{% else %}false{% endif %}">
+                            <div
+                                class="appointment-toggle-circle w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all {% if app.is_completed %}border-primary bg-primary{% else %}border-black/15 group-hover:border-primary/50{% endif %}">
+                                <svg
+                                    class="appointment-check-icon w-3 h-3 text-white {% if not app.is_completed %}hidden{% endif %}"
+                                    fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <span
+                                class="appointment-title text-sm {% if app.is_completed %}text-primary line-through{% else %}text-text-dark group-hover:text-primary{% endif %}">{{ app.title }}</span>
+                        </button>
+                    </form>
+                    {% empty %}
+                    <div class="text-xs text-text-muted text-center py-4">ไม่มีนัดหมายสำหรับสัตว์เลี้ยงตัวนี้</div>
+                    {% endfor %}
+                    <div id="no-appointments-placeholder" class="hidden text-xs text-text-muted text-center py-4">
+                        ไม่มีนัดหมายสำหรับวันนี้</div>
+                </div>
+            </div>
+            <div
+                class="bg-primary rounded-2xl p-6 shadow-[0_4px_16px_rgba(213,90,68,0.15)] text-white flex-1 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-36 h-36 bg-white/5 rounded-full pointer-events-none"></div>
+                <div class="absolute -right-2 -bottom-2 w-24 h-24 bg-white/10 rounded-full pointer-events-none"></div>
+                <div>
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <span class="text-2xl">💡</span>
+                        <span class="font-bold text-xl text-white">เคล็ดลับวันนี้</span>
+                    </div>
+                    <p id="daily-tip-text" class="text-lg text-white/95 leading-relaxed font-medium">
+                        {{ daily_tip }}
+                    </p>
+                </div>
+                <div class="text-sm text-white/80 font-semibold relative z-10 mt-4">#สุขภาพดีทุกวัน 🐾</div>
+            </div>
+        </div>
+
+        <!-- Modals -->
+        {% if selected_pet %}
+        {% include 'pets/components/edit_pet_modal.html' %}
+        {% include 'pets/components/add_diary_modal.html' %}
+        {% include 'pets/components/edit_diary_modal.html' %}
+        {% include 'pets/components/add_nutrition_modal.html' %}
+        {% include 'pets/components/add_appointment_modal.html' %}
+        {% endif %}
+        {% include 'pets/components/add_pet_modal.html' %}
+
+        <script>
+            // Set values dynamically on page load to be immune to HTML auto-formatters and CSS validators
+            document.addEventListener('DOMContentLoaded', function () {
+                // Set nutrition progress bar width dynamically to avoid inline style validator errors
+                const nutritionBar = document.getElementById('nutrition-bar');
+                if (nutritionBar) {
+                    nutritionBar.style.width = "{{ nutrition_percentage|default:0 }}%";
+                }
+
+                // Interactive Calendar Logic
+                const calendarDays = document.querySelectorAll('.calendar-day');
+                const appointmentItems = document.querySelectorAll('.appointment-item');
+                const noAppPlaceholder = document.getElementById('no-appointments-placeholder');
+                const selectedDateLabel = document.getElementById('selected-date-label');
+                const showAllBtn = document.getElementById('show-all-appointments-btn');
+                const requestedSelectedDate = "{{ selected_calendar_date|default:'' }}";
+
+                let currentCalendarDate = null;
+                let currentCalendarLabel = null;
+
+                function filterAppointments(selectedDate, formattedDateStr) {
+                    let visibleCount = 0;
+
+                    appointmentItems.forEach(item => {
+                        if (item.getAttribute('data-date') === selectedDate) {
+                            item.classList.remove('hidden');
+                            visibleCount++;
+                        } else {
+                            item.classList.add('hidden');
+                        }
+                    });
+
+                    if (noAppPlaceholder) {
+                        if (visibleCount === 0 && appointmentItems.length > 0) {
+                            noAppPlaceholder.classList.remove('hidden');
+                            noAppPlaceholder.textContent = `ไม่มีนัดหมายสำหรับวันที่ ${formattedDateStr}`;
+                        } else {
+                            noAppPlaceholder.classList.add('hidden');
+                        }
+                    }
+
+                    if (selectedDateLabel) {
+                        selectedDateLabel.textContent = `(วันที่ ${formattedDateStr})`;
+                    }
+
+                    if (showAllBtn) {
+                        showAllBtn.classList.remove('hidden');
+                    }
+                }
+
+                function showAllAppointments() {
+                    currentCalendarDate = null;
+                    currentCalendarLabel = null;
+
+                    appointmentItems.forEach(item => {
+                        item.classList.remove('hidden');
+                    });
+
+                    if (noAppPlaceholder) {
+                        noAppPlaceholder.classList.add('hidden');
+                    }
+
+                    if (selectedDateLabel) {
+                        selectedDateLabel.textContent = '(ทั้งหมด)';
+                    }
+
+                    if (showAllBtn) {
+                        showAllBtn.classList.add('hidden');
+                    }
+
+                    calendarDays.forEach(day => {
+                        day.classList.remove('ring-2', 'ring-primary', 'ring-offset-2', 'bg-primary/10', 'text-primary', 'font-bold');
+                        if (day.getAttribute('data-is-today') !== 'true') {
+                            day.classList.add('text-text-dark');
+                        }
+                    });
+                }
+
+                calendarDays.forEach(day => {
+                    day.addEventListener('click', function () {
+                        calendarDays.forEach(d => {
+                            d.classList.remove('ring-2', 'ring-primary', 'ring-offset-2', 'bg-primary/10', 'text-primary', 'font-bold');
+                            if (d.getAttribute('data-is-today') !== 'true') {
+                                d.classList.add('text-text-dark');
+                            }
+                        });
+
+                        if (this.getAttribute('data-is-today') === 'true') {
+                            this.classList.add('ring-2', 'ring-primary', 'ring-offset-2');
+                        } else {
+                            this.classList.add('ring-2', 'ring-primary', 'bg-primary/10', 'text-primary', 'font-bold');
+                            this.classList.remove('text-text-dark');
+                        }
+
+                        currentCalendarDate = this.getAttribute('data-date');
+                        currentCalendarLabel = this.getAttribute('data-formatted-date');
+
+                        filterAppointments(currentCalendarDate, currentCalendarLabel);
+                    });
+                });
+
+                if (showAllBtn) {
+                    showAllBtn.addEventListener('click', showAllAppointments);
+                }
+
+                // On load: prioritize the date passed from backend, fallback to today
+                const requestedCell = requestedSelectedDate
+                    ? Array.from(calendarDays).find(day => day.getAttribute('data-date') === requestedSelectedDate)
+                    : null;
+                const todayCell = Array.from(calendarDays).find(day => day.getAttribute('data-is-today') === 'true');
+
+                if (requestedCell) {
+                    requestedCell.click();
+                } else if (todayCell) {
+                    todayCell.click();
+                } else {
+                    showAllAppointments();
+                }
+
+                // Wire add-appointment button to use the in-scope calendar selection
+                const addAppointmentBtn = document.getElementById('open-add-appointment-btn');
+                if (addAppointmentBtn) {
+                    addAppointmentBtn.addEventListener('click', function () {
+                        // use currentCalendarDate/currentCalendarLabel from this closure
+                        openAddAppointmentModal(currentCalendarDate, currentCalendarLabel);
+                    });
+                }
+
+                // Toggle diary dropdown menus
+                document.addEventListener('click', function (e) {
+                    const menuBtn = e.target.closest('.diary-menu-btn');
+                    if (menuBtn) {
+                        const dropdown = menuBtn.nextElementSibling;
+                        // Close all other dropdowns
+                        document.querySelectorAll('.diary-dropdown').forEach(d => {
+                            if (d !== dropdown) d.classList.add('hidden');
+                        });
+                        dropdown.classList.toggle('hidden');
+                        e.stopPropagation();
+                    } else {
+                        // Clicked outside, close all dropdowns
+                        document.querySelectorAll('.diary-dropdown').forEach(d => {
+                            d.classList.add('hidden');
+                        });
+                    }
+                });
+
+                document.querySelectorAll('.edit-diary-btn').forEach(button => {
+                    button.addEventListener('click', function () {
+                        openEditDiaryModal(this.dataset.logId, this.dataset.logDate, this.dataset.logNote, this.dataset.logWeight);
+                    });
+                });
+
+                // Rotate daily tips every 30 seconds using pool provided by backend
+                try {
+                    const dailyTipPool = JSON.parse('{{ daily_tip_pool_json|escapejs }}');
+                    const tipEl = document.getElementById('daily-tip-text');
+                    if (Array.isArray(dailyTipPool) && dailyTipPool.length > 0 && tipEl) {
+                        // Find initial index or start at 0
+                        let currentIndex = dailyTipPool.indexOf(tipEl.textContent.trim());
+                        if (currentIndex === -1) currentIndex = 0;
+
+                        setInterval(() => {
+                            currentIndex = (currentIndex + 1) % dailyTipPool.length;
+                            tipEl.textContent = dailyTipPool[currentIndex];
+                        }, 10000);
+                    }
+                } catch (e) {
+                    // ignore if pool not available
+                }
+
+                function setAppointmentVisual(form, isCompleted) {
+                    const toggleBtn = form.querySelector('.appointment-toggle-btn');
+                    const circle = form.querySelector('.appointment-toggle-circle');
+                    const icon = form.querySelector('.appointment-check-icon');
+                    const title = form.querySelector('.appointment-title');
+
+                    if (!toggleBtn || !circle || !icon || !title) return;
+
+                    toggleBtn.dataset.completed = isCompleted ? 'true' : 'false';
+
+                    if (isCompleted) {
+                        circle.classList.add('border-primary', 'bg-primary');
+                        circle.classList.remove('border-black/15', 'group-hover:border-primary/50');
+                        icon.classList.remove('hidden');
+                        title.classList.add('text-primary', 'line-through');
+                        title.classList.remove('text-text-dark', 'group-hover:text-primary');
+                    } else {
+                        circle.classList.remove('border-primary', 'bg-primary');
+                        circle.classList.add('border-black/15', 'group-hover:border-primary/50');
+                        icon.classList.add('hidden');
+                        title.classList.remove('text-primary', 'line-through');
+                        title.classList.add('text-text-dark', 'group-hover:text-primary');
+                    }
+                }
+
+                document.querySelectorAll('.appointment-toggle-form').forEach(form => {
+                    form.addEventListener('submit', async function (e) {
+                        e.preventDefault();
+
+                        try {
+                            const response = await fetch(form.action, {
+                                method: 'POST',
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                },
+                                body: new FormData(form),
+                                credentials: 'same-origin',
+                            });
+
+                            if (!response.ok) {
+                                form.submit();
+                                return;
+                            }
+
+                            const data = await response.json();
+                            if (data && data.success) {
+                                setAppointmentVisual(form, !!data.is_completed);
+                                return;
+                            }
+                        } catch (error) {
+                            // Fallback to normal submit when fetch fails
+                        }
+
+                        form.submit();
+                    });
+                });
+            });
+        </script>
+
+    </div>
+</div>
+{% endblock %}

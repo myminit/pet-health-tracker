@@ -1,0 +1,37 @@
+name: Django CI/CD to Render
+
+# สั่งให้ท่อ Pipeline ทำงานทุกครั้งที่มีการ Merge หรือ Push เข้าสู่ Branch main
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  # ขั้นตอนที่ 1: Continuous Integration (CI) - ตรวจสอบโค้ด
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # สเต็ปเสริม: ถ้ารอบหน้ากลุ่มคุณเขียน Unit Test สามารถเปิดคำสั่งนี้ให้อาจารย์ดูได้ครับ
+    # - name: Run Django Tests
+    #   run: python manage.py test
+
+  # ขั้นตอนที่ 2: Continuous Delivery (CD) - ส่งโค้ดขึ้น Cloud Render
+  deploy:
+    needs: build-and-test # ต้องผ่านขั้นตอนตรวจสอบ (CI) ด้านบนก่อน ถึงจะยอมปล่อยขึ้นเว็บ
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Render
+      # ใช้คำสั่งยิงไปบอก Render ให้ดึงโค้ดไปอัปเดต โดยใช้คีย์ลับที่เราจะตั้งใน GitHub
+      run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"

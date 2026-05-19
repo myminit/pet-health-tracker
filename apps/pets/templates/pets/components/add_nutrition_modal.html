@@ -1,0 +1,181 @@
+{% comment %}
+Component: add_nutrition_modal.html
+Usage: {% include 'pets/components/add_nutrition_modal.html' %}
+Required context: selected_pet, csrf_token
+{% endcomment %}
+
+<!-- Add Nutrition Modal -->
+<div id="add-nutrition-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeAddNutritionModal()"></div>
+
+    <!-- Modal Box -->
+    <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
+
+        <!-- Decorative top strip -->
+        <div class="h-1.5 w-full bg-gradient-to-r from-primary via-primary/70 to-primary/30"></div>
+
+        <!-- Header -->
+        <div class="px-6 pt-5 pb-4 border-b border-black/5">
+            <button type="button" onclick="closeAddNutritionModal()"
+                class="absolute top-5 right-5 w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-text-muted transition-colors border-0 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-lg">🍖</div>
+                <div>
+                    <h2 class="text-lg font-bold text-text-dark">บันทึกอาหาร</h2>
+                    <p class="text-xs text-text-muted mt-0.5">น้อง{{ selected_pet.name|default:"" }} กินอะไรบ้างวันนี้?
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        {% if selected_pet %}
+        <!-- Form -->
+        <form method="POST" action="{% url 'pets:add_nutrition_log' selected_pet.id %}"
+            class="px-6 py-5 flex flex-col gap-4">
+            {% csrf_token %}
+
+            <!-- วันที่ -->
+            <div class="flex flex-col gap-1.5">
+                <label class="text-sm font-medium text-text-dark">วันที่บันทึก</label>
+                <input type="date" name="date" id="nutrition-date" required
+                    class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+            </div>
+
+            <!-- มื้ออาหาร -->
+            <div class="flex flex-col gap-1.5">
+                <label class="text-sm font-medium text-text-dark">มื้อ</label>
+                <input type="hidden" id="nutrition-meal-type" name="meal_type" value="morning">
+                <div class="flex items-center gap-2 flex-wrap">
+                    {% for meal in meal_choices %}
+                    <button type="button"
+                        class="meal-pill px-5 py-2 rounded-full text-sm font-medium border transition-all cursor-pointer
+                            {% if forloop.first %}bg-primary/10 text-primary border-primary{% else %}bg-white text-text-dark border-black/15 hover:border-black/30{% endif %}"
+                        data-value="{{ meal.value }}">{{ meal.label }}</button>
+                    {% empty %}
+                    <button type="button"
+                        class="meal-pill px-5 py-2 rounded-full text-sm font-medium border bg-primary/10 text-primary border-primary transition-all cursor-pointer"
+                        data-value="morning">เช้า</button>
+                    <button type="button"
+                        class="meal-pill px-5 py-2 rounded-full text-sm font-medium border bg-white text-text-dark border-black/15 hover:border-black/30 transition-all cursor-pointer"
+                        data-value="noon">กลางวัน</button>
+                    <button type="button"
+                        class="meal-pill px-5 py-2 rounded-full text-sm font-medium border bg-white text-text-dark border-black/15 hover:border-black/30 transition-all cursor-pointer"
+                        data-value="evening">เย็น</button>
+                    <button type="button"
+                        class="meal-pill px-5 py-2 rounded-full text-sm font-medium border bg-white text-text-dark border-black/15 hover:border-black/30 transition-all cursor-pointer"
+                        data-value="snack">ของว่าง</button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- ชื่ออาหาร -->
+            <div class="flex flex-col gap-1.5">
+                <label class="text-sm font-medium text-text-dark">ชื่ออาหาร</label>
+                <input type="text" name="food_name" id="nutrition-food-name"
+                    placeholder="เช่น อาหารเม็ด Royal Canin, ข้าวต้มไก่..." required
+                    class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+            </div>
+
+            <!-- ปริมาณ + หน่วย -->
+            <div class="grid grid-cols-2 gap-3">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-medium text-text-dark">ปริมาณ</label>
+                    <input type="number" name="amount" id="nutrition-amount" placeholder="0" min="0" step="0.1" required
+                        class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-medium text-text-dark">หน่วย</label>
+                    <select name="unit" id="nutrition-unit"
+                        class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all appearance-none cursor-pointer">
+                        <option value="g">กรัม (g)</option>
+                        <option value="kg">กิโลกรัม (kg)</option>
+                        <option value="cup">ถ้วย</option>
+                        <option value="piece">ชิ้น</option>
+                        <option value="tbsp">ช้อนโต๊ะ</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- พลังงาน -->
+            <div class="flex flex-col gap-1.5">
+                <label class="text-sm font-medium text-text-dark">
+                    พลังงาน (kcal)
+                    <span class="text-xs font-normal text-text-muted ml-1">ถ้าทราบ</span>
+                </label>
+                <input type="number" name="calories" id="nutrition-calories" placeholder="0" min="0" step="1"
+                    class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+            </div>
+
+            <!-- หมายเหตุ -->
+            <div class="flex flex-col gap-1.5">
+                <label class="text-sm font-medium text-text-dark">
+                    หมายเหตุ
+                    <span class="text-xs font-normal text-text-muted ml-1">ไม่บังคับ</span>
+                </label>
+                <textarea name="note" id="nutrition-note" rows="3" placeholder="เช่น น้องกินหมดจาน, ไม่ค่อยสนใจอาหาร..."
+                    class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all resize-none leading-relaxed"></textarea>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex justify-end gap-3 pt-1">
+                <button type="button" onclick="closeAddNutritionModal()"
+                    class="px-5 py-2.5 rounded-xl border border-black/10 text-sm font-medium text-text-dark hover:bg-black/5 transition-colors cursor-pointer bg-white">
+                    ยกเลิก
+                </button>
+                <button type="submit"
+                    class="px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-hover transition-colors cursor-pointer border-0 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    บันทึก
+                </button>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function openAddNutritionModal() {
+        document.getElementById('add-nutrition-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeAddNutritionModal() {
+        document.getElementById('add-nutrition-modal').classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Set today's date as default
+        const dateInput = document.getElementById('nutrition-date');
+        if (dateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.value = today;
+        }
+
+        // Meal pill selector
+        document.querySelectorAll('.meal-pill').forEach(pill => {
+            pill.addEventListener('click', function () {
+                document.querySelectorAll('.meal-pill').forEach(p => {
+                    p.classList.remove('bg-primary/10', 'text-primary', 'border-primary');
+                    p.classList.add('bg-white', 'text-text-dark', 'border-black/15');
+                });
+                this.classList.add('bg-primary/10', 'text-primary', 'border-primary');
+                this.classList.remove('bg-white', 'text-text-dark', 'border-black/15');
+                document.getElementById('nutrition-meal-type').value = this.dataset.value;
+            });
+        });
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeAddNutritionModal();
+    });
+</script>
