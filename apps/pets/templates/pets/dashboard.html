@@ -131,7 +131,7 @@
                 </div>
                 <!-- prettier-ignore-end -->
                 <div class="mb-3">
-                    <h2 class="font-semibold text-text-dark text-base">ไดอารี</h2>
+                    <h2 class="font-semibold text-text-dark text-base">บันทึกประจำวัน</h2>
                 </div>
                 <div class="relative flex flex-col gap-3 overflow-y-auto flex-1">
                     <div class="absolute left-[3px] top-2 bottom-2 w-px bg-black/10"></div>
@@ -161,7 +161,7 @@
                                         <button type="button"
                                             class="edit-diary-btn w-full text-left px-3 py-1.5 text-xs text-text-dark hover:bg-black/5 border-0 bg-transparent cursor-pointer font-medium flex items-center gap-1.5"
                                             data-log-id="{{ log.id }}" data-log-date="{{ log.date|date:'Y-m-d' }}"
-                                            data-log-note="{{ log.note|escape }}">
+                                            data-log-note="{{ log.note|escape }}" data-log-weight="{{ log.weight_recorded }}">
                                             ✏️ แก้ไข
                                         </button>
                                         <form method="POST"
@@ -237,11 +237,10 @@
                         <h2 class="font-semibold text-text-dark text-lg">แนวโน้มน้ำหนัก</h2>
                         <div class="flex items-center gap-2 mt-0.5">
                             <p class="text-sm text-text-muted">พลอตอัตโนมัติจากบันทึกประจำวัน</p>
-                            <span class="text-xs text-text-muted">·(7 วันล่าสุด)</span>
+                           
                         </div>
                     </div>
-                    <button
-                        class="w-7 h-7 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all text-lg font-light leading-none">+</button>
+                    <div class="text-xs text-text-muted font-semibold">7 วันล่าสุด</div>
                 </div>
                 <div class="mt-4 mb-3 h-28">
                     {% if weight_svg_path %}
@@ -275,7 +274,7 @@
                 </div>
                 <div class="flex items-center justify-between pt-4 border-t border-black/5">
                     <span class="text-base text-text-muted">น้ำหนักล่าสุด</span>
-                    <span class="text-2xl font-bold text-primary">{{ latest_weight }} <span
+                    <span class="text-2xl font-bold text-primary">{% if latest_weight is not None %}{{ latest_weight }}{% endif %} <span
                             class="text-base">กก.</span></span>
                 </div>
             </div>
@@ -505,7 +504,7 @@
 
                 document.querySelectorAll('.edit-diary-btn').forEach(button => {
                     button.addEventListener('click', function () {
-                        openEditDiaryModal(this.dataset.logId, this.dataset.logDate, this.dataset.logNote);
+                        openEditDiaryModal(this.dataset.logId, this.dataset.logDate, this.dataset.logNote, this.dataset.logWeight);
                     });
                 });
             });

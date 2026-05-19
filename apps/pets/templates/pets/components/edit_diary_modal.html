@@ -40,6 +40,13 @@
                     class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
             </div>
 
+            <!-- น้ำหนัก -->
+            <div class="flex flex-col gap-1.5">
+                <label class="text-sm font-medium text-text-dark">น้ำหนัก (กก.)</label>
+                <input type="number" name="weight" id="edit-diary-weight" required step="0.01" min="0"
+                    class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+            </div>
+
             <!-- บันทึก/โน้ต -->
             <div class="flex flex-col gap-1.5">
                 <label class="text-sm font-medium text-text-dark">บันทึกเพิ่มเติม</label>
@@ -68,7 +75,7 @@
 </div>
 
 <script>
-    function openEditDiaryModal(logId, logDate, logNote) {
+    function openEditDiaryModal(logId, logDate, logNote, logWeight) {
         // Set action url dynamically
         const form = document.getElementById('edit-diary-form');
         form.action = `/pet/{{ selected_pet.id }}/daily_log/${logId}/edit/`;
@@ -76,6 +83,11 @@
         // Populate fields
         document.getElementById('edit-diary-date').value = logDate;
         document.getElementById('edit-diary-note').value = logNote;
+        // Populate weight
+        const weightInput = document.getElementById('edit-diary-weight');
+        if (weightInput) {
+            weightInput.value = (typeof logWeight !== 'undefined' && logWeight !== null) ? logWeight : '';
+        }
 
         document.getElementById('edit-diary-modal').classList.remove('hidden');
         document.body.style.overflow = 'hidden';

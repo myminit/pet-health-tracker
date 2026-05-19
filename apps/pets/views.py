@@ -46,13 +46,14 @@ def dashboard_view(request):
     today = date.today()
     nutrition_today_total = NutritionLog.objects.filter(pet=selected_pet, date=today).aggregate(total=Sum('calories_consumed'))['total'] or 0
     
-    # จำลองการคำนวณ RER / DER จากน้ำหนักล่าสุด (ดึงน้ำหนักจากไดอารี่ล่าสุด หรือถ้าไม่มีให้ใช้ค่าเริ่มต้น)
+    # จำลองการคำนวณ RER / DER จากน้ำหนักล่าสุด (ดึงน้ำหนักจากไดอารี่ล่าสุด หรือถ้าไม่มีให้ใช้ค่าชั่วคราวภายในคำนวณเท่านั้น)
     latest_log = daily_logs.first()
-    weight = latest_log.weight_recorded if latest_log else 10.0  # ค่า fallback เผื่อไม่มีบันทึกน้ำหนัก
+    latest_weight = latest_log.weight_recorded if latest_log else None
+    calculation_weight = latest_weight if latest_weight is not None else 10.0
     
     # สูตรคำนวณพลังงานแบบง่าย (คุณสามารถปรับสูตรตรงนี้ตามที่ตกลงกับกลุ่มได้เลยครับ)
     # RER = 70 * (weight ^ 0.75) หรือคิดแบบง่าย 30 * weight + 70
-    rer = int(30 * float(weight) + 70)
+    rer = int(30 * float(calculation_weight) + 70)
     der = int(rer * 1.6)  # สมมติตัวคูณกิจกรรมปกติ
     
     calories_consumed = nutrition_today_total
@@ -135,7 +136,7 @@ def dashboard_view(request):
         'der': der,
         'nutrition_percentage': nutrition_percentage,
         'appointments': appointments,
-        'latest_weight': weight,
+        'latest_weight': latest_weight,
         'weight_svg_path': weight_svg_path,
         'weight_svg_area': weight_svg_area,
         'weight_svg_dots': weight_svg_dots,
@@ -284,10 +285,14 @@ def add_daily_log_view(request, pet_id):
     if request.method == 'POST':
         date_str = request.POST.get('date', '')
         note = request.POST.get('note', '').strip()
+        weight_str = request.POST.get('weight', '').strip()
 
         # Get the latest weight recorded from previous daily logs as fallback
         latest_log = DailyLog.objects.filter(pet=pet).order_by('-date').first()
-        weight_recorded = latest_log.weight_recorded if latest_log else 10.0
+        try:
+            weight_recorded = Decimal(weight_str) if weight_str else (latest_log.weight_recorded if latest_log else Decimal('10.0'))
+        except (InvalidOperation, ValueError):
+            weight_recorded = latest_log.weight_recorded if latest_log else Decimal('10.0')
 
         try:
             log_date = datetime.strptime(date_str, '%Y-%m-%d').date() if date_str else date.today()
@@ -311,6 +316,7 @@ def edit_daily_log_view(request, pet_id, log_id):
     if request.method == 'POST':
         date_str = request.POST.get('date', '')
         note = request.POST.get('note', '').strip()
+        weight_str = request.POST.get('weight', '').strip()
 
         try:
             log_date = datetime.strptime(date_str, '%Y-%m-%d').date() if date_str else date.today()
@@ -319,6 +325,11 @@ def edit_daily_log_view(request, pet_id, log_id):
 
         log.date = log_date
         log.note = note if note else "บันทึกประจำวันทั่วไป"
+        try:
+            if weight_str:
+                log.weight_recorded = Decimal(weight_str)
+        except (InvalidOperation, ValueError):
+            pass
         log.save()
         messages.success(request, 'แก้ไขบันทึกไดอารี่เรียบร้อยแล้ว')
     return redirect(f'/dashboard/?pet_id={pet.id}')
