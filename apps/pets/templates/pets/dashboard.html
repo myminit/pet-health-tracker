@@ -36,10 +36,9 @@
                         {% if pet.photo %}
                         <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="w-full h-full object-cover">
                         {% else %}
+                        <!-- prettier-ignore -->
                         <div class="w-full h-full bg-primary/10 flex items-center justify-center text-base">
-                            {% with pet_type=pet.pet_type|upper %}
-                                {% if pet_type == 'DOG' %}🐶{% elif pet_type == 'CAT' %}🐱{% elif pet_type == 'RABBIT' %}🐰{% elif pet_type == 'BIRD' %}🐦{% else %}🐾{% endif %}
-                            {% endwith %}
+                            {% if pet.pet_type|lower == 'dog' %}🐶{% elif pet.pet_type|lower == 'cat' %}🐱{% elif pet.pet_type|lower == 'rabbit' %}🐰{% elif pet.pet_type|lower == 'bird' %}🐦{% else %}🐾{% endif %}
                         </div>
                         {% endif %}
                     </div>
