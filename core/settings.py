@@ -16,6 +16,11 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# เพิ่มลิงก์ Render ของคุณเข้าไปในระบบความปลอดภัย
+CSRF_TRUSTED_ORIGINS = [
+    'https://pet-health-tracker-njj5.onrender.com',
+    'https://*.onrender.com',
+]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -26,7 +31,13 @@ SECRET_KEY = 'django-insecure-v_du7za$^c)c$-=pl7=%5c+jru9$2)$2uwqd#ml6oto2m29g_%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+# ระบุโดเมนเว็บจริงของคุณให้ชัดเจนเพื่อให้ระบบยอมรับฟอร์ม Login
+ALLOWED_HOSTS = [
+    'pet-health-tracker-njj5.onrender.com',
+    '127.0.0.1',
+    'localhost',
+    '*' # ใส่ดาวทิ้งท้ายไว้กันรันบน Local เครื่องเพื่อนพัง
+]
 
 
 # Application definition
