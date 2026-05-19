@@ -23,6 +23,9 @@ class Pet(models.Model):
     gender = models.CharField(max_length=2, choices=GENDER_CHOICES, default='M', verbose_name="เพศ")
     breed = models.CharField(max_length=100, blank=True, null=True, verbose_name="สายพันธุ์")
     birth_date = models.DateField(verbose_name="วันเกิด")
+    # เป้าหมายแคลอรีต่อวัน (kcal)
+    calorie_goal = models.IntegerField(default=0, verbose_name="เป้าหมายแคลอรี/วัน (kcal)")
+    notes = models.TextField(blank=True, default="", verbose_name="โน้ตเพิ่มเติม")
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

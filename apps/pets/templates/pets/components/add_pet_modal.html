@@ -1,68 +1,144 @@
-<!-- Add Pet Modal -->
-<div id="add-pet-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center">
-    <!-- Backdrop -->
-    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeAddPetModal()"></div>
+<!-- add_pet_modal.html -->
+<!-- Usage: include 'pets/components/add_pet_modal.html' -->
+<!-- Trigger: openAddPetModal() -->
 
-    <!-- Modal Box -->
-    <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+<div id="add-pet-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div
+        class="relative bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-modal-in hide-scrollbar">
+
+        <!-- Decorative top strip -->
+        <div class="h-1.5 w-full bg-gradient-to-r from-primary via-primary/70 to-primary/30"></div>
+
         <!-- Header -->
-        <div class="px-6 pt-6 pb-4 border-b border-black/5">
+        <div class="px-6 pt-5 pb-4 border-b border-black/5 relative">
             <button type="button" onclick="closeAddPetModal()"
-                class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-text-muted transition-colors border-0 cursor-pointer">
+                class="absolute top-5 right-5 w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-text-muted transition-colors border-0 cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-            <h2 class="text-lg font-bold text-text-dark">เพิ่มสัตว์เลี้ยงใหม่</h2>
-            <p class="text-sm text-text-muted mt-0.5">กรอกข้อมูลเพื่อลงทะเบียนสัตว์เลี้ยงในระบบ PawPal</p>
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-lg">🐾</div>
+                <div>
+                    <h2 class="text-lg font-bold text-text-dark">เพิ่มสัตว์เลี้ยง</h2>
+                    <p class="text-xs text-text-muted mt-0.5">กรอกข้อมูลน้องของคุณ</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Form -->
-        <form method="POST" action="{% url 'pets:add_pet' %}" class="px-6 py-5 flex flex-col gap-4">
+        <form id="add-pet-form" method="POST" action="{% url 'pets:add_pet' %}" class="px-8 pb-8">
             {% csrf_token %}
 
-            <!-- ชื่อสัตว์เลี้ยง -->
-            <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium text-text-dark">ชื่อสัตว์เลี้ยง</label>
-                <input type="text" name="name" placeholder="ระบุชื่อ เช่น บัดดี้, เจ้าขาว" required
-                    class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+            <!-- ประเภท -->
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-text-dark mb-3">ประเภท</label>
+                <div class="grid grid-cols-5 gap-2" id="add-pet-type-group">
+                    {% for value, emoji, label in pet_type_choices %}
+                    <label
+                        class="pet-type-card flex flex-col items-center gap-2 p-3 rounded-2xl border-2 cursor-pointer transition-all
+                        {% if forloop.first %}border-primary bg-primary/5{% else %}border-black/8 bg-white hover:border-primary/40{% endif %}">
+                        <input type="radio" name="pet_type" value="{{ value }}" class="sr-only" {% if forloop.first
+                            %}checked{% endif %}>
+                        <span class="text-3xl">{{ emoji }}</span>
+                        <span class="text-xs font-medium text-text-dark">{{ label }}</span>
+                    </label>
+                    {% empty %}
+                    <label
+                        class="pet-type-card flex flex-col items-center gap-2 p-3 rounded-2xl border-2 border-primary bg-primary/5 cursor-pointer transition-all">
+                        <input type="radio" name="pet_type" value="dog" class="sr-only" checked>
+                        <span class="text-3xl">🐶</span>
+                        <span class="text-xs font-medium text-text-dark">สุนัข</span>
+                    </label>
+                    <label
+                        class="pet-type-card flex flex-col items-center gap-2 p-3 rounded-2xl border-2 border-black/8 bg-white hover:border-primary/40 cursor-pointer transition-all">
+                        <input type="radio" name="pet_type" value="cat" class="sr-only">
+                        <span class="text-3xl">🐱</span>
+                        <span class="text-xs font-medium text-text-dark">แมว</span>
+                    </label>
+                    <label
+                        class="pet-type-card flex flex-col items-center gap-2 p-3 rounded-2xl border-2 border-black/8 bg-white hover:border-primary/40 cursor-pointer transition-all">
+                        <input type="radio" name="pet_type" value="rabbit" class="sr-only">
+                        <span class="text-3xl">🐰</span>
+                        <span class="text-xs font-medium text-text-dark">กระต่าย</span>
+                    </label>
+                    <label
+                        class="pet-type-card flex flex-col items-center gap-2 p-3 rounded-2xl border-2 border-black/8 bg-white hover:border-primary/40 cursor-pointer transition-all">
+                        <input type="radio" name="pet_type" value="bird" class="sr-only">
+                        <span class="text-3xl">🐦</span>
+                        <span class="text-xs font-medium text-text-dark">นก</span>
+                    </label>
+                    <label
+                        class="pet-type-card flex flex-col items-center gap-2 p-3 rounded-2xl border-2 border-black/8 bg-white hover:border-primary/40 cursor-pointer transition-all">
+                        <input type="radio" name="pet_type" value="other" class="sr-only">
+                        <span class="text-3xl">🐾</span>
+                        <span class="text-xs font-medium text-text-dark">อื่นๆ</span>
+                    </label>
+                    {% endfor %}
+                </div>
             </div>
 
-            <!-- ประเภทสัตว์เลี้ยง -->
-            <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium text-text-dark">ประเภทสัตว์เลี้ยง</label>
-                <select name="pet_type" required
-                    class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
-                    <option value="DOG" selected>สุนัข</option>
-                    <option value="CAT">แมว</option>
-                    <option value="RABBIT">กระต่าย</option>
-                    <option value="OTHER">อื่นๆ</option>
-                </select>
+            <!-- ชื่อเล่น + สายพันธุ์ -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-semibold text-text-dark mb-2">ชื่อเล่น</label>
+                    <input type="text" name="name" required placeholder="เช่น ขนมปัง"
+                        class="w-full bg-primary/5 border-0 rounded-2xl px-4 py-3 text-sm text-text-dark placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-text-dark mb-2">สายพันธุ์</label>
+                    <input type="text" name="breed" required placeholder="เช่น Golden Retriever"
+                        class="w-full bg-primary/5 border-0 rounded-2xl px-4 py-3 text-sm text-text-dark placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all">
+                </div>
             </div>
 
-            <!-- เพศ -->
-            <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium text-text-dark">เพศ</label>
-                <select name="gender" required
-                    class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
-                    <option value="M" selected>♂ ผู้</option>
-                    <option value="F">♀ เมีย</option>
-                </select>
+            <!-- วันเกิด + น้ำหนัก -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-semibold text-text-dark mb-2">วันเกิด</label>
+                    <input type="date" name="birth_date" required
+                        class="w-full bg-primary/5 border-0 rounded-2xl px-4 py-3 text-sm text-text-dark focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-text-dark mb-2">น้ำหนัก (กก.)</label>
+                    <input type="number" name="weight" required step="0.01" min="0" placeholder="0.00"
+                        class="w-full bg-primary/5 border-0 rounded-2xl px-4 py-3 text-sm text-text-dark placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all">
+                </div>
             </div>
 
-            <!-- สายพันธุ์ -->
-            <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium text-text-dark">สายพันธุ์</label>
-                <input type="text" name="breed" placeholder="ระบุสายพันธุ์ เช่น บลูเทอร์เรีย, ไทยผสม"
-                    class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+            <!-- เป้าหมายแคลอรี + เพศ -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-semibold text-text-dark mb-2">เป้าหมายแคลอรี/วัน (kcal)</label>
+                    <div class="relative">
+                        <input type="number" name="calorie_goal" required min="0" placeholder="500" inputmode="numeric"
+                            class="w-full bg-primary/5 border-0 rounded-2xl px-4 py-3 pr-16 text-sm text-text-dark placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all">
+                        <span
+                            class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-text-muted">kcal</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-text-dark mb-2">เพศ</label>
+                    <div class="flex gap-3">
+                        <label
+                            class="flex items-center gap-2 bg-primary/5 rounded-2xl px-5 py-3 cursor-pointer border-2 border-transparent has-[:checked]:border-primary has-[:checked]:bg-primary/10 transition-all">
+                            <input type="radio" name="gender" value="M" class="sr-only" checked>
+                            <span class="text-sm font-medium text-text-dark">♂ ผู้</span>
+                        </label>
+                        <label
+                            class="flex items-center gap-2 bg-primary/5 rounded-2xl px-5 py-3 cursor-pointer border-2 border-transparent has-[:checked]:border-primary has-[:checked]:bg-primary/10 transition-all">
+                            <input type="radio" name="gender" value="F" class="sr-only">
+                            <span class="text-sm font-medium text-text-dark">♀ เมีย</span>
+                        </label>
+                    </div>
+                </div>
             </div>
 
-            <!-- วันเกิด -->
-            <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium text-text-dark">วันเกิด</label>
-                <input type="date" name="birth_date" required
-                    class="w-full px-4 py-2.5 rounded-xl border border-black/10 bg-bg-color text-text-dark text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">
+            <!-- โน้ตเพิ่มเติม -->
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-text-dark mb-2">โน้ตเพิ่มเติม</label>
+                <textarea name="notes" rows="3" placeholder="นิสัย, โรคประจำตัว, อาหารโปรด..."
+                    class="w-full bg-primary/5 border-0 rounded-2xl px-4 py-3 text-sm text-text-dark placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none"></textarea>
             </div>
 
             <!-- Buttons -->
@@ -71,22 +147,119 @@
                     class="px-5 py-2.5 rounded-xl border border-black/10 text-sm font-medium text-text-dark hover:bg-black/5 transition-colors cursor-pointer bg-white">
                     ยกเลิก
                 </button>
-                <button type="submit"
-                    class="px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-hover transition-colors cursor-pointer border-0">
-                    บันทึก
+                <button id="add-pet-submit" type="submit" disabled
+                    class="px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold transition-colors border-0 flex items-center gap-2 opacity-50 cursor-not-allowed">
+                    + เพิ่มสัตว์เลี้ยง
                 </button>
             </div>
         </form>
     </div>
 </div>
 
+<style>
+    @keyframes modal-in {
+        from {
+            opacity: 0;
+            transform: scale(0.95) translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    .animate-modal-in {
+        animation: modal-in 0.2s ease-out both;
+    }
+
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+
 <script>
     function openAddPetModal() {
-        document.getElementById('add-pet-modal').classList.remove('hidden');
+        const modal = document.getElementById('add-pet-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
         document.body.style.overflow = 'hidden';
+        setTimeout(updateAddPetSubmitState, 0);
     }
+
     function closeAddPetModal() {
-        document.getElementById('add-pet-modal').classList.add('hidden');
+        const modal = document.getElementById('add-pet-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
         document.body.style.overflow = '';
     }
+
+    function updateAddPetSubmitState() {
+        const addPetForm = document.getElementById('add-pet-form');
+        const addPetSubmit = document.getElementById('add-pet-submit');
+        if (!addPetForm || !addPetSubmit) return;
+
+        const name = addPetForm.querySelector('[name="name"]').value.trim();
+        const petType = addPetForm.querySelector('[name="pet_type"]:checked');
+        const breed = addPetForm.querySelector('[name="breed"]').value.trim();
+        const birthDate = addPetForm.querySelector('[name="birth_date"]').value;
+        const weight = addPetForm.querySelector('[name="weight"]').value;
+        const calorieGoal = addPetForm.querySelector('[name="calorie_goal"]').value;
+
+        const isValid = Boolean(petType) && name !== '' && breed !== '' && birthDate !== '' && weight !== '' && calorieGoal !== '';
+
+        addPetSubmit.disabled = !isValid;
+        addPetSubmit.classList.toggle('opacity-50', !isValid);
+        addPetSubmit.classList.toggle('cursor-not-allowed', !isValid);
+        addPetSubmit.classList.toggle('hover:bg-primary-hover', isValid);
+        addPetSubmit.classList.toggle('cursor-pointer', isValid);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const addModal = document.getElementById('add-pet-modal');
+        const addPetForm = document.getElementById('add-pet-form');
+        if (!addModal) return;
+
+        // Pet type card selection highlight
+        addModal.querySelectorAll('#add-pet-type-group .pet-type-card input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                addModal.querySelectorAll('#add-pet-type-group .pet-type-card').forEach(card => {
+                    card.classList.remove('border-primary', 'bg-primary/5');
+                    card.classList.add('border-black/8', 'bg-white');
+                });
+                if (this.checked) {
+                    this.closest('.pet-type-card').classList.add('border-primary', 'bg-primary/5');
+                    this.closest('.pet-type-card').classList.remove('border-black/8', 'bg-white');
+                }
+            });
+        });
+
+        // Listen to all input/change events for submit state
+        if (addPetForm) {
+            addPetForm.addEventListener('input', updateAddPetSubmitState);
+            addPetForm.addEventListener('change', updateAddPetSubmitState);
+            addPetForm.addEventListener('submit', function (e) {
+                const name = addPetForm.querySelector('[name="name"]').value.trim();
+                const petType = addPetForm.querySelector('[name="pet_type"]:checked');
+                const breed = addPetForm.querySelector('[name="breed"]').value.trim();
+                const birthDate = addPetForm.querySelector('[name="birth_date"]').value;
+                const weight = addPetForm.querySelector('[name="weight"]').value;
+                const calorieGoal = addPetForm.querySelector('[name="calorie_goal"]').value;
+                const isValid = Boolean(petType) && name !== '' && breed !== '' && birthDate !== '' && weight !== '' && calorieGoal !== '';
+                if (!isValid) e.preventDefault();
+            });
+        }
+
+        // Close on backdrop click
+        addModal.addEventListener('click', function (e) {
+            if (e.target === addModal) closeAddPetModal();
+        });
+
+        updateAddPetSubmitState();
+    });
 </script>

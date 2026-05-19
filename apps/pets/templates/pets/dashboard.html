@@ -36,7 +36,11 @@
                         {% if pet.photo %}
                         <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="w-full h-full object-cover">
                         {% else %}
-                        <div class="w-full h-full bg-primary/10 flex items-center justify-center text-base">🐾</div>
+                        <div class="w-full h-full bg-primary/10 flex items-center justify-center text-base">
+                            {% with pet_type=pet.pet_type|upper %}
+                                {% if pet_type == 'DOG' %}🐶{% elif pet_type == 'CAT' %}🐱{% elif pet_type == 'RABBIT' %}🐰{% elif pet_type == 'BIRD' %}🐦{% else %}🐾{% endif %}
+                            {% endwith %}
+                        </div>
                         {% endif %}
                     </div>
                     <span

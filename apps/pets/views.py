@@ -243,6 +243,8 @@ def edit_pet_view(request, pet_id):
         pet.pet_type = request.POST.get('pet_type', 'DOG').strip()
         pet.gender = request.POST.get('gender', 'M').strip()
         pet.breed = request.POST.get('breed', '').strip()
+        pet.notes = request.POST.get('notes', '').strip()
+        calorie_goal_str = request.POST.get('calorie_goal', '').strip()
         
         birth_date_str = request.POST.get('birth_date', '')
         if birth_date_str:
@@ -251,6 +253,11 @@ def edit_pet_view(request, pet_id):
             except ValueError:
                 messages.error(request, 'รูปแบบวันเกิดไม่ถูกต้อง')
                 return redirect(f'/dashboard/?pet_id={pet.id}')
+
+        try:
+            pet.calorie_goal = max(int(calorie_goal_str), 0) if calorie_goal_str else 0
+        except ValueError:
+            pet.calorie_goal = 0
 
         pet.save()
         messages.success(request, 'แก้ไขโปรไฟล์สัตว์เลี้ยงเรียบร้อยแล้ว')
@@ -265,27 +272,40 @@ def add_pet_view(request):
         pet_type = request.POST.get('pet_type', 'DOG').strip()
         breed = request.POST.get('breed', '').strip()
         gender = request.POST.get('gender', 'M').strip()
-        
+        notes = request.POST.get('notes', '').strip()
+        calorie_goal_str = request.POST.get('calorie_goal', '').strip()
+        birth_date_str = request.POST.get('birth_date', '').strip()
+
+        # ✅ validate birth_date ก่อนเลย
+        if not birth_date_str:
+            messages.error(request, 'กรุณากรอกวันเกิด')
+            return redirect('pets:dashboard')
+
+        try:
+            birth_date = datetime.strptime(birth_date_str, '%Y-%m-%d').date()
+        except ValueError:
+            messages.error(request, 'รูปแบบวันเกิดไม่ถูกต้อง')
+            return redirect('pets:dashboard')
+
+        try:
+            calorie_goal = max(int(calorie_goal_str), 0) if calorie_goal_str else 0
+        except ValueError:
+            calorie_goal = 0
+
         pet = Pet(
             owner=request.user,
             name=name,
             pet_type=pet_type,
             breed=breed,
-            gender=gender
+            gender=gender,
+            notes=notes,
+            calorie_goal=calorie_goal,
+            birth_date=birth_date,  
         )
-        
-        birth_date_str = request.POST.get('birth_date', '')
-        if birth_date_str:
-            try:
-                pet.birth_date = datetime.strptime(birth_date_str, '%Y-%m-%d').date()
-            except ValueError:
-                messages.error(request, 'รูปแบบวันเกิดไม่ถูกต้อง')
-                return redirect('pets:dashboard')
-                
         pet.save()
         messages.success(request, f'เพิ่ม {pet.name} เข้าสู่ระบบสำเร็จแล้ว')
         return redirect(f'/dashboard/?pet_id={pet.id}')
-        
+
     return redirect('pets:dashboard')
 
 
