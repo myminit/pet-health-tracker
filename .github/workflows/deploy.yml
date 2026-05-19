@@ -8,7 +8,6 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     
-    # 🟢 สั่งให้ GitHub เปิดฐานข้อมูล PostgreSQL จำลองขึ้นมาในระบบของมันเองเลย
     services:
       postgres:
         image: postgres:latest
@@ -18,7 +17,6 @@ jobs:
           POSTGRES_PASSWORD: BqPuom2y6FWdK2TbUJ8HioA6nEXh85G8
         ports:
           - 5432:5432
-        # รอให้ Postgres บูตตัวเองให้เสร็จก่อนรันโค้ด
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -34,13 +32,18 @@ jobs:
       with:
         python-version: '3.11'
 
+    # 🟢 1. สเต็ปที่ต้องเพิ่ม: ติดตั้งไลบรารีฐานข้อมูลให้เครื่อง Ubuntu ของ GitHub ก่อน
+    - name: Install PostgreSQL Client Libraries
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libpq-dev postgresql-client
+
     - name: Install Dependencies
-      # 💡 ส่งค่า Env เข้าโค้ด settings.py ให้ตรงกับ Postgres จำลองด้านบน
       env:
         DB_NAME: 'pet_health_db_9k05'
         DB_USER: 'admin01'
         DB_PASSWORD: 'BqPuom2y6FWdK2TbUJ8HioA6nEXh85G8'
-        DB_HOST: 'localhost' # รันในตัว GitHub เองเลยใช้ localhost
+        DB_HOST: 'localhost'
         DB_PORT: '5432'
       run: |
         python -m pip install --upgrade pip
