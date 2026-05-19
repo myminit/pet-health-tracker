@@ -16,11 +16,16 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+RENDER_EXTERNAL_HOSTNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME', '').strip()
+
 # เพิ่มลิงก์ Render ของคุณเข้าไปในระบบความปลอดภัย
 CSRF_TRUSTED_ORIGINS = [
     'https://pet-health-tracker-njj5.onrender.com',
     'https://*.onrender.com',
 ]
+
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.insert(0, f'https://{RENDER_EXTERNAL_HOSTNAME}')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
