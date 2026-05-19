@@ -17,5 +17,11 @@ class NutritionLogAdmin(admin.ModelAdmin):
 
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('title', 'pet', 'due_date', 'is_completed')
-    list_filter = ('is_completed', 'due_date')
+    list_display = ('title', 'pet', 'due_date', 'time', 'is_completed', 'short_note')
+    list_filter = ('is_completed', 'due_date', 'pet')
+    search_fields = ('title', 'pet__name', 'note')
+
+    def short_note(self, obj):
+        return (obj.note[:40] + '...') if obj.note and len(obj.note) > 40 else obj.note
+
+    short_note.short_description = 'หมายเหตุ'

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
+from django.http import JsonResponse
 from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
 from .daily_tip import get_daily_tip
@@ -147,6 +148,7 @@ def dashboard_view(request):
             {'value': value, 'label': label}
             for value, label in NutritionLog.MEAL_TYPE_CHOICES
         ],
+        'selected_calendar_date': request.GET.get('selected_date', ''),
     })
     
     return render(request, 'pets/dashboard.html', context)
@@ -387,4 +389,56 @@ def add_nutrition_log_view(request, pet_id):
         )
 
         messages.success(request, 'บันทึกโภชนาการเรียบร้อยแล้ว')
+    return redirect(f'/dashboard/?pet_id={pet.id}')
+@login_required
+def add_appointment(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id, owner=request.user)
+    if request.method == 'POST':
+        title    = request.POST.get('title', '').strip()
+        due_date = request.POST.get('due_date')
+        time     = request.POST.get('time') or None
+        note     = request.POST.get('note', '').strip()
+        due_date_obj = None
+
+        if due_date:
+            try:
+                due_date_obj = datetime.strptime(due_date, '%Y-%m-%d').date()
+            except ValueError:
+                due_date_obj = None
+
+        if title and due_date:
+            Appointment.objects.create(
+                pet=pet, title=title, due_date=due_date, time=time, note=note,
+            )
+        if due_date_obj:
+            return redirect(
+                f'/dashboard/?pet_id={pet.id}&year={due_date_obj.year}&month={due_date_obj.month}&selected_date={due_date_obj.isoformat()}'
+            )
+
+    return redirect(f'/dashboard/?pet_id={pet.id}')
+
+
+@login_required
+def toggle_appointment(request, pet_id, appointment_id):
+    pet = get_object_or_404(Pet, id=pet_id, owner=request.user)
+    appointment = get_object_or_404(Appointment, id=appointment_id, pet=pet)
+    is_ajax = request.headers.get('x-requested-with') == 'XMLHttpRequest'
+
+    if request.method == 'POST':
+        appointment.is_completed = not appointment.is_completed
+        appointment.save(update_fields=['is_completed'])
+
+        if is_ajax:
+            return JsonResponse({
+                'success': True,
+                'is_completed': appointment.is_completed,
+            })
+
+        next_url = request.POST.get('next', '').strip()
+        if next_url.startswith('/'):
+            return redirect(next_url)
+
+    if is_ajax:
+        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+
     return redirect(f'/dashboard/?pet_id={pet.id}')

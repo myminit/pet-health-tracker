@@ -161,7 +161,8 @@
                                         <button type="button"
                                             class="edit-diary-btn w-full text-left px-3 py-1.5 text-xs text-text-dark hover:bg-black/5 border-0 bg-transparent cursor-pointer font-medium flex items-center gap-1.5"
                                             data-log-id="{{ log.id }}" data-log-date="{{ log.date|date:'Y-m-d' }}"
-                                            data-log-note="{{ log.note|escape }}" data-log-weight="{{ log.weight_recorded }}">
+                                            data-log-note="{{ log.note|escape }}"
+                                            data-log-weight="{{ log.weight_recorded }}">
                                             ✏️ แก้ไข
                                         </button>
                                         <form method="POST"
@@ -237,7 +238,7 @@
                         <h2 class="font-semibold text-text-dark text-lg">แนวโน้มน้ำหนัก</h2>
                         <div class="flex items-center gap-2 mt-0.5">
                             <p class="text-sm text-text-muted">พลอตอัตโนมัติจากบันทึกประจำวัน</p>
-                           
+
                         </div>
                     </div>
                     <div class="text-xs text-text-muted font-semibold">7 วันล่าสุด</div>
@@ -274,8 +275,8 @@
                 </div>
                 <div class="flex items-center justify-between pt-4 border-t border-black/5">
                     <span class="text-base text-text-muted">น้ำหนักล่าสุด</span>
-                    <span class="text-2xl font-bold text-primary">{% if latest_weight is not None %}{{ latest_weight }}{% endif %} <span
-                            class="text-base">กก.</span></span>
+                    <span class="text-2xl font-bold text-primary">{% if latest_weight is not None %}{{ latest_weight
+                        }}{% endif %} <span class="text-base">กก.</span></span>
                 </div>
             </div>
         </div>
@@ -321,29 +322,30 @@
                         <span>นัดหมาย</span>
                         <span id="selected-date-label" class="text-xs text-text-muted font-normal"></span>
                     </h2>
-                    <button
-                        class="w-7 h-7 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all text-lg font-light leading-none">+</button>
+                    <button type="button" id="open-add-appointment-btn"
+                        class="w-7 h-7 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all text-lg font-light leading-none border-0 cursor-pointer">+</button>
                 </div>
                 <div class="flex flex-col gap-2 mt-2" id="appointments-container">
                     {% for app in appointments %}
-                    <label class="appointment-item flex items-center gap-2.5 cursor-pointer group"
-                        data-date="{{ app.due_date|date:'Y-m-d' }}">
-                        {% if app.is_completed %}
-                        <div
-                            class="w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center shrink-0 transition-all">
-                            <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <span class="text-sm text-primary line-through">{{ app.title }}</span>
-                        {% else %}
-                        <div
-                            class="w-5 h-5 rounded-full border-2 border-black/15 flex items-center justify-center shrink-0 transition-all">
-                        </div>
-                        <span class="text-sm text-text-dark">{{ app.title }}</span>
-                        {% endif %}
-                    </label>
+                    <form method="POST" action="{% url 'pets:toggle_appointment' selected_pet.id app.id %}"
+                        class="appointment-item appointment-toggle-form" data-date="{{ app.due_date|date:'Y-m-d' }}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+                        <button type="submit"
+                            class="appointment-toggle-btn w-full flex items-center gap-2.5 cursor-pointer group bg-transparent border-0 p-0 text-left"
+                            data-completed="{% if app.is_completed %}true{% else %}false{% endif %}">
+                            <div
+                                class="appointment-toggle-circle w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all {% if app.is_completed %}border-primary bg-primary{% else %}border-black/15 group-hover:border-primary/50{% endif %}">
+                                <svg
+                                    class="appointment-check-icon w-3 h-3 text-white {% if not app.is_completed %}hidden{% endif %}"
+                                    fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <span
+                                class="appointment-title text-sm {% if app.is_completed %}text-primary line-through{% else %}text-text-dark group-hover:text-primary{% endif %}">{{ app.title }}</span>
+                        </button>
+                    </form>
                     {% empty %}
                     <div class="text-xs text-text-muted text-center py-4">ไม่มีนัดหมายสำหรับสัตว์เลี้ยงตัวนี้</div>
                     {% endfor %}
@@ -374,6 +376,7 @@
         {% include 'pets/components/add_diary_modal.html' %}
         {% include 'pets/components/edit_diary_modal.html' %}
         {% include 'pets/components/add_nutrition_modal.html' %}
+        {% include 'pets/components/add_appointment_modal.html' %}
         {% endif %}
         {% include 'pets/components/add_pet_modal.html' %}
 
@@ -392,6 +395,10 @@
                 const noAppPlaceholder = document.getElementById('no-appointments-placeholder');
                 const selectedDateLabel = document.getElementById('selected-date-label');
                 const showAllBtn = document.getElementById('show-all-appointments-btn');
+                const requestedSelectedDate = "{{ selected_calendar_date|default:'' }}";
+
+                let currentCalendarDate = null;
+                let currentCalendarLabel = null;
 
                 function filterAppointments(selectedDate, formattedDateStr) {
                     let visibleCount = 0;
@@ -424,6 +431,9 @@
                 }
 
                 function showAllAppointments() {
+                    currentCalendarDate = null;
+                    currentCalendarLabel = null;
+
                     appointmentItems.forEach(item => {
                         item.classList.remove('hidden');
                     });
@@ -464,10 +474,10 @@
                             this.classList.remove('text-text-dark');
                         }
 
-                        const selectedDate = this.getAttribute('data-date');
-                        const formattedDateStr = this.getAttribute('data-formatted-date');
+                        currentCalendarDate = this.getAttribute('data-date');
+                        currentCalendarLabel = this.getAttribute('data-formatted-date');
 
-                        filterAppointments(selectedDate, formattedDateStr);
+                        filterAppointments(currentCalendarDate, currentCalendarLabel);
                     });
                 });
 
@@ -475,12 +485,27 @@
                     showAllBtn.addEventListener('click', showAllAppointments);
                 }
 
-                // On load: select today automatically if it exists in current calendar view
+                // On load: prioritize the date passed from backend, fallback to today
+                const requestedCell = requestedSelectedDate
+                    ? Array.from(calendarDays).find(day => day.getAttribute('data-date') === requestedSelectedDate)
+                    : null;
                 const todayCell = Array.from(calendarDays).find(day => day.getAttribute('data-is-today') === 'true');
-                if (todayCell) {
+
+                if (requestedCell) {
+                    requestedCell.click();
+                } else if (todayCell) {
                     todayCell.click();
                 } else {
                     showAllAppointments();
+                }
+
+                // Wire add-appointment button to use the in-scope calendar selection
+                const addAppointmentBtn = document.getElementById('open-add-appointment-btn');
+                if (addAppointmentBtn) {
+                    addAppointmentBtn.addEventListener('click', function () {
+                        // use currentCalendarDate/currentCalendarLabel from this closure
+                        openAddAppointmentModal(currentCalendarDate, currentCalendarLabel);
+                    });
                 }
 
                 // Toggle diary dropdown menus
@@ -505,6 +530,63 @@
                 document.querySelectorAll('.edit-diary-btn').forEach(button => {
                     button.addEventListener('click', function () {
                         openEditDiaryModal(this.dataset.logId, this.dataset.logDate, this.dataset.logNote, this.dataset.logWeight);
+                    });
+                });
+
+                function setAppointmentVisual(form, isCompleted) {
+                    const toggleBtn = form.querySelector('.appointment-toggle-btn');
+                    const circle = form.querySelector('.appointment-toggle-circle');
+                    const icon = form.querySelector('.appointment-check-icon');
+                    const title = form.querySelector('.appointment-title');
+
+                    if (!toggleBtn || !circle || !icon || !title) return;
+
+                    toggleBtn.dataset.completed = isCompleted ? 'true' : 'false';
+
+                    if (isCompleted) {
+                        circle.classList.add('border-primary', 'bg-primary');
+                        circle.classList.remove('border-black/15', 'group-hover:border-primary/50');
+                        icon.classList.remove('hidden');
+                        title.classList.add('text-primary', 'line-through');
+                        title.classList.remove('text-text-dark', 'group-hover:text-primary');
+                    } else {
+                        circle.classList.remove('border-primary', 'bg-primary');
+                        circle.classList.add('border-black/15', 'group-hover:border-primary/50');
+                        icon.classList.add('hidden');
+                        title.classList.remove('text-primary', 'line-through');
+                        title.classList.add('text-text-dark', 'group-hover:text-primary');
+                    }
+                }
+
+                document.querySelectorAll('.appointment-toggle-form').forEach(form => {
+                    form.addEventListener('submit', async function (e) {
+                        e.preventDefault();
+
+                        try {
+                            const response = await fetch(form.action, {
+                                method: 'POST',
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                },
+                                body: new FormData(form),
+                                credentials: 'same-origin',
+                            });
+
+                            if (!response.ok) {
+                                form.submit();
+                                return;
+                            }
+
+                            const data = await response.json();
+                            if (data && data.success) {
+                                setAppointmentVisual(form, !!data.is_completed);
+                                return;
+                            }
+                        } catch (error) {
+                            // Fallback to normal submit when fetch fails
+                        }
+
+                        form.submit();
                     });
                 });
             });

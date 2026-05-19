@@ -111,6 +111,8 @@ class Appointment(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name='appointments', verbose_name="สัตว์เลี้ยง")
     title = models.CharField(max_length=200, verbose_name="หัวข้อนัดหมาย/กิจกรรม")
     due_date = models.DateField(verbose_name="วันที่นัดหมาย")
+    time = models.TimeField(blank=True, null=True, verbose_name="เวลา")
+    note = models.TextField(blank=True, default="", verbose_name="หมายเหตุ")
     
     # สถานะว่าทำกิจกรรมนี้สำเร็จหรือยัง (True = ติ๊กถูกสีส้มบนจอ / False = วงกลมว่างๆ)
     is_completed = models.BooleanField(default=False, verbose_name="ทำสำเร็จแล้ว")
