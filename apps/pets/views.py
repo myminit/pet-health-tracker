@@ -52,6 +52,7 @@ def dashboard_view(request):
     # จำลองการคำนวณ RER / DER จากน้ำหนักล่าสุด (ดึงน้ำหนักจากไดอารี่ล่าสุด หรือถ้าไม่มีให้ใช้ค่าชั่วคราวภายในคำนวณเท่านั้น)
     latest_log = daily_logs.first()
     latest_weight = latest_log.weight_recorded if latest_log else None
+    latest_weight_display = f"{float(latest_weight):.1f}" if latest_weight is not None else None
     calculation_weight = latest_weight if latest_weight is not None else 10.0
     
     # สูตรคำนวณพลังงานแบบง่าย (คุณสามารถปรับสูตรตรงนี้ตามที่ตกลงกับกลุ่มได้เลยครับ)
@@ -140,6 +141,7 @@ def dashboard_view(request):
         'nutrition_percentage': nutrition_percentage,
         'appointments': appointments,
         'latest_weight': latest_weight,
+        'latest_weight_display': latest_weight_display,
         'weight_svg_path': weight_svg_path,
         'weight_svg_area': weight_svg_area,
         'weight_svg_dots': weight_svg_dots,

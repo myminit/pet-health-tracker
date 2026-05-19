@@ -69,7 +69,7 @@
                         {% if selected_pet.gender == 'M' %}♂ ผู้{% else %}♀ เมีย{% endif %}
                     </span>
                     <span class="font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded-lg">
-                        {{ latest_weight }} กก.
+                        {% if latest_weight_display %}{{ latest_weight_display }} กก.{% else %}ยังไม่มีน้ำหนัก{% endif %}
                     </span>
                 </div>
             </div>
@@ -278,8 +278,9 @@
                 </div>
                 <div class="flex items-center justify-between pt-4 border-t border-black/5">
                     <span class="text-base text-text-muted">น้ำหนักล่าสุด</span>
-                    <span class="text-2xl font-bold text-primary">{% if latest_weight is not None %}{{ latest_weight
-                        }}{% endif %} <span class="text-base">กก.</span></span>
+                    <span class="text-2xl font-bold text-primary">
+                        {% if latest_weight_display %}{{ latest_weight_display }} <span class="text-base">กก.</span>{% else %}<span class="text-base text-text-muted">ยังไม่มีน้ำหนัก</span>{% endif %}
+                    </span>
                 </div>
             </div>
         </div>
