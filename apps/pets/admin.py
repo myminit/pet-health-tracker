@@ -8,8 +8,8 @@ class PetAdmin(admin.ModelAdmin):
 
 @admin.register(DailyLog)
 class DailyLogAdmin(admin.ModelAdmin):
-    list_display = ('pet', 'date', 'weight_recorded', 'note')
-    list_filter = ('pet', 'date')
+    list_display = ('pet', 'date', 'mood', 'weight_recorded', 'note')
+    list_filter = ('pet', 'date', 'mood')
 
 @admin.register(NutritionLog)
 class NutritionLogAdmin(admin.ModelAdmin):

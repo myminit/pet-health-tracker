@@ -115,8 +115,16 @@ def dashboard_view(request):
     context = get_calendar_context(request, appointment_dates=appointment_dates)
     
     # 7. แพ็ครวมข้อมูลทั้งหมดส่งไปให้หน้า HTML เผยแพร่ร่างทรง
+    diary_activity_choices = [
+        ('walk', 'เดินเล่น', '🚶'),
+        ('play', 'เล่นของเล่น', '🎾'),
+        ('bath', 'อาบน้ำ', '🛁'),
+        ('vet', 'ไปหาหมอ', '🏥'),
+        ('rest', 'พักผ่อน', '😴'),
+        ('groom', 'ตัดขน', '✂️'),
+    ]
+
     context.update({
-        
         'my_pets': my_pets,
         'selected_pet': selected_pet,
         'daily_logs': daily_logs,
@@ -131,6 +139,7 @@ def dashboard_view(request):
         'weight_svg_dots': weight_svg_dots,
         'weight_svg_labels': weight_svg_labels,
         'daily_tip': get_daily_tip(selected_pet),
+        'diary_activity_choices': diary_activity_choices,
     })
     
     return render(request, 'pets/dashboard.html', context)
@@ -261,3 +270,59 @@ def add_pet_view(request):
         return redirect(f'/dashboard/?pet_id={pet.id}')
         
     return redirect('pets:dashboard')
+
+
+@login_required
+def add_daily_log_view(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id, owner=request.user)
+    if request.method == 'POST':
+        date_str = request.POST.get('date', '')
+        note = request.POST.get('note', '').strip()
+
+        # Get the latest weight recorded from previous daily logs as fallback
+        latest_log = DailyLog.objects.filter(pet=pet).order_by('-date').first()
+        weight_recorded = latest_log.weight_recorded if latest_log else 10.0
+
+        try:
+            log_date = datetime.strptime(date_str, '%Y-%m-%d').date() if date_str else date.today()
+        except ValueError:
+            log_date = date.today()
+
+        DailyLog.objects.create(
+            pet=pet,
+            date=log_date,
+            weight_recorded=weight_recorded,
+            note=note if note else "บันทึกประจำวันทั่วไป"
+        )
+        messages.success(request, 'เพิ่มบันทึกไดอารี่เรียบร้อยแล้ว')
+    return redirect(f'/dashboard/?pet_id={pet.id}')
+
+
+@login_required
+def edit_daily_log_view(request, pet_id, log_id):
+    pet = get_object_or_404(Pet, id=pet_id, owner=request.user)
+    log = get_object_or_404(DailyLog, id=log_id, pet=pet)
+    if request.method == 'POST':
+        date_str = request.POST.get('date', '')
+        note = request.POST.get('note', '').strip()
+
+        try:
+            log_date = datetime.strptime(date_str, '%Y-%m-%d').date() if date_str else date.today()
+        except ValueError:
+            log_date = date.today()
+
+        log.date = log_date
+        log.note = note if note else "บันทึกประจำวันทั่วไป"
+        log.save()
+        messages.success(request, 'แก้ไขบันทึกไดอารี่เรียบร้อยแล้ว')
+    return redirect(f'/dashboard/?pet_id={pet.id}')
+
+
+@login_required
+def delete_daily_log_view(request, pet_id, log_id):
+    pet = get_object_or_404(Pet, id=pet_id, owner=request.user)
+    log = get_object_or_404(DailyLog, id=log_id, pet=pet)
+    if request.method == 'POST':
+        log.delete()
+        messages.success(request, 'ลบบันทึกไดอารี่เรียบร้อยแล้ว')
+    return redirect(f'/dashboard/?pet_id={pet.id}')

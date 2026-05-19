@@ -47,7 +47,20 @@ class DailyLog(models.Model):
     # เก็บค่าน้ำหนักแยกตามวัน เพื่อเอาไปวาดกราฟ "แนวโน้มน้ำหนัก"
     weight_recorded = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="น้ำหนักที่ชั่งได้ (กก.)")
     
+    mood = models.CharField(max_length=20, blank=True, null=True, verbose_name="อารมณ์")
+    
     created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def mood_emoji(self):
+        mood_map = {
+            'very_happy': '😄',
+            'happy': '😊',
+            'normal': '😐',
+            'sad': '😢',
+            'sick': '🤒',
+        }
+        return mood_map.get(self.mood, '📝')
 
     class Meta:
         verbose_name = "ไดอารี่ประจำวัน"
