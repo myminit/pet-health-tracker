@@ -75,8 +75,20 @@ class DailyLog(models.Model):
 # 3. MODEL: บันทึกโภชนาการและการกิน (NutritionLog)
 # ==========================================
 class NutritionLog(models.Model):
+    MEAL_TYPE_CHOICES = [
+        ('morning', 'เช้า'),
+        ('noon', 'กลางวัน'),
+        ('evening', 'เย็น'),
+        ('snack', 'ของว่าง'),
+    ]
+
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name='nutrition_logs', verbose_name="สัตว์เลี้ยง")
     date = models.DateField(verbose_name="วันที่กิน")
+    meal_type = models.CharField(max_length=20, choices=MEAL_TYPE_CHOICES, default='morning', verbose_name="มื้ออาหาร")
+    food_name = models.CharField(max_length=200, verbose_name="ชื่ออาหาร")
+    amount = models.DecimalField(max_digits=8, decimal_places=2, default=0, verbose_name="ปริมาณ")
+    unit = models.CharField(max_length=20, verbose_name="หน่วย")
+    note = models.TextField(blank=True, default="", verbose_name="หมายเหตุ")
     
     # จำนวนแคลอรีที่น้องกินเข้าไปจริงๆ ในวันนั้น (เอาไปคำนวณแถบ Progress bar สีส้ม)
     calories_consumed = models.IntegerField(default=0, verbose_name="แคลอรีที่กินไป (kcal)")
@@ -86,10 +98,10 @@ class NutritionLog(models.Model):
     class Meta:
         verbose_name = "บันทึกการกิน"
         verbose_name_plural = "บันทึกโภชนาการประจำวัน"
-        unique_together = ('pet', 'date')  # 1 วัน น้องจะมีบันทึกสรุปการกินได้แค่ 1 ก้อน
+        ordering = ['-date', '-created_at']
 
     def __str__(self):
-        return f"โภชนาการของ {self.pet.name} ({self.date}) -> {self.calories_consumed} kcal"
+        return f"โภชนาการของ {self.pet.name} ({self.date}) - {self.food_name}"
 
 
 # ==========================================

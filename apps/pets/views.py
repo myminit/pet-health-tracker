@@ -3,7 +3,9 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 from datetime import date, datetime
+from decimal import Decimal, InvalidOperation
 from .daily_tip import get_daily_tip
 
 # ดึง Models ที่เราสร้างไว้มาใช้งาน
@@ -42,7 +44,7 @@ def dashboard_view(request):
 
     # 4. ดึงข้อมูลโภชนาการของ "วันนี้"
     today = date.today()
-    nutrition_today = NutritionLog.objects.filter(pet=selected_pet, date=today).first()
+    nutrition_today_total = NutritionLog.objects.filter(pet=selected_pet, date=today).aggregate(total=Sum('calories_consumed'))['total'] or 0
     
     # จำลองการคำนวณ RER / DER จากน้ำหนักล่าสุด (ดึงน้ำหนักจากไดอารี่ล่าสุด หรือถ้าไม่มีให้ใช้ค่าเริ่มต้น)
     latest_log = daily_logs.first()
@@ -53,7 +55,7 @@ def dashboard_view(request):
     rer = int(30 * float(weight) + 70)
     der = int(rer * 1.6)  # สมมติตัวคูณกิจกรรมปกติ
     
-    calories_consumed = nutrition_today.calories_consumed if nutrition_today else 0
+    calories_consumed = nutrition_today_total
 
     # 5. ดึงรายการนัดหมายทั้งหมดของน้องตัวนี้
     appointments = Appointment.objects.filter(pet=selected_pet).order_by('due_date')
@@ -140,6 +142,10 @@ def dashboard_view(request):
         'weight_svg_labels': weight_svg_labels,
         'daily_tip': get_daily_tip(selected_pet),
         'diary_activity_choices': diary_activity_choices,
+        'meal_choices': [
+            {'value': value, 'label': label}
+            for value, label in NutritionLog.MEAL_TYPE_CHOICES
+        ],
     })
     
     return render(request, 'pets/dashboard.html', context)
@@ -325,4 +331,49 @@ def delete_daily_log_view(request, pet_id, log_id):
     if request.method == 'POST':
         log.delete()
         messages.success(request, 'ลบบันทึกไดอารี่เรียบร้อยแล้ว')
+    return redirect(f'/dashboard/?pet_id={pet.id}')
+
+
+@login_required
+def add_nutrition_log_view(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id, owner=request.user)
+    if request.method == 'POST':
+        date_str = request.POST.get('date', '')
+        meal_type = request.POST.get('meal_type', 'morning').strip()
+        food_name = request.POST.get('food_name', '').strip()
+        amount_str = request.POST.get('amount', '').strip()
+        unit = request.POST.get('unit', '').strip()
+        calories_str = request.POST.get('calories', '')
+        note = request.POST.get('note', '').strip()
+        
+        try:
+            log_date = datetime.strptime(date_str, '%Y-%m-%d').date() if date_str else date.today()
+        except ValueError:
+            log_date = date.today()
+
+        if meal_type not in dict(NutritionLog.MEAL_TYPE_CHOICES):
+            meal_type = 'morning'
+
+        try:
+            amount = Decimal(amount_str) if amount_str else Decimal('0')
+        except (InvalidOperation, ValueError):
+            amount = Decimal('0')
+            
+        try:
+            calories = int(calories_str) if calories_str else 0
+        except ValueError:
+            calories = 0
+
+        NutritionLog.objects.create(
+            pet=pet,
+            date=log_date,
+            meal_type=meal_type,
+            food_name=food_name,
+            amount=amount,
+            unit=unit,
+            calories_consumed=calories,
+            note=note,
+        )
+
+        messages.success(request, 'บันทึกโภชนาการเรียบร้อยแล้ว')
     return redirect(f'/dashboard/?pet_id={pet.id}')
