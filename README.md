@@ -1,15 +1,15 @@
 # 🐾 PawPal - ระบบบันทึกและติดตามสุขภาพสัตว์เลี้ยง (Pet Health Tracker)
 โครงการนี้พัฒนาขึ้นเพื่อประยุกต์ใช้ความรู้และทักษะจากวิชาเรียน (สัปดาห์ที่ 1-7) ครอบคลุมตั้งแต่การจัดการเอกสารระบบ, การใช้ Git ควบคุมเวอร์ชัน, การบรรจุแอปพลิเคชันด้วย Docker, และการสร้างไปป์ไลน์ Continuous Integration / Continuous Delivery (CI/CD) ไปยังแพลตฟอร์มคลาวด์ Render
 
-🌐 **URL ของเว็บแอปพลิเคชัน (Live):** [ใส่ลิงก์หน้าเว็บจริงจาก Render ตรงนี้]
+🌐 **URL ของเว็บแอปพลิเคชัน (Live):** [https://pet-health-tracker-njj5.onrender.com](https://pet-health-tracker-njj5.onrender.com)
 📄 **อ่านข้อกำหนดของระบบเพิ่มเติมได้ที่:** [SRS.md](./SRS.md)
 
 ---
 
 ## 🚀 ข้อมูลการเข้าใช้งานระบบจริง (Production)
 เพื่อให้ง่ายต่อการตรวจงานของอาจารย์ ระบบได้รับการติดตั้งและรันอยู่บนระบบคลาวด์จริงเรียบร้อยแล้ว:
-- **หน้าแรกของเว็บแอปพลิเคชัน:** [ใส่ลิงก์หน้าเว็บจริงจาก Render ตรงนี้]
-- **ระบบหลังบ้านผู้ดูแลระบบ (Django Admin):** [ใส่ลิงก์หน้าเว็บจริงจาก Render ตรงนี้]/admin
+- **หน้าแรกของเว็บแอปพลิเคชัน:** [https://pet-health-tracker-njj5.onrender.com](https://pet-health-tracker-njj5.onrender.com)
+- **ระบบหลังบ้านผู้ดูแลระบบ (Django Admin):** [https://pet-health-tracker-njj5.onrender.com/admin](https://pet-health-tracker-njj5.onrender.com/admin)
   *(หมายเหตุ: บัญชีและรหัสผ่านสำหรับเข้าใช้งานระบบ ได้ระบุแนบไว้ในเอกสารสรุปโครงงาน PDF เรียบร้อยแล้ว)*
 
 ---
